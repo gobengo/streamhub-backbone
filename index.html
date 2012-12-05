@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>StreamHub Backbone Example</title>
+	<script src="components/requirejs/require.js"
+			type="text/javascript"></script>
+	<script type="text/javascript">
+	// Require.js Config
+	require.config({
+	  paths: {
+	    jquery: 'components/jquery/jquery',
+	    underscore: 'components/underscore/underscore',
+	    backbone: 'components/backbone/backbone',
+	    "streamhub-backbone": "main"
+	  },
+	  shim: {
+	  	'backbone': {
+            deps: ['underscore', 'jquery'],
+            exports: 'Backbone'
+        },
+	  }
+	});
+	// Now to load the example
+	require([
+	  // Load our app module and pass it to our definition function
+	  'streamhub-backbone',
+	], function(SHBackbone){
+	  console.log("Creating SHBackbone.Collection", arguments);
+	  var app = new SHBackbone({
+	  	host: "t402.livefyre.com",
+	  	network: "labs-t402.fyre.co",
+	  	siteId: "4",
+	  	articleId: "1",
+	  	el: document.getElementById("example")
+	  }).start();
+	  debugger;
+	});
+	</script>
+</head>
+<body>
+<div id="container">
+  <h1>StreamHub Backbone</h1>
+  <div id="example">
+  </div>
+</div>
+</body>
+</html>

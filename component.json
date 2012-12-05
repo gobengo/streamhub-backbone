@@ -1,0 +1,15 @@
+{
+  "name": "streamhub-backbone",
+  "version": "0.0.0",
+  "main": [
+    "./main.css",
+    "./main.js"
+  ],
+  "dependencies": {
+    "jquery": "~1.7.2",
+    "requirejs": "*",
+    "requirejs-text": "*",
+    "underscore": "*",
+    "backbone": "*"
+  }
+}

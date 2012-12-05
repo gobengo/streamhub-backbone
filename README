@@ -1,0 +1,11 @@
+# Example Usage
+
+    require(['streamhub-backbone'], function(SHBackbone){
+      var app = new SHBackbone({
+        host: "t402.livefyre.com",
+        network: "labs-t402.fyre.co",
+        siteId: "4",
+        articleId: "1",
+        el: document.getElementById("example")
+      }).start();
+    });
