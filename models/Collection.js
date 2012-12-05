@@ -1,4 +1,4 @@
-define(['models/Content'], function (SHContent) {
+define(['backbone', 'models/Content'], function (Backbone, SHContent) {
 	var SHCollection = Backbone.Collection.extend({
 		model: SHContent
 	});

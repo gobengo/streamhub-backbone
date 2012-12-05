@@ -27,13 +27,13 @@
 	], function(SHBackbone){
 	  console.log("Creating SHBackbone.Collection", arguments);
 	  var app = new SHBackbone({
+	  	data: [{ bodyHtml: "<p>I am Comment</p>" },{ bodyHtml: "<p>I am Comment too</p>" }],
 	  	host: "t402.livefyre.com",
 	  	network: "labs-t402.fyre.co",
 	  	siteId: "4",
 	  	articleId: "1",
 	  	el: document.getElementById("example")
 	  }).start();
-	  debugger;
 	});
 	</script>
 </head>
