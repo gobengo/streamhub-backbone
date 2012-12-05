@@ -8,11 +8,10 @@ function(Backbone, SHCollection, CollectionView) {
 		return this;
 	};
 	SHB.prototype._createCollectionFromOpts = function (opts) {
-		return new SHCollection(opts.data).bind({
-		  	host: opts.host,
-		  	network: opts.network,
-		  	siteId: opts.siteId,
-		  	articleId: opts.articleId,
+		return new SHCollection(opts.data).setRemote({
+			sdk: opts.sdk,
+		  	siteId: opts.collection.siteId,
+		  	articleId: opts.collection.articleId,
 		});
 	}
 	SHB.prototype._createViewFromOpts = function (opts) {
