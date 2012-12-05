@@ -1,5 +1,5 @@
-define(['backbone', 'models/Collection', 'views/Example'],
-function(Backbone, SHCollection, ExampleView) {
+define(['backbone', 'models/Collection', 'views/Collection'],
+function(Backbone, SHCollection, CollectionView) {
 	console.log("Defining SHB", arguments);
 	var SHB = function (opts) {
 		this._opts = opts;
@@ -16,7 +16,7 @@ function(Backbone, SHCollection, ExampleView) {
 		});
 	}
 	SHB.prototype._createViewFromOpts = function (opts) {
-		var view = new ExampleView({
+		var view = new (opts.view || CollectionView)({
 			el: opts.el,
 			collection: this._collection
 			//contentView: DefaultContentView

@@ -23,8 +23,8 @@
 	// Now to load the example
 	require([
 	  // Load our app module and pass it to our definition function
-	  'streamhub-backbone',
-	], function(SHBackbone){
+	  'streamhub-backbone', 'views/Example',
+	], function(SHBackbone, ExampleView){
 	  console.log("Creating SHBackbone.Collection", arguments);
 	  var app = new SHBackbone({
 	  	data: [{ bodyHtml: "<p>I am Comment</p>" },{ bodyHtml: "<p>I am Comment too</p>" }],
@@ -32,6 +32,7 @@
 	  	network: "labs-t402.fyre.co",
 	  	siteId: "4",
 	  	articleId: "1",
+	  	view: ExampleView,
 	  	el: document.getElementById("example")
 	  }).start();
 	});
