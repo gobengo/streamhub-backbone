@@ -1,0 +1,30 @@
+body { font-size:100%; line-height:1.25; }
+
+#example {
+	width: 450px;
+}
+
+.shb-avatar {
+	float: left;
+	margin-right: .5em;
+}
+
+.shb-item {
+	margin: 1em 0;
+	clear: both;
+}
+
+.shb-byline {
+	margin: 0;
+}
+
+.shb-content-body {
+	overflow: hidden;
+}
+
+.shb-content-body p {
+	margin-top: 0;
+}
+
+.shb-content .shb-byline { margin-bottom: 0; }
+.shb-content .shb-author { font-weight: bold; }

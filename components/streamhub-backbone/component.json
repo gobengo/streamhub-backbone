@@ -1,0 +1,25 @@
+{
+  "name": "streamhub-backbone",
+  "version": "0.0.0",
+  "main": [
+    "./main.css",
+    "./main.js"
+  ],
+  "dependencies": {
+    "jquery": "~1.7.2",
+    "requirejs": "*",
+    "requirejs-text": "*",
+    "underscore": "*",
+    "mustache": "*",
+    "backbone": "*"
+  },
+  "readme": "# Example Usage\n\n    var app = new Hub({\n        sdk: livefyreSdk,\n        collection: {\n            siteId: \"303772\",\n            articleId: \"prod0\"\n        },\n        el: document.getElementById(\"example\")\n    }).start();\n",
+  "readmeFilename": "README.md",
+  "_id": "streamhub-backbone@0.0.0",
+  "description": "var app = new Hub({         sdk: livefyreSdk,         collection: {             siteId: \"303772\",             articleId: \"prod0\"         },         el: document.getElementById(\"example\")     }).start();",
+  "commit": "f91f657ce4c75b51d850f0c51fc32d51d5c9f517",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/gobengo/streamhub-backbone.git"
+  }
+}
