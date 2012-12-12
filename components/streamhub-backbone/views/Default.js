@@ -1,5 +1,8 @@
-define(['backbone', 'mustache', 'text!../templates/Content.html'],
-function (Backbone, Mustache, ContentTemplate) {
+define(function (require) {
+	var Backbone = require('backbone'),
+		Mustache = require('mustache'),
+		ContentTemplate = require('text!../templates/Content.html');
+		
 	DEFAULT_AVATAR_URL = 'http://placehold.it/48&text=avatar';
 	var DefaultView = Backbone.View.extend({
 		"tagName": "div",

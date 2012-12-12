@@ -1,6 +1,8 @@
-define(['backbone', 'streamhub-backbone/models/Collection', 'streamhub-backbone/views/Default'],
-function(Backbone, SHCollection, DefaultView) {
-	console.log("Defining SHB", arguments);
+define(function(require) {
+	var Backbone = require('backbone'),
+		SHCollection = require('./models/Collection'),
+		DefaultView = require('./views/Default');
+
 	var SHB = function (opts) {
 		this._opts = opts;
 		this._collection = this._createCollectionFromOpts(opts);

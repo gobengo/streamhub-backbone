@@ -1,5 +1,8 @@
-define(['backbone', 'underscore', 'streamhub-backbone/models/Content'],
-function (Backbone, _, SHContent) {
+define(function (require) {
+	var Backbone = require('backbone'),
+		_ = require('underscore'),
+		SHContent = require('../models/Content');
+
 	var SHCollection = Backbone.Collection.extend({
 		model: SHContent,
 		initialize: function () {

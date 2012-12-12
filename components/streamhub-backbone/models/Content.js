@@ -1,4 +1,6 @@
-define(['backbone'], function (Backbone) {
+define(function (require) {
+	var Backbone = require('backbone');
+
 	var SHContent = Backbone.Model.extend({
 		initialize: function (attrs) {
 			var bodyHtml = attrs.bodyHtml;
