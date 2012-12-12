@@ -1,5 +1,5 @@
 define(['backbone'], function (Backbone) {
-	var ExampleView = Backbone.View.extend({
+	var DefaultView = Backbone.View.extend({
 		"tagName": "div",
 		"className": "shb-example",
 		events: {
@@ -17,7 +17,7 @@ define(['backbone'], function (Backbone) {
 			});
 		}
 	});
-	ExampleView.prototype._addItem = function(item, collection, opts) {
+	DefaultView.prototype._addItem = function(item, collection, opts) {
 		console.log('ExampleView._addItem', opts.index, item);
 		var newItem = $(document.createElement('div'));
 		newItem
@@ -26,5 +26,5 @@ define(['backbone'], function (Backbone) {
 		  .append(item.get('bodyHtml'));
 		this.$el.append(newItem);
 	}
-	return ExampleView;
+	return DefaultView;
 });

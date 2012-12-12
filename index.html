@@ -38,19 +38,17 @@
 </div>
 <script type="text/javascript">
 // Now to load the example
-require(['streamhub-backbone', 'views/Example', 'fyre'],
-function(SHBackbone, ExampleView, fyre){
+require(['streamhub-backbone', 'fyre'],
+function(SHBackbone, fyre){
     fyre.conv.load({
         network: "largetail-0.fyre.co"
     }, [{app: 'sdk'}], function(sdk) {
         var app = new SHBackbone({
             sdk: sdk,
-            data: [],
             collection: {
                 siteId: "303772",
                 articleId: "prod0"
             },
-            view: ExampleView,
             el: document.getElementById("example")
         }).start();
     });
