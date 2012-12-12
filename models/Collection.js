@@ -6,7 +6,6 @@ define(function (require) {
 	var SHCollection = Backbone.Collection.extend({
 		model: SHContent,
 		initialize: function () {
-			console.log("SHCollection initialize", arguments);
 		}
 	});
 	SHCollection.prototype.setRemote = function (remoteOptions) {
@@ -38,7 +37,8 @@ define(function (require) {
 			c.authorId = item.content.authorId;
 			c.author = self._sdkCollection.getAuthor(c.authorId);
 			c.bodyHtml = item.content.bodyHtml;
-			c.createdAt = c.createdAt;
+			c.createdAt = item.content && item.content.createdAt || null;
+			c.source_id = item.source;
 			if (c.bodyHtml) {
 				items.push(c);
 			}

@@ -8,7 +8,6 @@ define(function (require) {
 		"tagName": "div",
 		"className": "shb-example",
 		events: {
-			'all': function () { console.log('ExampleView event', arguments); }
 		},
 		initialize: function (opts) {
 			this.defaultAvatarUrl = opts.defaultAvatarUrl || DEFAULT_AVATAR_URL;

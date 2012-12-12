@@ -15,10 +15,12 @@ define(function (require) {
 		}
 	});
 
-	(function test () {
-		var c = new SHContent({
-			bodyHtml: "<p>I am Comment</p>"
-		});
-	}());
+	SHContent.types = {
+		TWEET: 13,
+		UGC: 1
+	}
+	SHContent.prototype.isType = function (id) {
+		return this.get('source_id') == id;
+	};
 	return SHContent;
 });
