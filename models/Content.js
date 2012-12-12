@@ -20,7 +20,7 @@ define(function (require) {
 		UGC: 1
 	}
 	SHContent.prototype.isType = function (id) {
-		return this.get('source_id') == id;
+		return this.get('sourceId') == id;
 	};
 	return SHContent;
 });

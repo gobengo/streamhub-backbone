@@ -38,7 +38,7 @@ define(function (require) {
 			c.author = self._sdkCollection.getAuthor(c.authorId);
 			c.bodyHtml = item.content.bodyHtml;
 			c.createdAt = item.content && item.content.createdAt || null;
-			c.source_id = item.source;
+			c.sourceId = item.source;
 			if (c.bodyHtml) {
 				items.push(c);
 			}
