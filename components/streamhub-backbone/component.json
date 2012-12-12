@@ -17,7 +17,7 @@
   "readmeFilename": "README.md",
   "_id": "streamhub-backbone@0.0.0",
   "description": "var app = new Hub({         sdk: livefyreSdk,         collection: {             siteId: \"303772\",             articleId: \"prod0\"         },         el: document.getElementById(\"example\")     }).start();",
-  "commit": "5c7b018260c17457562d12325df6f9363948a291",
+  "commit": "a7ebafd85ac494103943ebf6c5c69d61a50124ae",
   "repository": {
     "type": "git",
     "url": "git://github.com/gobengo/streamhub-backbone.git"
