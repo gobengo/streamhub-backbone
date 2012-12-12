@@ -1,11 +1,14 @@
-define(['backbone'], function (Backbone) {
+define(['backbone', 'mustache', 'text!../templates/Content.html'],
+function (Backbone, Mustache, ContentTemplate) {
+	DEFAULT_AVATAR_URL = 'http://placehold.it/48&text=avatar';
 	var DefaultView = Backbone.View.extend({
 		"tagName": "div",
 		"className": "shb-example",
 		events: {
 			'all': function () { console.log('ExampleView event', arguments); }
 		},
-		initialize: function () {
+		initialize: function (opts) {
+			this.defaultAvatarUrl = opts.defaultAvatarUrl || DEFAULT_AVATAR_URL;
 			this.render();
 			this.collection.on('add', this._addItem, this);
 		},
@@ -18,12 +21,15 @@ define(['backbone'], function (Backbone) {
 		}
 	});
 	DefaultView.prototype._addItem = function(item, collection, opts) {
-		console.log('ExampleView._addItem', opts.index, item);
-		var newItem = $(document.createElement('div'));
+		console.log('ExampleView._addItem', opts.index, item.toJSON());
+		var newItem = $(document.createElement('div')),
+			json = item.toJSON();
+		if ( ! json.author.avatar) {
+			json.author.avatar = this.defaultAvatarUrl;
+		}
 		newItem
-		  .addClass('shb-content')
-		  .append('<p class="shb-byline"><span class="shb-author">'+item.get('author').displayName+'</span></p>')
-		  .append(item.get('bodyHtml'));
+		  .addClass('shb-item')
+		  .append(Mustache.compile(ContentTemplate)(json))
 		this.$el.append(newItem);
 	}
 	return DefaultView;

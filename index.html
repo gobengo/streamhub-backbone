@@ -12,7 +12,9 @@
         underscore: 'components/underscore/underscore',
         backbone: 'components/backbone/backbone',
         fyre: 'http://zor.t402.livefyre.com/wjs/v3.0.sdk/javascripts/livefyre',
-        "streamhub-backbone": "main"
+        "streamhub-backbone": "main",
+        mustache: 'components/mustache/mustache',
+        text: 'components/requirejs-text/text'
       },
       shim: {
         'backbone': {
@@ -39,11 +41,9 @@
 <script type="text/javascript">
 // Now to load the example
 require(['streamhub-backbone', 'fyre'],
-function(SHBackbone, fyre){
-    fyre.conv.load({
-        network: "largetail-0.fyre.co"
-    }, [{app: 'sdk'}], function(sdk) {
-        var app = new SHBackbone({
+function(Hub, fyre){
+    function loadApp (sdk) {
+        var app = new Hub({
             sdk: sdk,
             collection: {
                 siteId: "303772",
@@ -51,7 +51,10 @@ function(SHBackbone, fyre){
             },
             el: document.getElementById("example")
         }).start();
-    });
+    }
+    fyre.conv.load({
+        network: "largetail-0.fyre.co"
+    }, [{app: 'sdk'}], loadApp);
 });
 </script>
 </body>

@@ -10,6 +10,7 @@
     "requirejs": "*",
     "requirejs-text": "*",
     "underscore": "*",
+    "mustache": "*",
     "backbone": "*"
   }
 }
