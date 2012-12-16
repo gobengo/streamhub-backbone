@@ -1,3 +1,8 @@
+/*
+TODO
+* Unify behind hub- namespace
+*/
+
 body { font-size:100%; line-height:1.25; }
 
 #example {
@@ -22,6 +27,9 @@ body { font-size:100%; line-height:1.25; }
 	overflow: hidden;
 }
 
+.hub-attachment-photo img {
+	width: 100%;
+}
 .shb-content-body p {
 	margin-top: 0;
 }

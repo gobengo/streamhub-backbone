@@ -15,10 +15,6 @@ define(function (require) {
 		}
 	});
 
-	SHContent.types = {
-		TWEET: 13,
-		UGC: 1
-	}
 	SHContent.prototype.isType = function (id) {
 		return this.get('sourceId') == id;
 	};

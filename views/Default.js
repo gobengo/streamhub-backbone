@@ -1,10 +1,11 @@
 define(function (require) {
-	var Backbone = require('backbone'),
-		Mustache = require('mustache'),
-		ContentTemplate = require('text!../templates/Content.html');
-		
-	DEFAULT_AVATAR_URL = 'http://placehold.it/48&text=avatar';
-	var DefaultView = Backbone.View.extend({
+	var
+	Backbone = require('backbone'),
+	Mustache = require('mustache'),
+	ContentTemplate = require('text!../templates/Content.html'),
+	DEFAULT_AVATAR_URL = 'http://placehold.it/48&text=avatar',
+
+	DefaultView = Backbone.View.extend({
 		"tagName": "div",
 		"className": "shb-example",
 		events: {
@@ -22,16 +23,17 @@ define(function (require) {
 			});
 		}
 	});
+
 	DefaultView.prototype._addItem = function(item, collection, opts) {
 		console.log('ExampleView._addItem', opts.index, item.toJSON());
 		var newItem = $(document.createElement('div')),
-			json = item.toJSON();
-		if ( ! json.author.avatar) {
-			json.author.avatar = this.defaultAvatarUrl;
+			data = item.toJSON();
+		if ( ! data.author.avatar) {
+			data.author.avatar = this.defaultAvatarUrl;
 		}
 		newItem
 		  .addClass('shb-item')
-		  .append(Mustache.compile(ContentTemplate)(json))
+		  .append(Mustache.compile(ContentTemplate)(data))
 		this.$el.append(newItem);
 	}
 	return DefaultView;
