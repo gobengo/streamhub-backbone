@@ -38,9 +38,6 @@
         </ul>
       </header>
       <section>
-        <h1>Live Example</h1>
-        <p>Go ahead and scroll!</p>
-        <div id="example"></div>
         <h1>Example Usage</h1>
         <pre><code>var app = new Hub({
     sdk: livefyreSdk,
@@ -48,9 +45,13 @@
         siteId: "303772",
         articleId: "prod0"
     },
+    view: DefaultView, // default
     el: document.getElementById("example")
 }).start();
         </code></pre>
+        <h1>Live Example</h1>
+        <p>Go ahead and scroll!</p>
+        <div id="example"></div>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/gobengo">gobengo</a></p>
