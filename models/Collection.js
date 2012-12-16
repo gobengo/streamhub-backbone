@@ -1,7 +1,9 @@
 define(function (require) {
 	var Backbone = require('backbone'),
 		_ = require('underscore'),
-		SHContent = require('../models/Content');
+		SHContent = require('../models/Content'),
+		sources = require('../const/sources'),
+		transformers = require('../const/transformers');
 
 	var SHCollection = Backbone.Collection.extend({
 		model: SHContent,
@@ -20,29 +22,65 @@ define(function (require) {
 		return this;
 	};
 
+	ItemProcessors = {};
+	ItemProcessors[sources.TWITTER] = function (rssItem) {
+
+	}
+	ItemProcessors[sources.RSS] = function (rssItem) {
+		var c = {},
+			feedEntry = rssItem.content.feedEntry;
+		if ( ! feedEntry ) {
+			return c;
+		}
+		if (feedEntry.transformer == transformers.INSTAGRAM_BY_TAG) {
+			// Add oEmbed photo attachment for Instagram photo
+			c.attachments = [{
+				version: '1.0',
+				type: 'photo',
+				provider: 'instagram',
+				width: '612',
+				height: '612',
+				url: feedEntry.link
+			}];
+		}
+		return c;
+	};
+
 	// Initial data
 	SHCollection.prototype._initialDataSuccess = function (data) {
 		console.log("SHCollection._initialDataSuccess", data);
 		var self = this,
-			public = data.public,
+			publicItems = data.public,
+			itemsToProcess = [],
 			items = [];
-		for (var id in public) {
-			if (public.hasOwnProperty(id)) {
-				processInitialItem(public[id]);
-			}
-		}
-		function processInitialItem (item) {
-			var c = {};
+
+		for (var id in publicItems) { if (publicItems.hasOwnProperty(id)) {
+			itemsToProcess.push(publicItems[id]);
+		}}
+
+		_.map(itemsToProcess, function processInitialItem (item) {
+			var c = {},
+				processor = ItemProcessors[item.source];
+
 			c.id = item.id;
 			c.authorId = item.content.authorId;
 			c.author = self._sdkCollection.getAuthor(c.authorId);
 			c.bodyHtml = item.content.bodyHtml;
 			c.createdAt = item.content && item.content.createdAt || null;
-			c.sourceId = item.source;
+			c.source = item.source+'';
+			c.type = item.type+'';
+
+			// If there is a custom processor for the Content source,
+			// get the source-specific data and pluck onto `c`
+			if (processor) {
+				var newData = processor(item);
+				_(c).extend(newData);
+			}
+
 			if (c.bodyHtml) {
 				items.push(c);
 			}
-		}
+		})
 		this.add(items);
 	}
 	SHCollection.prototype._initialDataError = function () {

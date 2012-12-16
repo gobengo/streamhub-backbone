@@ -1,3 +1,4 @@
+<article data-hub-content-id="{{ id }}">
 {{#author.avatar}}
 <div class="shb-avatar"><img src="{{ author.avatar }}" /></div>
 {{/author.avatar}}
@@ -6,4 +7,12 @@
 	<div class="shb-content-body">
 	{{{ bodyHtml }}}
 	</div>
+	<div class="hub-attachments">
+	{{ #attachments }}
+		<div class="hub-attachment hub-attachment-photo">
+			<img src="{{ url }}" />
+		</div>
+	{{ /attachments }}
+	</div>
 </div>
+</article>
