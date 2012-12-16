@@ -11,7 +11,8 @@ body { font-size:100%; line-height:1.25; }
 
 .shb-avatar {
 	float: left;
-	margin-right: .5em;
+	margin-right: 10px;
+	margin-bottom: 0.5em;
 }
 
 .shb-item {
@@ -27,11 +28,14 @@ body { font-size:100%; line-height:1.25; }
 	overflow: hidden;
 }
 
+.hub-attachment {
+}
 .hub-attachment-photo img {
 	width: 100%;
 }
 .shb-content-body p {
 	margin-top: 0;
+	margin-bottom: 0.5em;
 }
 
 .shb-content .shb-byline { margin-bottom: 0; }
