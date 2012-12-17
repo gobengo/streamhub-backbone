@@ -25,7 +25,6 @@ define(function (require) {
 	});
 
 	DefaultView.prototype._addItem = function(item, collection, opts) {
-		console.log('ExampleView._addItem', opts.index, item.toJSON());
 		var newItem = $(document.createElement('div')),
 			data = item.toJSON();
 		if ( ! data.author.avatar) {

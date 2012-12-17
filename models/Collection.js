@@ -23,6 +23,8 @@ define(function (require) {
 	};
 
 	ItemProcessors = {};
+	ItemProcessors[sources.STREAMHUB] = function (ugc) {
+	}
 	ItemProcessors[sources.TWITTER] = function (rssItem) {
 
 	}
