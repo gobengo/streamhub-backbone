@@ -18,6 +18,13 @@ This is a new project. But please feel free to leave a GitHub issue to report a 
         el: document.getElementById("example")
     })});
 
+# TODO
+
+* Organize Activity and Content. Presumably there will eventually be distinct Backbone Collections for both. First priorities will probably be on Content display, likes, images, timestamps.
+* Enable interaction
+* Make sure tweets display according to the Twitter display requirements
+** An alternative view that uses Blackberry Pie, if you want to explode your browser with hundreds of iframe loads
+
 # Constructor
 
 The module can be used with `new` to construct a Hub for Streams to play in. It accepts these parameters:
@@ -43,3 +50,5 @@ This represents a piece of Content
 # Views
 
 ## Hub.views.DefaultView
+
+It's just a really simple default feed. It will strive to be the most boring, stable View around. But it should probably be able to accept pluggable ContentViews and maybe even just templates without much sweat. I should be able to just pass an HTML template to Hub(..) constructor.
