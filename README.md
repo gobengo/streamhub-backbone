@@ -25,6 +25,8 @@ This is a new project. But please feel free to leave a GitHub issue to report a 
 * Enable interaction
 * Make sure tweets display according to the Twitter display requirements
 ** An alternative view that uses Blackberry Pie, if you want to explode your browser with hundreds of iframe loads
+* Document
+* Tests and test data. I'll probably due this sooner rather than later.
 
 # Constructor
 
