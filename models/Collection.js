@@ -3,6 +3,7 @@ define(function (require) {
 		_ = require('underscore'),
 		SHContent = require('../models/Content'),
 		sources = require('../const/sources'),
+		types = require('../const/types'),
 		transformers = require('../const/transformers');
 
 	var SHCollection = Backbone.Collection.extend({
@@ -31,6 +32,7 @@ define(function (require) {
 	ItemProcessors[sources.RSS] = function (rssItem) {
 		var c = {},
 			feedEntry = rssItem.content.feedEntry;
+
 		if ( ! feedEntry ) {
 			return c;
 		}
@@ -48,6 +50,33 @@ define(function (require) {
 		return c;
 	};
 
+	SHCollection.prototype._processItem = function (item) {
+		var c = {},
+			processor = ItemProcessors[item.source];
+
+		// Can only handle Content so far
+		if (item.type != types.CONTENT) {
+			console.log("Donno how to process this item, skipping.", item);
+			return;
+		}
+
+		c.id = item.id;
+		c.authorId = item.content.authorId;
+		c.author = this._sdkCollection.getAuthor(c.authorId);
+		c.bodyHtml = item.content.bodyHtml;
+		c.createdAt = item.content && item.content.createdAt || null;
+		c.source = item.source+'';
+		c.type = item.type+'';
+
+		// If there is a custom processor for the Content source,
+		// get the source-specific data and pluck onto `c`
+		if (processor) {
+			var newData = processor(item);
+			_(c).extend(newData);
+		}
+
+		return c;
+	}
 	// Initial data
 	SHCollection.prototype._initialDataSuccess = function (data) {
 		console.log("SHCollection._initialDataSuccess", data);
@@ -60,30 +89,8 @@ define(function (require) {
 			itemsToProcess.push(publicItems[id]);
 		}}
 
-		_.map(itemsToProcess, function processInitialItem (item) {
-			var c = {},
-				processor = ItemProcessors[item.source];
-
-			c.id = item.id;
-			c.authorId = item.content.authorId;
-			c.author = self._sdkCollection.getAuthor(c.authorId);
-			c.bodyHtml = item.content.bodyHtml;
-			c.createdAt = item.content && item.content.createdAt || null;
-			c.source = item.source+'';
-			c.type = item.type+'';
-
-			// If there is a custom processor for the Content source,
-			// get the source-specific data and pluck onto `c`
-			if (processor) {
-				var newData = processor(item);
-				_(c).extend(newData);
-			}
-
-			if (c.bodyHtml) {
-				items.push(c);
-			}
-		})
-		this.add(items);
+		items = _(itemsToProcess).map(_.bind(this._processItem, this));
+		this.add(_(items).compact());
 	}
 	SHCollection.prototype._initialDataError = function () {
 		console.log("SHCollection.prototype._initialDataError", arguments);

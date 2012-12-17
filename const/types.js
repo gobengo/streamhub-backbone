@@ -1,5 +1,4 @@
 define({
-
-CONTENT: '0'
-
+CONTENT: '0',
+OEMBED_PHOTO: '3'
 })

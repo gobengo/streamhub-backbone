@@ -27,7 +27,8 @@ define(function (require) {
 	DefaultView.prototype._addItem = function(item, collection, opts) {
 		var newItem = $(document.createElement('div')),
 			data = item.toJSON();
-		if ( ! data.author.avatar) {
+
+		if ( data.author && ! data.author.avatar) {
 			data.author.avatar = this.defaultAvatarUrl;
 		}
 		newItem
