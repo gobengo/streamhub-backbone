@@ -8,11 +8,14 @@
     <script type="text/javascript">
     // Require.js Config
     require.config({
+      packages: [{
+        name: 'streamhub-backbone',
+        location: '.'
+      }],
       paths: {
         jquery: 'components/jquery/jquery',
         underscore: 'components/underscore/underscore',
         backbone: 'components/backbone/backbone',
-        "streamhub-backbone": "main",
         mustache: 'components/mustache/mustache',
         text: 'components/requirejs-text/text'
       },

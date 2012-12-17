@@ -22,8 +22,8 @@ define(function (require) {
 			});
 		}
 	});
-	DefaultView.prototype._addItem = function(item, collection, opts) {
-		console.log('ExampleView._addItem', opts.index, item.toJSON());
+	DefaultView.prototype._addItem = function(item, collection) {
+		console.log('ExampleView._addItem', item.toJSON());
 		var newItem = $(document.createElement('div')),
 			json = item.toJSON();
 		if ( ! json.author.avatar) {
