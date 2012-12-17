@@ -11,6 +11,10 @@ define(function (require) {
 		initialize: function () {
 		}
 	});
+
+	SHCollection.prototype.comparator = function (item) {
+		return item.get('createdAt');
+	}
 	SHCollection.prototype.setRemote = function (remoteOptions) {
 		this._sdk = remoteOptions.sdk;
 		this._sdkCollection = this._sdk.getCollection({
@@ -50,6 +54,20 @@ define(function (require) {
 		return c;
 	};
 
+	SHCollection.prototype._processResponseItems = function (itemsObj) {
+		var data = itemsObj,
+			self = this,
+			publicItems = data.public,
+			itemsToProcess = [],
+			items = [];
+
+		for (var id in publicItems) { if (publicItems.hasOwnProperty(id)) {
+			itemsToProcess.push(publicItems[id]);
+		}}
+
+		items = _(itemsToProcess).map(_.bind(this._processItem, this));
+		return _(items).compact();
+	}
 	SHCollection.prototype._processItem = function (item) {
 		var c = {},
 			processor = ItemProcessors[item.source];
@@ -80,17 +98,9 @@ define(function (require) {
 	// Initial data
 	SHCollection.prototype._initialDataSuccess = function (data) {
 		console.log("SHCollection._initialDataSuccess", data);
-		var self = this,
-			publicItems = data.public,
-			itemsToProcess = [],
-			items = [];
-
-		for (var id in publicItems) { if (publicItems.hasOwnProperty(id)) {
-			itemsToProcess.push(publicItems[id]);
-		}}
-
-		items = _(itemsToProcess).map(_.bind(this._processItem, this));
-		this.add(_(items).compact());
+		var contents = this._processResponseItems(data);
+		this.add(contents);
+		this.start();
 	}
 	SHCollection.prototype._initialDataError = function () {
 		console.log("SHCollection.prototype._initialDataError", arguments);
@@ -99,12 +109,14 @@ define(function (require) {
 	// Streaming
 	SHCollection.prototype.start = function () {
 		this._sdkCollection.startStream(
-			this._streamSuccess,
+			_.bind(this._streamSuccess, this),
 			this._streamError);
 		return this;
 	}
 	SHCollection.prototype._streamSuccess = function (data) {
 		console.log("SHCollection._streamSuccess", data);
+		var contents = this._processResponseItems(data);
+		this.add(contents);
 	}
 	SHCollection.prototype._streamError = function () {
 		console.log("SHCollection.prototype._streamError", arguments);	

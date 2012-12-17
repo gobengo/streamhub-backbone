@@ -5,6 +5,17 @@ define(function (require) {
 	ContentTemplate = require('text!../templates/Content.html'),
 	DEFAULT_AVATAR_URL = 'http://placehold.it/48&text=avatar',
 
+	/*
+	collection
+	    .content()
+	    	.enter()
+	    	.exit()
+	    	.on()
+    	.activity()
+    	.tweets()
+    		.enter()
+	*/
+
 	DefaultView = Backbone.View.extend({
 		"tagName": "div",
 		"className": "shb-example",
@@ -27,14 +38,24 @@ define(function (require) {
 	DefaultView.prototype._addItem = function(item, collection, opts) {
 		var newItem = $(document.createElement('div')),
 			data = item.toJSON();
-
+		
+		if ( ! data.author) {
+			console.log("DefaultView: No author for Content, skipping");
+			return;
+		}
 		if ( data.author && ! data.author.avatar) {
 			data.author.avatar = this.defaultAvatarUrl;
 		}
+
 		newItem
 		  .addClass('shb-item')
 		  .append(Mustache.compile(ContentTemplate)(data))
-		this.$el.append(newItem);
+		
+		if (collection.length-collection.indexOf(item)-1===0) {
+			this.$el.prepend(newItem);
+		} else {
+			this.$el.append(newItem);
+		}
 	}
 	return DefaultView;
 });
