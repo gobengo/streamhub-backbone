@@ -2,6 +2,12 @@ You can use this to put Streams and Hubs together.
 
 This is a new project. But please feel free to leave a GitHub issue to report a bug or just say Hi. Seeking advice.
 
+# DANGER
+
+* Pretty much any usage will probably require reading the internals. I'll get better at that. Creating internal modules as they are necessary.
+* The 1.0 release will be the first 'stable' one. Until then, it's the wild west.
+* You can email me with questions at ben@livefyre.com, but may not have time to help right away
+
 # Example Usage
 
     var app = new Hub({
