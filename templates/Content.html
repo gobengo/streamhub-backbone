@@ -1,18 +1,22 @@
 <article data-hub-content-id="{{ id }}">
-{{#author.avatar}}
-<div class="shb-avatar"><img src="{{ author.avatar }}" /></div>
-{{/author.avatar}}
-<div class="shb-content">
-	<p class="shb-byline"><span class="shb-author">{{ author.displayName }}</span></p>
-	<div class="shb-content-body">
-	{{{ bodyHtml }}}
-	</div>
-	<div class="hub-attachments">
-	{{ #attachments }}
-		<div class="hub-attachment hub-attachment-photo">
-			<img src="{{ url }}" />
+	<div class="hub-heading">
+		<div class="hub-author">
+			{{#author.avatar}}
+			<a class="hub-avatar"><img src="{{ author.avatar }}" /></a>
+			{{/author.avatar}}
+			<p class="hub-byline"><span class="hub-author">{{ author.displayName }}</span></p>
 		</div>
-	{{ /attachments }}
 	</div>
-</div>
+	<div class="hub-content">
+		<div class="hub-content-body">
+		{{{ bodyHtml }}}
+		</div>
+		<div class="hub-attachments">
+		{{ #attachments }}
+			<div class="hub-attachment hub-attachment-photo">
+				<img src="{{ url }}" />
+			</div>
+		{{ /attachments }}
+		</div>
+	</div>
 </article>

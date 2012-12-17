@@ -3,32 +3,40 @@ TODO
 * Unify behind hub- namespace
 */
 
-body { font-size:100%; line-height:1.25; }
+body { font-size:100%; line-height:1.25; font-family: sans-serif; color: #111;}
 
 #example {
 	width: 450px;
 }
 
-.shb-avatar {
-	float: left;
-	margin-right: 10px;
+.hub-heading {
+	line-height: 24px;
 	margin-bottom: 0.5em;
 }
+.hub-heading .hub-avatar img {
+	float: left;
+	height: 1.5em;
+	margin-right: 10px;
+}
+.hub-heading .hub-author {
+	font-weight: bold;
+}
+.hub-heading .hub-author .hub-byline {
+	margin-bottom: 0;
+}
 
-.shb-item {
+.hub-item {
 	border-bottom: 1px solid #E8E8E8;
 	margin: 1em 0;
 	padding-bottom: 15px;
 	clear: both;
 }
 
-.shb-byline {
-	margin: 0;
-}
-
-.shb-content-body {
+.hub-content-body {
 	overflow: hidden;
 }
+
+.hub-content-body p { margin: 0 0 .5em 0; }
 
 .hub-attachment {
 }
@@ -40,5 +48,4 @@ body { font-size:100%; line-height:1.25; }
 	margin-bottom: 0.5em;
 }
 
-.shb-content .shb-byline { margin-bottom: 0; }
-.shb-content .shb-author { font-weight: bold; }
+.shb-author { font-weight: bold; }
