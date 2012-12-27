@@ -1,11 +1,14 @@
 ({
-    baseUrl: ".",
+    baseUrl: "..",
+    packages: [{
+        name: 'streamhub-backbone',
+        location: '.'
+    }],
     paths: {
         jquery: 'components/jquery/jquery',
         underscore: 'components/underscore/underscore',
         backbone: 'components/backbone/backbone',
         mustache: 'components/mustache/mustache',
-        "streamhub-backbone": "main",
         text: 'components/requirejs-text/text'
     },
     shim: {
@@ -17,7 +20,7 @@
             exports: '_'
         }
     },
-    name: "almond",
-    out: "streamhub-backbone.almond.js",
+    name: "tools/almond",
+    out: "../streamhub-backbone.almond.js",
     include: ['streamhub-backbone'],
 })

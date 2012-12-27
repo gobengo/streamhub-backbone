@@ -1,7 +1,8 @@
 define(function(require) {
-	var Backbone = require('backbone'),
-		SHCollection = require('./models/Collection'),
-		DefaultView = require('./views/Default');
+	var 
+	Backbone = require('backbone'),
+	SHCollection = require('streamhub-backbone/models/Collection'),
+	DefaultView = require('streamhub-backbone/views/Default');
 
 	var Hub = function (opts) {
 		this._opts = opts;
