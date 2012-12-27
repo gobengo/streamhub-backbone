@@ -1,21 +1,12 @@
-define(function (require) {
-	var
-	Backbone = require('backbone'),
-	Mustache = require('mustache'),
-	ContentTemplate = require('text!../templates/Content.html'),
-
-	/*
-	collection
-	    .content()
-	    	.enter()
-	    	.exit()
-	    	.on()
-    	.activity()
-    	.tweets()
-    		.enter()
-	*/
-
-	DefaultView = Backbone.View.extend({
+define([
+'backbone',
+'mustache',
+'text!../templates/Content.html'
+], function (
+Backbone,
+Mustache,
+ContentTemplate) {
+	var	DefaultView = Backbone.View.extend({
 		"tagName": "div",
 		"className": "hub-backbone",
 		events: {
