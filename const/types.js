@@ -1,4 +1,6 @@
 define({
 CONTENT: '0',
-OEMBED_PHOTO: '3'
+OPINE: '1',
+SHARE: '2',
+OEMBED: '3'
 })

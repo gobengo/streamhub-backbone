@@ -5,7 +5,7 @@ define(function (require) {
 		initialize: function (attrs) {
 			var bodyHtml = attrs.bodyHtml;
 			// Ensure bodyHtml wrapped in element
-			if ( bodyHtml && bodyHtml[0] !== '<') {
+			if ( bodyHtml && bodyHtml[0] !== '<p') {
 				var wrapper = document.createElement('div'),
 					ele = document.createElement('p');
 				ele.innerHTML = bodyHtml;

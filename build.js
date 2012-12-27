@@ -18,6 +18,7 @@
         }
     },
     name: "almond",
+    namespace: "HUB",
     out: "streamhub-backbone.almond.js",
     include: ['streamhub-backbone'],
 })

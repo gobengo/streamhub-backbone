@@ -1,10 +1,10 @@
 # Builds
 
-`streamhub-backbone.almond.js` has a pre-loaded AMD loader. You probably want to use that unless your project uses RequireJS.
+`streamhub-backbone.almond.js` has a pre-loaded AMD loader as `HUB.require`. You probably want to use that unless your project uses RequireJS.
 
 # Example Usage
 
-    require(['streamhub-backbone'], function (Hub) {
+    HUB.require(['streamhub-backbone'], function (Hub) {
     var app = new Hub({
         sdk: livefyreSdk,
         collection: {

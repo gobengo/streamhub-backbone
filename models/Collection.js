@@ -1,11 +1,15 @@
-define(function (require) {
-	var Backbone = require('backbone'),
-		_ = require('underscore'),
-		SHContent = require('../models/Content'),
-		sources = require('../const/sources'),
-		types = require('../const/types'),
-		transformers = require('../const/transformers');
-
+define([
+'backbone',
+'underscore',
+'../models/Content',
+'../const/sources',
+'../const/types',
+'../const/transformers'],
+function (
+Backbone,
+_,
+SHContent,
+sources, types, transformers) {
 	var SHCollection = Backbone.Collection.extend({
 		model: SHContent,
 		initialize: function () {
@@ -64,7 +68,6 @@ define(function (require) {
 		for (var id in publicItems) { if (publicItems.hasOwnProperty(id)) {
 			itemsToProcess.push(publicItems[id]);
 		}}
-
 		items = _(itemsToProcess).map(_.bind(this._processItem, this));
 		return _(items).compact();
 	}
@@ -72,7 +75,11 @@ define(function (require) {
 		var c = {},
 			processor = ItemProcessors[item.source];
 
-		// Can only handle Content so far
+		if (item.type == types.OEMBED) {
+			this._processOembed(item);
+			return
+		}
+		// Can only handle Content past here
 		if (item.type != types.CONTENT) {
 			console.log("Donno how to process this item, skipping.", item);
 			return;
@@ -95,9 +102,14 @@ define(function (require) {
 
 		return c;
 	}
+	SHCollection.prototype._processOembed = function (oeItem) {
+		console.log("TODO Need to process oEmbed", oeItem);
+	}
 	// Initial data
 	SHCollection.prototype._initialDataSuccess = function (data) {
 		console.log("SHCollection._initialDataSuccess", data);
+		// TODO: Emit event here instead of going into func calls.
+		// Don't just do one big add
 		var contents = this._processResponseItems(data);
 		this.add(contents);
 		this.start();

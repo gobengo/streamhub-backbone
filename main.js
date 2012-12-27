@@ -17,9 +17,19 @@ define(function(require) {
 		});
 	};
 	Hub.prototype._createViewFromOpts = function (opts) {
-		var view = new (opts.view || DefaultView)({
+		var viewOpts = this._opts.view,
+			defaultAvatarUrl,
+			viewClass = DefaultView,
+			viewOpts = opts.view || {};
+		if (typeof(viewOpts) ==='function') {
+			viewClass = viewOpts;
+		} else {
+			defaultAvatarUrl = viewOpts.defaultAvatarUrl;
+		}
+		var view = new viewClass({
 			el: opts.el,
 			collection: this._collection,
+			defaultAvatarUrl: defaultAvatarUrl
 		});
 		return view;
 	};

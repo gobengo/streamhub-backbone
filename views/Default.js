@@ -3,7 +3,6 @@ define(function (require) {
 	Backbone = require('backbone'),
 	Mustache = require('mustache'),
 	ContentTemplate = require('text!../templates/Content.html'),
-	DEFAULT_AVATAR_URL = 'http://placehold.it/48&text=avatar',
 
 	/*
 	collection
@@ -18,11 +17,11 @@ define(function (require) {
 
 	DefaultView = Backbone.View.extend({
 		"tagName": "div",
-		"className": "shb-example",
+		"className": "hub-backbone",
 		events: {
 		},
 		initialize: function (opts) {
-			this.defaultAvatarUrl = opts.defaultAvatarUrl || DEFAULT_AVATAR_URL;
+			this.defaultAvatarUrl = opts.defaultAvatarUrl;
 			this.render();
 			this.collection.on('add', this._addItem, this);
 		},
@@ -38,7 +37,6 @@ define(function (require) {
 	DefaultView.prototype._addItem = function(item, collection, opts) {
 		var newItem = $(document.createElement('div')),
 			data = item.toJSON();
-		
 		if ( ! data.author) {
 			console.log("DefaultView: No author for Content, skipping");
 			return;
@@ -47,9 +45,19 @@ define(function (require) {
 			data.author.avatar = this.defaultAvatarUrl;
 		}
 
+		function formatCreatedAt (date) {
+			var d = new Date(date),
+				monthN = d.getMonth(),
+				months;
+			months = ['Jan','Feb','Mar','Apr','May',
+					  'Jun','Jul','Aug','Sept','Oct','Nov','Dec'];
+			return months[monthN] + ' ' + d.getDate();
+		}
+		data.formattedCreatedAt = formatCreatedAt(data.createdAt);
+
 		newItem
-		  .addClass('shb-item')
-		  .append(Mustache.compile(ContentTemplate)(data))
+		  .addClass('hub-item')
+		  .append(Mustache.compile(ContentTemplate)(data));
 		
 		if (collection.length-collection.indexOf(item)-1===0) {
 			this.$el.prepend(newItem);
