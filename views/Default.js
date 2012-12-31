@@ -42,7 +42,10 @@ ContentTemplate) {
 				months;
 			months = ['Jan','Feb','Mar','Apr','May',
 					  'Jun','Jul','Aug','Sept','Oct','Nov','Dec'];
-			return months[monthN] + ' ' + d.getDate();
+			var ret = "{day} {month}"
+				.replace("{day}", d.getDate())
+				.replace("{month}", months[monthN]);
+			return ret;
 		}
 		data.formattedCreatedAt = formatCreatedAt(data.createdAt);
 
