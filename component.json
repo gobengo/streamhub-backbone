@@ -11,6 +11,8 @@
     "requirejs-text": "*",
     "underscore": "*",
     "mustache": "*",
-    "backbone": "*"
+    "backbone": "*",
+    "jasmine": "*",
+    "jasmine-jquery": "*"
   }
 }
