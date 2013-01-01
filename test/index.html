@@ -26,6 +26,7 @@
         text: 'components/requirejs-text/text',
         jasmine: 'components/jasmine/lib/jasmine-core/jasmine',
         'jasmine-html': 'components/jasmine/lib/jasmine-core/jasmine-html',
+        'jasmine-jquery': 'components/jasmine-jquery/lib/jasmine-jquery',
         'streamhub-backbone-test': 'test/main'
       },
       shim: {
@@ -40,6 +41,10 @@
           exports: 'jasmine'
         },
         'jasmine-html': {
+          deps: ['jasmine'],
+          exports: 'jasmine'
+        },
+        'jasmine-jquery': {
           deps: ['jasmine'],
           exports: 'jasmine'
         }

@@ -3,6 +3,7 @@
  */
 define('streamhub-backbone-test', function(require) {
 	var jasmine = require('jasmine-html'),
+		jasminejQuery = require('jasmine-jquery'),
 		$ = require('jquery');
 	// Test!
 	var jasmineEnv = jasmine.getEnv();
@@ -17,6 +18,7 @@ define('streamhub-backbone-test', function(require) {
 	};
 
 	var specs = [];
+	specs.push('test/spec/test');
 	specs.push('test/spec/Hub');
 
 	$(function(){

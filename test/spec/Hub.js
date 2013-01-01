@@ -1,11 +1,12 @@
 define(['streamhub-backbone'], function (Hub) {
 describe('Hub', function () {
-	it ("Can have tests run", function () {
-		expect(true).toBe(true);
-	});
 	it ("is a function", function () {
 		console.log("Hub", Hub);
 		expect(Hub).toBeDefined();
+	});
+	xit ("can be instantiated without an SDK", function () {
+		var h = new Hub();
+		expect(h).toBeDefined();
 	});
 });	
 });
