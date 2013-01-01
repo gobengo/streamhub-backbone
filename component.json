@@ -13,5 +13,6 @@
     "mustache": "*",
     "backbone": "*",
     "jasmine": "*"
+    "jasmine-jquery": "*"
   }
 }
