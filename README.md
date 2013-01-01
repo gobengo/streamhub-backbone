@@ -51,6 +51,21 @@ The module can be used with `new` to construct a Hub for Streams to play in. It 
 
 This is a type of Backbone Collection that knows how to deal with Content. It wraps the collections returned from `sdk.getCollection`.
 
+    var collection = Hub.Collection().setRemote({
+        sdk: livefyreSdk,
+        siteId: "303772",
+        articleId: "prod0"
+    });
+
+### Events
+
+`sdkData` - fired when data objects are passed from the internal sdkCollection on initial data and streamed data. Standard sdk response obj passed.
+
+    collection.on('sdkData', function(sdkData) {
+        var publicData = sdkData.public;
+        // Do stuff
+    });
+
 ## Hub.models.Content
 
 This represents a piece of Content 
