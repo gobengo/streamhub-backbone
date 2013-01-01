@@ -12,7 +12,7 @@
     "underscore": "*",
     "mustache": "*",
     "backbone": "*",
-    "jasmine": "*"
+    "jasmine": "*",
     "jasmine-jquery": "*"
   }
 }
