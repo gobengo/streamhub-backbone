@@ -42,6 +42,7 @@ ContentTemplate) {
 				months;
 			months = ['Jan','Feb','Mar','Apr','May',
 					  'Jun','Jul','Aug','Sept','Oct','Nov','Dec'];
+			// TODO: Show year when appropriate
 			var ret = "{day} {month}"
 				.replace("{day}", d.getDate())
 				.replace("{month}", months[monthN]);

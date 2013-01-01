@@ -12,13 +12,14 @@ SHContent,
 sources, types, transformers) {
 	var SHCollection = Backbone.Collection.extend({
 		model: SHContent,
-		initialize: function () {
+		initialize: function (opts) {
+			this._opts = opts || {};
+			this._started = false;
+			this.on('sdkData', this._onSdkData);
 		}
 	});
 
-	SHCollection.prototype.comparator = function (item) {
-		return item.get('createdAt');
-	}
+	// Public Interface
 	SHCollection.prototype.setRemote = function (remoteOptions) {
 		this._sdk = remoteOptions.sdk;
 		this._sdkCollection = this._sdk.getCollection({
@@ -29,6 +30,27 @@ sources, types, transformers) {
 			_.bind(this._initialDataSuccess, this),
 			this._initialDataError)
 		return this;
+	};
+
+	SHCollection.prototype.getAuthor = function (authorId) {
+		if (! this._sdkCollection) {
+			throw new Exception ("Called getAuthor, but there is no sdkCollection");
+		}
+		return this._sdkCollection.getAuthor(authorId);
+	}
+
+	// Internals
+	SHCollection.prototype.comparator = function (item) {
+		return item.get('createdAt');
+	}
+
+	// Initial data
+	SHCollection.prototype._initialDataSuccess = function (data) {
+		this.trigger('sdkData', data);
+		this.start();
+	};
+	SHCollection.prototype._initialDataError = function () {
+		console.log("SHCollection.prototype._initialDataError", arguments);
 	};
 
 	ItemProcessors = {};
@@ -57,7 +79,14 @@ sources, types, transformers) {
 		}
 		return c;
 	};
-
+	/*
+	 * Handler for whenever sdkCollection tells us about data
+	 * in its standard format (on initialData and stream)
+	 */
+	SHCollection.prototype._onSdkData = function _onSdkData (sdkData) {
+		var items = this._processResponseItems(sdkData);
+		this.add(items);
+	}
 	SHCollection.prototype._processResponseItems = function (itemsObj) {
 		var data = itemsObj,
 			self = this,
@@ -105,30 +134,21 @@ sources, types, transformers) {
 	SHCollection.prototype._processOembed = function (oeItem) {
 		console.log("TODO Need to process oEmbed", oeItem);
 	}
-	// Initial data
-	SHCollection.prototype._initialDataSuccess = function (data) {
-		console.log("SHCollection._initialDataSuccess", data);
-		// TODO: Emit event here instead of going into func calls.
-		// Don't just do one big add
-		var contents = this._processResponseItems(data);
-		this.add(contents);
-		this.start();
-	}
-	SHCollection.prototype._initialDataError = function () {
-		console.log("SHCollection.prototype._initialDataError", arguments);
-	}
 
 	// Streaming
 	SHCollection.prototype.start = function () {
+		if (this._started) {
+			console.log("Collection.start() called, but already started");
+			return this;
+		}
+		this._started = true
 		this._sdkCollection.startStream(
 			_.bind(this._streamSuccess, this),
 			this._streamError);
 		return this;
 	}
-	SHCollection.prototype._streamSuccess = function (data) {
-		console.log("SHCollection._streamSuccess", data);
-		var contents = this._processResponseItems(data);
-		this.add(contents);
+	SHCollection.prototype._streamSuccess = function (sdkData) {
+		this.trigger('sdkData', sdkData);
 	}
 	SHCollection.prototype._streamError = function () {
 		console.log("SHCollection.prototype._streamError", arguments);	
