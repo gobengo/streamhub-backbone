@@ -4,6 +4,7 @@ define(function() {
 
 	// SDK.fixtures
 	SDK.dataFixture = sdkFixture;
+	SDK.authorIdFixture = "43765496@twitter.com";
 
 	// SDK
 	SDK.getCollection = function () {
@@ -19,7 +20,8 @@ define(function() {
 	}
 	SDK.Collection.prototype.startStream = function(onSuccess, onError) {
 	};
-	SDK.Collection.prototype.getAuthor = function () {
+	SDK.Collection.prototype.getAuthor = function (authorId) {
+		if (authorId===null) return undefined;
 		var a = {"avatar":"http://a0.twimg.com/profile_images/1265228110/03-07-2011_normal.png","tags":[],"profileUrl":"http://twitter.com/#!/Livefyre","displayName":"Livefyre","id":"43765496@twitter.com"};
 		return a;
 	}

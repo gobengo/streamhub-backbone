@@ -19,9 +19,7 @@ sources, types, transformers) {
 		}
 	});
 
-	SHCollection.prototype.comparator = function (item) {
-		return item.get('createdAt');
-	}
+	// Public Interface
 	SHCollection.prototype.setRemote = function (remoteOptions) {
 		this._sdk = remoteOptions.sdk;
 		this._sdkCollection = this._sdk.getCollection({
@@ -33,6 +31,18 @@ sources, types, transformers) {
 			this._initialDataError)
 		return this;
 	};
+
+	SHCollection.prototype.getAuthor = function (authorId) {
+		if (! this._sdkCollection) {
+			throw new Exception ("Called getAuthor, but there is no sdkCollection");
+		}
+		return this._sdkCollection.getAuthor(authorId);
+	}
+
+	// Internals
+	SHCollection.prototype.comparator = function (item) {
+		return item.get('createdAt');
+	}
 
 	// Initial data
 	SHCollection.prototype._initialDataSuccess = function (data) {

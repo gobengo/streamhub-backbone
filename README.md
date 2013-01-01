@@ -66,6 +66,10 @@ This is a type of Backbone Collection that knows how to deal with Content. It wr
         // Do stuff
     });
 
+### Methods
+
+`.getAuthor(authorId)` - Convenience proxy for internal sdkCollection.getAuthor
+
 ## Hub.models.Content
 
 This represents a piece of Content 

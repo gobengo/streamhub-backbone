@@ -36,20 +36,30 @@ describe('Collection', function () {
 				articleId: CONFIG.articleId
 			});
 		});
-		it ("fires sdkData events on initial data from StreamHub", function () {
+		it ("should fire sdkData events on initial data from StreamHub", function () {
 			spy = jasmine.createSpy('onSdkDataCallback')
 			var c = this.collection;
 			c.on('sdkData', spy);
 			c._initialDataSuccess(livefyreSdk.dataFixture);
 			expect(spy).toHaveBeenCalled();
 		});
-		it ("fires sdkData events on streamed data from StreamHub", function () {
+		it ("should fire sdkData events on streamed data from StreamHub", function () {
 			spy = jasmine.createSpy('onSdkDataCallback')
 			var c = this.collection;
 			c.on('sdkData', spy);
 			c._streamSuccess(livefyreSdk.dataFixture);
 			expect(spy).toHaveBeenCalled();
 		});
+		describe (".getAuthor method", function () {
+			it ("should return an author object", function () {
+				var a = this.collection.getAuthor(livefyreSdk.authorIdFixture);
+				expect(a).toEqual(jasmine.any(Object));
+			});
+			it ("should return falsy if pass unknown authorId", function () {
+				var a = this.collection.getAuthor(null);
+				expect(a).toBeFalsy();
+			})
+		})
 	})
 });	
 });
