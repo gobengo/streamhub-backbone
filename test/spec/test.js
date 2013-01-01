@@ -1,4 +1,4 @@
-define(function () {
+define(['jasmine-jquery'], function () {
 describe('Test', function () {
 	it ("Can have tests run", function () {
 		expect(true).toBe(true);
