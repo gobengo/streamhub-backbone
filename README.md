@@ -47,6 +47,34 @@ The module can be used with `new` to construct a Hub for Streams to play in. It 
 
 # Models
 
+## Hub.models.Content
+
+The good stuff. Content has the following attributes:
+
+    * id
+    * event
+    * html
+    * ancestorId
+    * annotations
+    * author
+    * authorId
+    * createdAt
+    * updatedAt
+    * replaces
+    * parentId
+    * source
+    * transport
+    * type
+    * vis
+
+Content can be instantiated from SDK Data
+
+    var c = new Content(sdkData);
+
+or locally with just HTML
+
+    var c = new Content("<p>Yep</p>");
+
 ## Hub.models.Collection
 
 This is a type of Backbone Collection that knows how to deal with Content. It wraps the collections returned from `sdk.getCollection`.
