@@ -1,19 +1,23 @@
 define(function (require) {
 	var Backbone = require('backbone');
 
-	var SHContent = Backbone.Model.extend({
+	var Content = Backbone.Model.extend({
+        /*
+         * Can be passed a string of bodyHtml
+         * or normal attr Object
+         */
+        constructor: function (htmlOrObj) {
+            var attrs = {};
+            if (typeof(htmlOrObj)==='Object') {
+                attrs = htmlOrObj;
+            } else {
+                attrs.html = htmlOrObj;
+            }
+            Backbone.Model.prototype.constructor.call(this, attrs);
+        },
 		initialize: function (attrs) {
-			var bodyHtml = attrs.bodyHtml;
-			// Ensure bodyHtml wrapped in element
-			if ( bodyHtml && bodyHtml[0] !== '<p') {
-				var wrapper = document.createElement('div'),
-					ele = document.createElement('p');
-				ele.innerHTML = bodyHtml;
-				wrapper.appendChild(ele);
-				this.set({'bodyHtml': wrapper.innerHTML});
-			}
 		}
 	});
 	
-	return SHContent;
+	return Content;
 });
