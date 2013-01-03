@@ -30,6 +30,7 @@ define(function (require) {
             html: c.bodyHtml,
             ancestorId: c.ancestorId,
             annotations: c.annotations,
+            author: c.author,
             authorId: c.authorid,
             createdAt: c.createdAt,
             updatedAt: c.updatedAt,
