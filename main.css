@@ -39,14 +39,12 @@ TODO
 	margin-bottom: 5px;
 }
 
-.hub-content-body {
+.hub-body-html {
 	overflow: hidden;
 }
 
-.hub-content-body p { margin: 0 0 .5em 0; }
+.hub-body-html p { margin: 0 0 .5em 0; }
 
-.hub-attachment {
-}
 .hub-attachment-photo img {
 	width: 100%;
 }

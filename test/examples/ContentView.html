@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>StreamHub Backbone Example</title>
+    <script src="../../../components/requirejs/require.js"
+            type="text/javascript"></script>
+    <script src="http://zor.t402.livefyre.com/wjs/v3.0.sdk/javascripts/livefyre.js"></script>
+    <script type="text/javascript">
+    // Require.js Config
+    require.config({
+      baseUrl: '../../',
+      packages: [{
+        name: 'streamhub-backbone',
+        location: '.'
+      }],
+      paths: {
+        jquery: 'components/jquery/jquery',
+        underscore: 'components/underscore/underscore',
+        backbone: 'components/backbone/backbone',
+        mustache: 'components/mustache/mustache',
+        text: 'components/requirejs-text/text'
+      },
+      shim: {
+        'backbone': {
+            deps: ['underscore', 'jquery'],
+            exports: 'Backbone'
+        },
+        'underscore': {
+            exports: '_'
+        }
+      }
+    });
+    </script>
+    <style>
+    body {
+        background-size: auto 100%;
+        color: #222;
+        font: 14px sans-serif;
+        line-height: 1.25;
+    }
+    #container {
+        margin: 0 auto;
+        width: 300px;
+    }
+    .hub-content {
+        border: 1px solid #222;
+        padding: 1em;
+    }
+    </style>
+</head>
+<body>
+<div id="container">
+  <h1>ContentView</h1>
+  <div id="example" class="example">
+        <div id="content0"></div>
+  </div>
+</div>
+<script type="text/javascript">
+// Now to load the example
+require(['streamhub-backbone', 'test/fixtures/sdkContentData', 'views/ContentView'],
+function(Hub, sdkContentData, ContentView){
+    var c = new Hub.Content.fromSdk(sdkContentData);
+        cv = new ContentView({
+            model: c,
+            el: '#content0'
+        });
+});
+</script>
+</body>
+</html>

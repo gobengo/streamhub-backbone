@@ -38,6 +38,7 @@ define(function(require) {
 		return this;
 	};
 
+	Hub.Content = require('models/Content');
 	Hub.Collection = SHCollection;
 	Hub.sources = require('./const/sources');
 	Hub.types = require('./const/types');

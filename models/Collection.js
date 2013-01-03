@@ -117,7 +117,7 @@ sources, types, transformers) {
 		c.id = item.id;
 		c.authorId = item.content.authorId;
 		c.author = this._sdkCollection.getAuthor(c.authorId);
-		c.bodyHtml = item.content.bodyHtml;
+		c.html = item.content.bodyHtml;
 		c.createdAt = item.content && item.content.createdAt || null;
 		c.source = item.source+'';
 		c.type = item.type+'';
