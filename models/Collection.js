@@ -75,8 +75,6 @@ sources, types, transformers) {
 		return _(items).compact();
 	}
 	SHCollection.prototype._processItem = function (item) {
-		var c = {};
-
 		if (item.type == types.OEMBED) {
 			this._processOembed(item);
 			return
@@ -85,6 +83,12 @@ sources, types, transformers) {
 		if (item.type != types.CONTENT) {
 			console.log("Donno how to process this item, skipping.", item);
 			return;
+		}
+		// Add author data
+		// TODO: Bind author data later... at view time?
+		var authorId = item.content.authorId;
+		if (authorId) {
+			item.content.author = this.getAuthor(authorId);
 		}
 
 		return new Content.fromSdk(item);

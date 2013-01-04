@@ -35,8 +35,7 @@ define(function (require) {
             html: c.bodyHtml,
             ancestorId: c.ancestorId,
             annotations: c.annotations,
-            author: c.author,
-            authorId: c.authorid,
+            authorId: c.authorId,
             createdAt: c.createdAt,
             updatedAt: c.updatedAt,
             replaces: c.replaces || null,
@@ -46,6 +45,9 @@ define(function (require) {
             type: d.type,
             vis: d.vis
         };
+        if (c.author) {
+            attrs.author = c.author;
+        }
         if (attachments) {
             attrs.attachments = attachments;
         }
