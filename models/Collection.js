@@ -58,23 +58,28 @@ sources, types, transformers) {
 	 * in its standard format (on initialData and stream)
 	 */
 	SHCollection.prototype._onSdkData = function _onSdkData (sdkData) {
-		var items = this._processResponseItems(sdkData);
-		this.add(items);
-	}
-	SHCollection.prototype._processResponseItems = function (itemsObj) {
-		var data = itemsObj,
-			self = this,
-			publicItems = data.public,
-			itemsToProcess = [],
-			items = [];
+		var publicData = sdkData.public,
+			knownMessageTypes = [types.CONTENT, types.OEMBED, types.OPINE],
+		    messages = _(publicData).values(),
+			messagesByType = _(messages).groupBy('type'),
+			messageTypes = _(messagesByType).keys(),
+			unknownMessageTypes = _(messageTypes).difference(_(knownMessageTypes).map(String));
 
-		for (var id in publicItems) { if (publicItems.hasOwnProperty(id)) {
-			itemsToProcess.push(publicItems[id]);
-		}}
-		items = _(itemsToProcess).map(_.bind(this._processItem, this));
-		return _(items).compact();
+		if (unknownMessageTypes.length > 0) {
+			console.log("Unknown message types", unknownMessageTypes, sdkData);
+		}
+
+		// Handle messages in this order
+		return _(knownMessageTypes).forEach(function(type) {
+			_(messagesByType[type]).forEach(this._handleSdkMessage, this)
+		}, this);
 	}
-	SHCollection.prototype._processItem = function (item) {
+	/*
+	 * Processes each individual message returned from the JS SDK
+	 */
+	SHCollection.prototype._handleSdkMessage = function (message) {
+		var item = message;
+		this.trigger('sdkMessage', message);
 		if (item.type == types.OEMBED) {
 			this._processOembed(item);
 			return
@@ -91,8 +96,9 @@ sources, types, transformers) {
 			item.content.author = this.getAuthor(authorId);
 		}
 
-		return new Content.fromSdk(item);
+		this.add(new Content.fromSdk(item));
 	}
+
 	SHCollection.prototype._processOembed = function (oeItem) {
 		console.log("TODO Need to process oEmbed", oeItem);
 	}
