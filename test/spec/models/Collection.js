@@ -1,5 +1,9 @@
-define(['models/Collection', 'jasmine-jquery', 'test/fixtures/fyre.conv.sdk'],
-function (Collection, jasminejQuery, livefyreSdk) {
+define([
+'models/Collection',
+'streamhub-backbone/models/Content',
+'jasmine-jquery',
+'test/fixtures/fyre.conv.sdk'],
+function (Collection, Content, jasminejQuery, livefyreSdk) {
 describe('Collection', function () {
 	var CONFIG = {};
 	CONFIG.siteId = 303772;
@@ -29,7 +33,12 @@ describe('Collection', function () {
 	});
 	describe ("when configured with remote Collection", function () {
 		beforeEach(function () {
-			this.collection = new Collection().setRemote({
+			this.collection = new Collection()
+
+			this.onAddSpy = jasmine.createSpy('onAdd');
+			this.collection.on('add', this.onAddSpy);
+
+			this.collection.setRemote({
 				sdk: livefyreSdk,
 				siteId: CONFIG.siteId,
 				articleId: CONFIG.articleId
@@ -42,10 +51,26 @@ describe('Collection', function () {
 			c._initialDataSuccess(livefyreSdk.dataFixture);
 			expect(spy).toHaveBeenCalled();
 		});
+		it ("should fire add event on initial data", function () {
+			expect(this.onAddSpy).toHaveBeenCalled();
+			// If all have .html, then we assume they're Content
+			this.onAddSpy.argsForCall.forEach.call(this, function (args) {
+				expect(args[0].get('html').toBeDefined())
+			})
+		})
 		it ("should fire sdkData events on streamed data from StreamHub", function () {
 			spy = jasmine.createSpy('onSdkDataCallback')
 			var c = this.collection;
 			c.on('sdkData', spy);
+			c._streamSuccess(livefyreSdk.dataFixture);
+			expect(spy).toHaveBeenCalled();
+		});
+		// TODO
+		xit ("should fire add event on streamed Content", function () {
+			spy = jasmine.createSpy('onAddCallback')
+			var c = this.collection;
+			c.on('add', spy);
+			livefyreSdk.dataFixture.public.test = livefyreSdk.dataFixture.public['26366616']
 			c._streamSuccess(livefyreSdk.dataFixture);
 			expect(spy).toHaveBeenCalled();
 		});
@@ -58,7 +83,7 @@ describe('Collection', function () {
 				var a = this.collection.getAuthor(null);
 				expect(a).toBeFalsy();
 			})
-		})
-	})
+		});
+	});
 });	
 });

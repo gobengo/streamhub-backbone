@@ -1,8 +1,8 @@
 define(function (require) {
     var Backbone = require("backbone"),
         Mustache = require('mustache'),
-        Content = require('models/Content'),
-        ContentTemplate = require('text!templates/Content.html');
+        Content = require('streamhub-backbone/models/Content'),
+        ContentTemplate = require('text!streamhub-backbone/templates/Content.html');
 
     var ContentView = Backbone.View.extend({
         model: Content,

@@ -8,10 +8,10 @@ define([
 function (
 Backbone,
 _,
-SHContent,
+Content,
 sources, types, transformers) {
 	var SHCollection = Backbone.Collection.extend({
-		model: SHContent,
+		model: Content,
 		initialize: function (opts) {
 			this._opts = opts || {};
 			this._started = false;
@@ -53,32 +53,6 @@ sources, types, transformers) {
 		console.log("SHCollection.prototype._initialDataError", arguments);
 	};
 
-	ItemProcessors = {};
-	ItemProcessors[sources.STREAMHUB] = function (ugc) {
-	}
-	ItemProcessors[sources.TWITTER] = function (rssItem) {
-
-	}
-	ItemProcessors[sources.RSS] = function (rssItem) {
-		var c = {},
-			feedEntry = rssItem.content.feedEntry;
-
-		if ( ! feedEntry ) {
-			return c;
-		}
-		if (feedEntry.transformer == transformers.INSTAGRAM_BY_TAG) {
-			// Add oEmbed photo attachment for Instagram photo
-			c.attachments = [{
-				version: '1.0',
-				type: 'photo',
-				provider: 'instagram',
-				width: '612',
-				height: '612',
-				url: feedEntry.link
-			}];
-		}
-		return c;
-	};
 	/*
 	 * Handler for whenever sdkCollection tells us about data
 	 * in its standard format (on initialData and stream)
@@ -101,8 +75,7 @@ sources, types, transformers) {
 		return _(items).compact();
 	}
 	SHCollection.prototype._processItem = function (item) {
-		var c = {},
-			processor = ItemProcessors[item.source];
+		var c = {};
 
 		if (item.type == types.OEMBED) {
 			this._processOembed(item);
@@ -114,22 +87,7 @@ sources, types, transformers) {
 			return;
 		}
 
-		c.id = item.id;
-		c.authorId = item.content.authorId;
-		c.author = this._sdkCollection.getAuthor(c.authorId);
-		c.html = item.content.bodyHtml;
-		c.createdAt = item.content && item.content.createdAt || null;
-		c.source = item.source+'';
-		c.type = item.type+'';
-
-		// If there is a custom processor for the Content source,
-		// get the source-specific data and pluck onto `c`
-		if (processor) {
-			var newData = processor(item);
-			_(c).extend(newData);
-		}
-
-		return c;
+		return new Content.fromSdk(item);
 	}
 	SHCollection.prototype._processOembed = function (oeItem) {
 		console.log("TODO Need to process oEmbed", oeItem);

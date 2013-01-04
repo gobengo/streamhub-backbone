@@ -1,5 +1,7 @@
 define(function (require) {
-	var Backbone = require('backbone');
+	var Backbone = require('backbone'),
+        sources = require('streamhub-backbone/const/sources');
+        transformers = require('streamhub-backbone/const/transformers');
 
 	var Content = Backbone.Model.extend({
         /*
@@ -23,8 +25,11 @@ define(function (require) {
      * Create a piece of Content from the JS SDK response format
      */
     Content.fromSdk = function (d) {
-        var c = d.content;
-        return new Content({
+        var c = d.content,
+            attrs,
+            attachments = _getAttachments(d);
+
+        attrs = {
             id: d.id ,
             event: d.event,
             html: c.bodyHtml,
@@ -40,7 +45,31 @@ define(function (require) {
             transport: d.transport,
             type: d.type,
             vis: d.vis
-        });
+        };
+        if (attachments) {
+            attrs.attachments = attachments;
+        }
+        return new Content(attrs);
+
+        function _getAttachments (d) {
+            // Only do this for RSS for now
+            if (d.source!=sources.RSS) return;
+
+            var feedEntry = d.content.feedEntry;
+            if ( ! feedEntry ) return;
+
+            if (feedEntry.transformer == transformers.INSTAGRAM_BY_TAG) {
+                // Add oEmbed photo attachment for Instagram photo
+                return [{
+                    version: '1.0',
+                    type: 'photo',
+                    provider: 'instagram',
+                    width: '612',
+                    height: '612',
+                    url: feedEntry.link
+                }];
+            }
+        }
     };
 	
 	return Content;
