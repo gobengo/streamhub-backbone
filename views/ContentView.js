@@ -23,6 +23,9 @@ define(function (require) {
         initialize: function(opts) {
             this.defaultAvatarUrl = opts.defaultAvatarUrl;
             this.$el.addClass(this.className);
+            if (opts.template) {
+                this.template = opts.template;
+            }
             this.render();
             this.listenTo(this.model, "change", this.render);
         },

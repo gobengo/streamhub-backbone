@@ -59,27 +59,27 @@ sources, types, transformers) {
 	 */
 	SHCollection.prototype._onSdkData = function _onSdkData (sdkData) {
 		var publicData = sdkData.public,
-			knownMessageTypes = [types.CONTENT, types.OEMBED, types.OPINE],
-		    messages = _(publicData).values(),
-			messagesByType = _(messages).groupBy('type'),
-			messageTypes = _(messagesByType).keys(),
-			unknownMessageTypes = _(messageTypes).difference(_(knownMessageTypes).map(String));
+			knownStateTypes = [types.CONTENT, types.OEMBED, types.OPINE],
+		    states = _(publicData).values(),
+			statesByType = _(states).groupBy('type'),
+			stateTypes = _(statesByType).keys(),
+			unknownStateTypes = _(stateTypes).difference(_(knownStateTypes).map(String));
 
-		if (unknownMessageTypes.length > 0) {
-			console.log("Unknown message types", unknownMessageTypes, sdkData);
+		if (unknownStateTypes.length > 0) {
+			console.log("Unknown state types", unknownStateTypes, sdkData);
 		}
 
-		// Handle messages in this order
-		return _(knownMessageTypes).forEach(function(type) {
-			_(messagesByType[type]).forEach(this._handleSdkMessage, this)
+		// Handle states in this order
+		return _(knownStateTypes).forEach(function(type) {
+			_(statesByType[type]).forEach(this._handleSdkState, this)
 		}, this);
 	}
 	/*
-	 * Processes each individual message returned from the JS SDK
+	 * Processes each individual state returned from the JS SDK
 	 */
-	SHCollection.prototype._handleSdkMessage = function (message) {
-		var item = message;
-		this.trigger('sdkMessage', message);
+	SHCollection.prototype._handleSdkState = function (state) {
+		var item = state;
+		this.trigger('sdkState', state);
 		if (item.type == types.OEMBED) {
 			this._processOembed(item);
 			return
@@ -100,7 +100,10 @@ sources, types, transformers) {
 	}
 
 	SHCollection.prototype._processOembed = function (oeItem) {
-		console.log("TODO Need to process oEmbed", oeItem);
+		var targetId = oeItem.content.targetId,
+			target = this.get(targetId);
+		if (! target) console.log("Cannot find target for oEmbed", oeItem);
+		target._handleSdkState(oeItem);
 	}
 
 	// Streaming

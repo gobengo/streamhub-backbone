@@ -1,6 +1,7 @@
 define(function (require) {
 	var Backbone = require('backbone'),
-        sources = require('streamhub-backbone/const/sources');
+        sources = require('streamhub-backbone/const/sources'),
+        types = require('streamhub-backbone/const/types'),
         transformers = require('streamhub-backbone/const/transformers');
 
 	var Content = Backbone.Model.extend({
@@ -27,7 +28,7 @@ define(function (require) {
     Content.fromSdk = function (d) {
         var c = d.content,
             attrs,
-            attachments = _getAttachments(d);
+            attachments = _getAttachmentsFromState(d);
 
         attrs = {
             id: d.id ,
@@ -52,12 +53,13 @@ define(function (require) {
             attrs.attachments = attachments;
         }
         return new Content(attrs);
-
-        function _getAttachments (d) {
-            // Only do this for RSS for now
-            if (d.source!=sources.RSS) return;
-
-            var feedEntry = d.content.feedEntry;
+    };
+    function _getAttachmentsFromState (s) {
+        // Only do this for RSS for now
+        if (s.source==sources.RSS) return _getAttachmentFromRssState(s);
+        if (s.type==types.OEMBED) return _getAttachmentFromOembedState(s);
+        function _getAttachmentFromRssState (s) {
+            var feedEntry = s.content.feedEntry;
             if ( ! feedEntry ) return;
 
             if (feedEntry.transformer == transformers.INSTAGRAM_BY_TAG) {
@@ -70,9 +72,22 @@ define(function (require) {
                     height: '612',
                     url: feedEntry.link
                 }];
-            }
+            } 
         }
-    };
-	
+        function _getAttachmentFromOembedState (s) {
+            return [s.content.oembed];
+        }
+    }
+    Content.prototype._handleSdkState = function (s) {
+        if (s.type==types.OEMBED) this._handleSdkOembedState(s);
+    }
+    Content.prototype._handleSdkOembedState = function (s) {
+        var newAttachments = _getAttachmentsFromState(s),
+            oldAttachments = this.get('attachments') || [];
+        if (newAttachments) {
+            this.set('attachments', oldAttachments.concat(newAttachments));
+        }
+    }
+
 	return Content;
 });

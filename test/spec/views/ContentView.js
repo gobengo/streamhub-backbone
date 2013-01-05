@@ -1,5 +1,5 @@
-define(['views/ContentView', 'models/Content', 'test/fixtures/sdkContentData'],
-function (ContentView, Content, sdkContentData) {
+define(['views/ContentView', 'models/Content', 'test/fixtures/sdkContentData', 'mustache'],
+function (ContentView, Content, sdkContentData, Mustache) {
     describe ("ContentView", function () {
         // Set up HTML fixture
         beforeEach(function () {
@@ -45,6 +45,15 @@ function (ContentView, Content, sdkContentData) {
             it ("contains the provided html", function () {
                 var providedHtml = this.c.get('html');
                 expect(this.$el.html().indexOf(providedHtml)).not.toBe(-1);
+            });
+            it ("can be provided a custom template", function () {
+                var c = new Content.fromSdk(sdkContentData);
+                    cv = new ContentView({
+                        model: c,
+                        el: '#hub',
+                        template: Mustache.compile("<p class='woahwoah'>I AM SUCH A CONTENT</p>")
+                    });
+                expect(this.$el.find('.woahwoah').length > 0).toBe(true);
             });
         }
     });

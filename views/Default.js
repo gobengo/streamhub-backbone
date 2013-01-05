@@ -15,7 +15,8 @@ ContentView) {
 		},
 		initialize: function (opts) {
 			this._contentViewOpts = {
-				defaultAvatarUrl: opts.defaultAvatarUrl
+				defaultAvatarUrl: opts.defaultAvatarUrl,
+				template: opts.contentTemplate
 			}
 			this.render();
 			this.collection.on('add', this._addItem, this);

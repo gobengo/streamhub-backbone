@@ -21,7 +21,8 @@ define(function(require) {
 		var viewOpts = this._opts.view,
 			defaultAvatarUrl,
 			viewClass = DefaultView,
-			viewOpts = opts.view || {};
+			viewOpts = opts.view || {},
+			contentTemplate = viewOpts.contentTemplate;
 		if (typeof(viewOpts) ==='function') {
 			viewClass = viewOpts;
 		} else {
@@ -30,7 +31,8 @@ define(function(require) {
 		var view = new viewClass({
 			el: opts.el,
 			collection: this._collection,
-			defaultAvatarUrl: defaultAvatarUrl
+			defaultAvatarUrl: defaultAvatarUrl,
+			contentTemplate: contentTemplate
 		});
 		return view;
 	};

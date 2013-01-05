@@ -54,16 +54,26 @@
   <h1>ContentView</h1>
   <div id="example" class="example">
         <div id="content0"></div>
+        <h2>Custom Template</h2>
+        <div id="content1"></div>
   </div>
 </div>
 <script type="text/javascript">
 // Now to load the example
-require(['streamhub-backbone', 'test/fixtures/sdkContentData', 'views/ContentView'],
-function(Hub, sdkContentData, ContentView){
+require(['streamhub-backbone', 'test/fixtures/sdkContentData', 'views/ContentView', 'mustache'],
+function(Hub, sdkContentData, ContentView, Mustache){
+    // Regular
     var c = new Hub.Content.fromSdk(sdkContentData);
         cv = new ContentView({
             model: c,
             el: '#content0'
+        });
+    // With custom template
+    var c1 = new Hub.Content.fromSdk(sdkContentData);
+        cv1 = new ContentView({
+            model: c,
+            el: '#content1',
+            template: Mustache.compile("<marquee><h1>So custom</h1><div>{{{ html }}}</div></marquee>")
         });
 });
 </script>
