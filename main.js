@@ -18,22 +18,15 @@ define(function(require) {
 		});
 	};
 	Hub.prototype._createViewFromOpts = function (opts) {
-		var viewOpts = this._opts.view,
-			defaultAvatarUrl,
-			viewClass = DefaultView,
-			viewOpts = opts.view || {},
-			contentTemplate = viewOpts.contentTemplate;
-		if (typeof(viewOpts) ==='function') {
-			viewClass = viewOpts;
-		} else {
-			defaultAvatarUrl = viewOpts.defaultAvatarUrl;
-		}
-		var view = new viewClass({
+		var viewClass = opts.view || DefaultView,
+			viewOpts = opts.viewOptions || {};
+		var view = new viewClass(_({
 			el: opts.el,
 			collection: this._collection,
-			defaultAvatarUrl: defaultAvatarUrl,
-			contentTemplate: contentTemplate
-		});
+			contentView: opts.contentView,
+			contentViewOptions: opts.contentViewOptions,
+			sources: opts.sources
+		}).extend(viewOpts));
 		return view;
 	};
 	Hub.prototype.start = function () {

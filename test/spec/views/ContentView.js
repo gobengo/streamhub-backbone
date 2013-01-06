@@ -43,7 +43,7 @@ function (ContentView, Content, sdkContentData, Mustache) {
                 expect(this.$el).toBe('.hub-content');  
             });
             it ("contains the provided html", function () {
-                var providedHtml = this.c.get('html');
+                var providedHtml = this.c.get('bodyHtml');
                 expect(this.$el.html().indexOf(providedHtml)).not.toBe(-1);
             });
             it ("can be provided a custom template", function () {

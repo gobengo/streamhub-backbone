@@ -2,22 +2,22 @@ define([
 'backbone',
 'mustache',
 'text!streamhub-backbone/templates/Content.html',
-'streamhub-backbone/views/ContentView'
+'streamhub-backbone/views/ContentView',
+'streamhub-backbone/const/sources'
 ], function (
 Backbone,
 Mustache,
 ContentTemplate,
-ContentView) {
+ContentView,
+sources) {
 	var	DefaultView = Backbone.View.extend({
 		"tagName": "div",
 		"className": "hub-backbone",
 		events: {
 		},
 		initialize: function (opts) {
-			this._contentViewOpts = {
-				defaultAvatarUrl: opts.defaultAvatarUrl,
-				template: opts.contentTemplate
-			}
+			this._sourceOpts = opts.sources || {};
+			this._contentViewOpts = opts._contentViewOptions || {};
 			this.render();
 			this.collection.on('add', this._addItem, this);
 		},
@@ -32,7 +32,8 @@ ContentView) {
 	});
 
 	DefaultView.prototype._addItem = function(item, collection, opts) {
-		var newItem = $(document.createElement('div')),
+		var self = this,
+			newItem = $(document.createElement('div')),
 			data = item.toJSON();
 
 		if ( ! data.author) {
@@ -40,13 +41,24 @@ ContentView) {
 			console.log("DefaultView: No author for Content, skipping");
 			return;
 		}
-
 		newItem.addClass('hub-item')
 
+		function _getContentViewOpts (content) {
+			var opts = {},
+				configuredOpts = _(opts).extend(self._contentViewOpts),
+				perSourceOpts;
+			if (content.get('source')==sources.TWITTER) {
+				return _(configuredOpts).extend(self._sourceOpts['twitter']||{});
+			}
+			if (content.get('source')==sources.RSS) {
+				return _(configuredOpts).extend(self._sourceOpts['rss']||{});
+			}
+			return configuredOpts;
+		}
 		var cv = new ContentView(_.extend({
 			model: item,
 			el: newItem
-		}, this._contentViewOpts));
+		}, _getContentViewOpts(item)));
 
 		if (collection.length - collection.indexOf(item)-1===0) {
 			this.$el.prepend(newItem);

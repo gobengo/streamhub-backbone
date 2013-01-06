@@ -79,7 +79,7 @@ function(Hub, Mustache){
                 siteId: "303772",
                 articleId: "prod0"
             },
-            view: {
+            contentViewOptions: {
                 defaultAvatarUrl: 'http://placehold.it/48&text=avatar',
             },
             el: document.getElementById("example")
@@ -90,8 +90,18 @@ function(Hub, Mustache){
                 siteId: "303772",
                 articleId: "tutorial0"
             },
-            view: {
-                //contentTemplate: Mustache.compile("<marquee><div>{{{ html }}}</div></marquee>")
+            contentViewOptions: {
+                defaultAvatarUrl: 'http://placehold.it/48&text=avatar',
+            },
+            sources: {
+                /*
+                twitter: {
+                    template: Mustache.compile("<p>Tweet</p>")
+                },
+                rss: {
+                    template: Mustache.compile("<p>RSS</p>")
+                }
+                */
             },
             el: document.getElementById("example1")
         });

@@ -5,7 +5,7 @@ function (ContentView, Content, sdkContentData) {
             var html = "<p>StreamHub</p>",
                 c = new Content(html);
             expect(c instanceof Content).toBe(true);
-            expect(c.get('html')).toBe(html);
+            expect(c.get('bodyHtml')).toBe(html);
         });
         it ("can be passed a Content object from the SDK", function () {
             var c = new Content.fromSdk(sdkContentData);

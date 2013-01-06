@@ -14,7 +14,7 @@ define(function (require) {
             if (typeof(htmlOrObj)==='object') {
                 attrs = htmlOrObj;
             } else {
-                attrs.html = htmlOrObj;
+                attrs.bodyHtml = htmlOrObj;
             }
             Backbone.Model.prototype.constructor.call(this, attrs);
         },
@@ -33,7 +33,7 @@ define(function (require) {
         attrs = {
             id: d.id ,
             event: d.event,
-            html: c.bodyHtml,
+            bodyHtml: c.bodyHtml,
             ancestorId: c.ancestorId,
             annotations: c.annotations,
             authorId: c.authorId,
