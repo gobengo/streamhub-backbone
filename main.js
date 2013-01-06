@@ -2,8 +2,7 @@ define(function(require) {
 	var 
 	Backbone = require('backbone'),
 	SHCollection = require('streamhub-backbone/models/Collection'),
-	DefaultView = require('streamhub-backbone/views/Default'),
-	_ = require('underscore');
+	DefaultView = require('streamhub-backbone/views/Default');
 
 	var Hub = function (opts) {
 		this._opts = opts;
@@ -29,12 +28,12 @@ define(function(require) {
 		} else {
 			defaultAvatarUrl = viewOpts.defaultAvatarUrl;
 		}
-		var view = new viewClass(_({
+		var view = new viewClass({
 			el: opts.el,
 			collection: this._collection,
 			defaultAvatarUrl: defaultAvatarUrl,
 			contentTemplate: contentTemplate
-		}).extend(opts.viewOptions || {}));
+		});
 		return view;
 	};
 	Hub.prototype.start = function () {
