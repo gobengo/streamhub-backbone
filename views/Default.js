@@ -16,13 +16,15 @@ ContentView) {
 		initialize: function (opts) {
 			this._contentViewOpts = {
 				defaultAvatarUrl: opts.defaultAvatarUrl,
-				template: opts.contentTemplate
+				template: opts.contentTemplate,
 			}
+			this._loadingHtml = opts.loadingHtml || '';
 			this.render();
 			this.collection.on('add', this._addItem, this);
 		},
 		render: function () {
 			var self = this;
+			this.$el.html(this._loadingHtml);
 			this.$el.addClass(this.className);
 			this.collection.forEach(function(item, index, collection) {
 				self._addItem(item, collection, {})
