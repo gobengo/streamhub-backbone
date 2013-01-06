@@ -102,7 +102,7 @@ sources, types, transformers) {
 	SHCollection.prototype._processOembed = function (oeItem) {
 		var targetId = oeItem.content.targetId,
 			target = this.get(targetId);
-		if (! target) console.log("Cannot find target for oEmbed", oeItem);
+		if (! target) return console.log("Cannot find target for oEmbed", oeItem);
 		target._handleSdkState(oeItem);
 	}
 
