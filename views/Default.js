@@ -23,6 +23,7 @@ ContentView) {
 		},
 		render: function () {
 			var self = this;
+			this.$el.html('');
 			this.$el.addClass(this.className);
 			this.collection.forEach(function(item, index, collection) {
 				self._addItem(item, collection, {})
