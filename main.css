@@ -29,7 +29,6 @@ TODO
 	cursor: pointer;
 }
 .hub-content:hover .hub-timestamp {
-	color: #777;
 	display: block;
 }
 .hub-item {
