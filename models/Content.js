@@ -29,7 +29,6 @@ define(function (require) {
         var c = d.content,
             attrs,
             attachments = _getAttachmentsFromState(d);
-
         attrs = {
             id: d.id ,
             event: d.event,
