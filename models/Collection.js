@@ -1,3 +1,9 @@
+/*
+ * # Collection Model
+ * Collections are sets of Content. The Content may be sourced
+ * from another Collection that lives in the StreamHub Cloud
+ * TODO: Allow sourcing Content from more than one remote Collection
+ */
 define([
 'backbone',
 'underscore',
@@ -10,7 +16,7 @@ Backbone,
 _,
 Content,
 sources, types, transformers) {
-	var SHCollection = Backbone.Collection.extend({
+	var Collection = Backbone.Collection.extend({
 		model: Content,
 		initialize: function (opts) {
 			this._opts = opts || {};
@@ -20,7 +26,7 @@ sources, types, transformers) {
 	});
 
 	// Public Interface
-	SHCollection.prototype.setRemote = function (remoteOptions) {
+	Collection.prototype.setRemote = function (remoteOptions) {
 		this._sdk = remoteOptions.sdk;
 		this._sdkCollection = this._sdk.getCollection({
 			siteId: remoteOptions.siteId,
@@ -32,7 +38,7 @@ sources, types, transformers) {
 		return this;
 	};
 
-	SHCollection.prototype.getAuthor = function (authorId) {
+	Collection.prototype.getAuthor = function (authorId) {
 		if (! this._sdkCollection) {
 			throw new Exception ("Called getAuthor, but there is no sdkCollection");
 		}
@@ -40,24 +46,24 @@ sources, types, transformers) {
 	}
 
 	// Internals
-	SHCollection.prototype.comparator = function (item) {
+	Collection.prototype.comparator = function (item) {
 		return item.get('createdAt');
 	}
 
 	// Initial data
-	SHCollection.prototype._initialDataSuccess = function (data) {
+	Collection.prototype._initialDataSuccess = function (data) {
 		this.trigger('sdkData', data);
 		this.start();
 	};
-	SHCollection.prototype._initialDataError = function () {
-		console.log("SHCollection.prototype._initialDataError", arguments);
+	Collection.prototype._initialDataError = function () {
+		console.log("Collection.prototype._initialDataError", arguments);
 	};
 
 	/*
 	 * Handler for whenever sdkCollection tells us about data
 	 * in its standard format (on initialData and stream)
 	 */
-	SHCollection.prototype._onSdkData = function _onSdkData (sdkData) {
+	Collection.prototype._onSdkData = function _onSdkData (sdkData) {
 		var publicData = sdkData.public,
 			knownStateTypes = [types.CONTENT, types.OEMBED, types.OPINE],
 		    states = _(publicData).values(),
@@ -77,7 +83,7 @@ sources, types, transformers) {
 	/*
 	 * Processes each individual state returned from the JS SDK
 	 */
-	SHCollection.prototype._handleSdkState = function (state) {
+	Collection.prototype._handleSdkState = function (state) {
 		var item = state;
 		this.trigger('sdkState', state);
 		if (item.type == types.OEMBED) {
@@ -99,7 +105,7 @@ sources, types, transformers) {
 		this.add(new Content.fromSdk(item));
 	}
 
-	SHCollection.prototype._processOembed = function (oeItem) {
+	Collection.prototype._processOembed = function (oeItem) {
 		var targetId = oeItem.content.targetId,
 			target = this.get(targetId);
 		if (! target) return console.log("Cannot find target for oEmbed", oeItem);
@@ -107,7 +113,7 @@ sources, types, transformers) {
 	}
 
 	// Streaming
-	SHCollection.prototype.start = function () {
+	Collection.prototype.start = function () {
 		if (this._started) {
 			console.log("Collection.start() called, but already started");
 			return this;
@@ -118,11 +124,11 @@ sources, types, transformers) {
 			this._streamError);
 		return this;
 	}
-	SHCollection.prototype._streamSuccess = function (sdkData) {
+	Collection.prototype._streamSuccess = function (sdkData) {
 		this.trigger('sdkData', sdkData);
 	}
-	SHCollection.prototype._streamError = function () {
-		console.log("SHCollection.prototype._streamError", arguments);	
+	Collection.prototype._streamError = function () {
+		console.log("Collection.prototype._streamError", arguments);	
 	}
-	return SHCollection;
+	return Collection;
 });
