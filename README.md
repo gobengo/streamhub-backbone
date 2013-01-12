@@ -107,3 +107,16 @@ This represents a piece of Content
 ## Hub.views.DefaultView
 
 It's just a really simple default feed. It will strive to be the most boring, stable View around. But it should probably be able to accept pluggable ContentViews and maybe even just templates without much sweat. I should be able to just pass an HTML template to Hub(..) constructor.
+
+# Building the Documentation
+
+The code is documented using [jsdoc3](https://github.com/jsdoc3/jsdoc). From the project root:
+
+Install jsdoc3
+
+    npm install git://github.com/jsdoc3/jsdoc.git
+    
+Generate this project's docs into the 'docs' directory
+
+    node_modules/jsdoc/jsdoc -c tools/jsdoc.conf.js
+
