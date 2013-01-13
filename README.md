@@ -118,5 +118,5 @@ Install jsdoc3
     
 Generate this project's docs into the 'docs' directory
 
-    node_modules/jsdoc/jsdoc -c tools/jsdoc.conf.js
+    node_modules/jsdoc/jsdoc -c tools/jsdoc.conf.js models/* views/* main.js README.md templates/* const/*
 

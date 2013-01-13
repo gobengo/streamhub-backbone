@@ -77,19 +77,26 @@ Collection.prototype.comparator = function (item) {
 	return item.get('createdAt');
 }
 
-// Initial data
+/**
+Handle the response from fetching initial data from the remote Collection
+Then start streaming the remote Collection
+@private
+*/
 Collection.prototype._initialDataSuccess = function (data) {
 	this.trigger('sdkData', data);
 	this.start();
 };
+/** Handle a failure in fetching initial date from the remote Collection
+@private */
 Collection.prototype._initialDataError = function () {
 	console.log("Collection.prototype._initialDataError", arguments);
 };
 
-/*
- * Handler for whenever sdkCollection tells us about data
- * in its standard format (on initialData and stream)
- */
+/**
+Handler for whenever sdkCollection tells us about data
+in its standard format (on initialData and stream)
+@private
+*/
 Collection.prototype._onSdkData = function _onSdkData (sdkData) {
 	var publicData = sdkData.public,
 		knownStateTypes = [types.CONTENT, types.OEMBED, types.OPINE],
@@ -107,9 +114,8 @@ Collection.prototype._onSdkData = function _onSdkData (sdkData) {
 		_(statesByType[type]).forEach(this._handleSdkState, this)
 	}, this);
 }
-/*
- * Processes each individual state returned from the JS SDK
- */
+/** Processes each individual state returned from the JS SDK
+@private */
 Collection.prototype._handleSdkState = function (state) {
 	var item = state;
 	this.trigger('sdkState', state);
@@ -131,7 +137,8 @@ Collection.prototype._handleSdkState = function (state) {
 
 	this.add(new Content.fromSdk(item));
 }
-
+/** Handle an oEmbed state that comes from the sdkData
+@private*/
 Collection.prototype._processOembed = function (oeItem) {
 	var targetId = oeItem.content.targetId,
 		target = this.get(targetId);
@@ -139,7 +146,9 @@ Collection.prototype._processOembed = function (oeItem) {
 	target._handleSdkState(oeItem);
 }
 
-// Streaming
+/**
+Start streaming the remote Collection into the local Collection
+*/
 Collection.prototype.start = function () {
 	if (this._started) {
 		console.log("Collection.start() called, but already started");
@@ -151,11 +160,17 @@ Collection.prototype.start = function () {
 		this._streamError);
 	return this;
 }
+/** Handle a successful streaming response of sdkData
+@param {Object} - StreamHub SDK data response
+@private */
 Collection.prototype._streamSuccess = function (sdkData) {
 	this.trigger('sdkData', sdkData);
 }
+/** Handle a failing streaming response
+@private */
 Collection.prototype._streamError = function () {
 	console.log("Collection.prototype._streamError", arguments);	
 }
+
 return Collection;
 });
