@@ -9,14 +9,14 @@
     <script type="text/javascript">
     // Require.js Config
     require.config({
-      baseUrl: '..',
+      baseUrl: '../',
       urlArgs: 'cb=' + Math.random(),
       packages: [{
         name: 'streamhub-backbone',
         location: '../backbone.v1'
       },{
         name: 'streamhub-backbone-test',
-        location: '.'
+        location: 'test'
       }],
       paths: {
         jquery: 'components/jquery/jquery',
