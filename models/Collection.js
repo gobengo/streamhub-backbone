@@ -37,8 +37,10 @@ var collection = Hub.Collection().setRemote({
 	*/
 	initialize: function (opts) {
 		this._opts = opts || {};
-		this._started = false;
+        this._initialized = false; // initial content loaded
+		this._started = false; // stream started
 		this.on('sdkData', this._onSdkData);
+        this.on('initialDataLoaded',  this._onInitialDataLoaded);
 	}
 });
 
@@ -89,18 +91,26 @@ Collection.prototype.comparator = function (item) {
 
 /**
 Handle the response from fetching initial data from the remote Collection
-Then start streaming the remote Collection
 @private
 @fires Collection#sdkData
 */
 Collection.prototype._initialDataSuccess = function (data) {
 	this.trigger('sdkData', data);
-	this.start();
 };
 /** Handle a failure in fetching initial date from the remote Collection
 @private */
 Collection.prototype._initialDataError = function () {
 	console.log("Collection.prototype._initialDataError", arguments);
+};
+
+/**
+Start the stream once the initial data is loaded
+*/
+Collection.prototype._onInitialDataLoaded = function () {
+    // Once we have the intial data, we can start the stream.
+    this._initialized = true;
+    console.log('Collection: Starting stream');
+    this.start();
 };
 
 /**
@@ -122,10 +132,21 @@ Collection.prototype._onSdkData = function _onSdkData (sdkData) {
 	}
 
 	// Handle states in this order
+	var stateCount = 0;
 	return _(knownStateTypes).forEach(function(type) {
-		_(statesByType[type]).forEach(this._handleSdkState, this)
+		_(statesByType[type]).forEach(function(state) {
+            stateCount++;
+
+            this._handleSdkState(state);
+
+            if (!this._initialized && stateCount == states.length) {
+                console.log('SHCollection: Processed initial data. Ready to start stream');
+	            this.trigger('initialDataLoaded');
+            }
+        }, this)
 	}, this);
 }
+
 /** Processes each individual state returned from the JS SDK
 @fires Collection#sdkState
 */
@@ -200,6 +221,12 @@ A chunk of data has been emitted by the SDK.
 This is the 'lowest level' to the SDK access. Raw responses
 @event Collection#sdkData
 @type {sdkData} states - The raw data from the SDK, with states and more
+*/
+
+/**
+Initial data has been loaded from a remote Collection.
+This should fire only once per remote Collection
+@event Collection#initialDataLoaded
 */
 
 return Collection;
