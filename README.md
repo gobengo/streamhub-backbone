@@ -29,6 +29,8 @@ This is a new project. It will have bugs and is released under an MIT License. P
 
 If you are using this in production for important things, you should fork the repo.
 
+`main.css` contains some good default styles for the default views.
+
 # Example
 
 Most interesting things involve using the StreamHub JavaScript SDK, which you can find [here](http://zor.fyre.co/wjs/v3.0/javascripts/livefyre.js)
