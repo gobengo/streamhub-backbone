@@ -53,6 +53,8 @@ Load an sdk for a given StreamHub Network, then create a Hub
         }
     });
 
+You can also see some demos in `index.html`, `index-built.html` (with almond build), and `test/examples/*`.
+
 # Hub Constructor
 
 The module can be used with `new` to construct a Hub for Streams to play in. It accepts these parameters:
