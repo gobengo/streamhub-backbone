@@ -1,0 +1,9 @@
+{
+"plugins": [ "plugins/markdown" ],
+"opts": {
+    "destination": "docs"
+},
+"markdown": {
+    "parser": "gfm"
+}
+}

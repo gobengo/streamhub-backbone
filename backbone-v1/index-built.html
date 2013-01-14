@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>StreamHub Backbone Example</title>
+    <script src="streamhub-backbone.almond.js"
+            type="text/javascript"></script>
+    <script src="http://zor.t402.livefyre.com/wjs/v3.0.sdk/javascripts/livefyre.js"></script>
+    <style>
+    body {
+        background: url(http://www.livefyre.com/site_media/images/corp_v5/streamhub/hero-background.jpg) fixed;
+        background-size: auto 100%;
+        color: #222;
+        font: 14px sans-serif;
+        line-height: 1.25;
+    }
+
+    #container > h1 {
+        color: white;
+    }
+    #container {
+        margin: 0 auto;
+        width: 900px;
+    }
+    .example {
+        width: 430px;
+        display: inline-block;
+        vertical-align: top;
+    }
+    .hub-item {
+        background-color: white;
+        cursor: pointer;
+        padding: .5em;
+    }
+    </style>
+    <link rel="stylesheet" type="text/css" href="main.css">
+</head>
+<body>
+<div id="container">
+  <h1>StreamHub Backbone</h1>
+  <div id="example" class="example">
+  </div>
+  <div id="example1" class="example">
+  </div>
+</div>
+<script type="text/javascript">
+// Now to load the example
+require(['streamhub-backbone'],
+function(Hub){
+    function loadApp (sdk) {
+        var app = window.app = new Hub({
+            sdk: sdk,
+            collection: {
+                siteId: "303772",
+                articleId: "prod0"
+            },
+            el: document.getElementById("example")
+        });
+        var app1 = window.app1 = new Hub({
+            sdk: sdk,
+            collection: {
+                siteId: "303772",
+                articleId: "tutorial0"
+            },
+            el: document.getElementById("example1")
+        });
+    }
+    fyre.conv.load({
+        network: "largetail-0.fyre.co"
+    }, [{app: 'sdk'}], loadApp);
+});
+</script>
+</body>
+</html>
