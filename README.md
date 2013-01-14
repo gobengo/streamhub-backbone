@@ -53,7 +53,7 @@ Load an sdk for a given StreamHub Network, then create a Hub
         }
     });
 
-# Constructor
+# Hub Constructor
 
 The module can be used with `new` to construct a Hub for Streams to play in. It accepts these parameters:
 
