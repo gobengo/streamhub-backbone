@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: ContentView</title>
+    <title>JSDoc: Class: FeedView</title>
     
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Class: ContentView</h1>
+    <h1 class="page-title">Class: FeedView</h1>
     
     
 
@@ -27,7 +27,7 @@
     
 <header>
     <h2>
-    ContentView
+    FeedView
     </h2>
     
 </header>  
@@ -39,7 +39,7 @@
     
         
 <dt>
-    <h4 class="name" id="ContentView"><span class="type-signature"></span>new ContentView<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="FeedView"><span class="type-signature"></span>new FeedView<span class="signature">(sources)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -47,10 +47,9 @@
     
     
     <div class="description">
-        ContentView can help you and your users view Content
-    It will render Content into an li by default, and will
-    use the Mustache template in templates/Content.html. But you
-    can also specify your own `template` function when constructing.
+        FeedView is the default View for Collections of Content
+	It is your basic feed/list view. http://d.pr/i/UtM0
+	New Content will stream in as the first children of the .el
     </div>
     
 
@@ -84,13 +83,13 @@
 	
         <tr>
             
-                <td class="name"><code>opts.model</code></td>
+                <td class="name"><code>opts.collection</code></td>
             
             
             <td class="type">
             
                 
-<span class="param-type"><a href="Content.html">Content</a></span>
+<span class="param-type"><a href="Collection.html">Collection</a></span>
 
 
             
@@ -100,20 +99,20 @@
             
             
             
-            <td class="description last">A Content model to view</td>
+            <td class="description last">A Collection of Content (see models/Collection)</td>
         </tr>
 	
 	
 	
         <tr>
             
-                <td class="name"><code>opts.template</code></td>
+                <td class="name"><code>opts.contentViewOptions</code></td>
             
             
             <td class="type">
             
                 
-<span class="param-type">Function</span>
+<span class="param-type">Object</span>
 
 
             
@@ -123,20 +122,21 @@
             
             
             
-            <td class="description last">A custom template function to use instead of the default</td>
+            <td class="description last">Options to be passed to any Content Views this instantiates
+           This is useful for passing custom templates for Content</td>
         </tr>
 	
 	
 	
         <tr>
             
-                <td class="name"><code>opts.defaultAvatarUrl</code></td>
+                <td class="name"><code>sources</code></td>
             
             
             <td class="type">
             
                 
-<span class="param-type">Function</span>
+<span class="param-type">Object</span>
 
 
             
@@ -146,7 +146,8 @@
             
             
             
-            <td class="description last">An avatar to use if there is not one specified for the Author of Content</td>
+            <td class="description last">An object to configure stuff on a per-source basis
+	       Supports `twitter` and `rss` sub objects with the same opts as this root level</td>
         </tr>
 	
 	
@@ -176,13 +177,20 @@
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source"><ul class="dummy"><li>ContentView.js, line 10</li></ul></dd>
+	<dd class="tag-source"><ul class="dummy"><li>FeedView.js, line 17</li></ul></dd>
 	
     
     
 	
 	
 	
+	
+	<dt class="tag-todo">To Do:</dt>
+	<dd class="tag-todo">
+        <ul>
+            <li>allow passing custom contentView</li>
+        </ul>
+	</dd>
 	
 </dl>
 
@@ -224,115 +232,6 @@
     
     
     
-        <h3 class="subsection-title">Members</h3>
-        
-        <dl>
-            
-<dt>
-    <h4 class="name" id="className"><span class="type-signature"></span>className<span class="type-signature"></span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    
-<dl class="details">
-    
-        
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source"><ul class="dummy"><li>ContentView.js, line 39</li></ul></dd>
-	
-    
-    
-	
-	
-	
-	
-	<dt class="tag-todo">To Do:</dt>
-	<dd class="tag-todo">
-        <ul>
-            <li>provide standard way for users to specify their use-specifc class - `customClassName`</li>
-        </ul>
-	</dd>
-	
-</dl>
-
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="template"><span class="type-signature"></span>template<span class="type-signature"></span></h4>
-    
-    
-</dt>
-<dd>
-    
-    <div class="description">
-        Default to the ContentTemplate HTML
-    Templates are functions that take data and return Strings
-    http://bit.ly/W22ry6
-    </div>
-    
-    
-    
-<dl class="details">
-    
-        
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source"><ul class="dummy"><li>ContentView.js, line 43</li></ul></dd>
-	
-    
-    
-	
-	
-	
-	
-</dl>
-
-    
-    
-</dd>
-
-        </dl>
-    
     
     
         <h3 class="subsection-title">Methods</h3>
@@ -348,7 +247,8 @@
     
     
     <div class="description">
-        Render the initial display of the Content
+        Render the initial display of the Collection, including
+    any initially set Content
     </div>
     
 
@@ -380,87 +280,13 @@
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source"><ul class="dummy"><li>ContentView.js, line 59</li></ul></dd>
+	<dd class="tag-source"><ul class="dummy"><li>FeedView.js, line 50</li></ul></dd>
 	
     
     
 	
 	
 	
-	
-</dl>
-
-    
-    
-    
-    
-    
-    
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="_formatCreatedAt"><span class="type-signature">&lt;inner> </span>_formatCreatedAt<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        Convert `createdAt` time to a pleasantly human-readable String
-If today: 5:12 or 5:12p
-If not today: 5 Mar
-    </div>
-    
-
-    
-    
-    
-    
-    
-    
-    
-<dl class="details">
-    
-        
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source"><ul class="dummy"><li>ContentView.js, line 67</li></ul></dd>
-	
-    
-    
-	
-	
-	
-	
-	<dt class="tag-todo">To Do:</dt>
-	<dd class="tag-todo">
-        <ul>
-            <li>Add a year if reasonable</li>
-        
-            <li>Add a nice way of users specifying their own formatter</li>
-        </ul>
-	</dd>
 	
 </dl>
 

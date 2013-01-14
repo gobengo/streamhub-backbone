@@ -20,7 +20,6 @@ var ContentView = Backbone.View.extend(
 
     @augments Backbone.View
     @requires backbone
-    @requires jquery
     @requires mustache
     */
     initialize: function(opts) {

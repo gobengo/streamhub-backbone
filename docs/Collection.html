@@ -50,7 +50,7 @@
     
     <div class="description">
         Collections are sets of Content. The Content may be sourced
-from another Collection that lives in StreamHub's Cloud
+	from another Collection that lives in StreamHub's Cloud
     </div>
     
 
@@ -100,7 +100,8 @@ from another Collection that lives in StreamHub's Cloud
             
             
             
-            <td class="description last">'Normal' Backbone opts to construct the Collection</td>
+            <td class="description last">'Normal' Backbone opts to construct the Collection.
+	       This includes being an Array of JSON Objects that will get turned into Content (https://gist.github.com/4527966)</td>
         </tr>
 	
 	
@@ -130,7 +131,7 @@ from another Collection that lives in StreamHub's Cloud
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source"><ul class="dummy"><li>Collection.js, line 27</li></ul></dd>
+	<dd class="tag-source"><ul class="dummy"><li>Collection.js, line 31</li></ul></dd>
 	
     
     
@@ -182,6 +183,196 @@ from another Collection that lives in StreamHub's Cloud
         <h3 class="subsection-title">Methods</h3>
         
         <dl>
+            
+<dt>
+    <h4 class="name" id="_handleSdkState"><span class="type-signature"></span>_handleSdkState<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Processes each individual state returned from the JS SDK
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source"><ul class="dummy"><li>Collection.js, line 124</li></ul></dd>
+	
+    
+    
+	
+	
+	
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        
+<li>
+    <a href="Collection.html#event:sdkState">Collection#event:sdkState</a>
+</li>
+    </ul>
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="_streamSuccess"><span class="type-signature"></span>_streamSuccess<span class="signature">(sdkData)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Handle a successful streaming response of sdkData
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>sdkData</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">StreamHub SDK data response</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source"><ul class="dummy"><li>Collection.js, line 176</li></ul></dd>
+	
+    
+    
+	
+	
+	
+	
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        
+<li>
+    <a href="Collection.html#event:sdkData">Collection#event:sdkData</a>
+</li>
+    </ul>
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
             
 <dt>
     <h4 class="name" id="comparator"><span class="type-signature"></span>comparator<span class="signature">(item)</span><span class="type-signature"></span></h4>
@@ -413,7 +604,7 @@ This proxies into the StreamHub SDK's `collection.getAuthor` method
         
             
 <dt>
-    <h4 class="name" id="setRemote"><span class="type-signature"></span>setRemote<span class="signature">(remoteOptions)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="setRemote"><span class="type-signature"></span>setRemote<span class="signature">(remoteOptions, sdk)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -472,33 +663,37 @@ and retrieve initial Content
             
             
             
-            <td class="description last">Information to resolve the remote Collection
-                <h6>Properties</h6>
-                
-
-<table class="params">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
+            <td class="description last">Information to resolve the remote Collection</td>
+        </tr>
 	
-	<tbody>
 	
 	
         <tr>
             
-                <td class="name"><code>siteId</code></td>
+                <td class="name"><code>sdk</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">livefyreSdk</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">An instance of the StreamHub JavaScript SDK</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>remoteOptions.siteId</code></td>
             
             
             <td class="type">
@@ -521,7 +716,7 @@ and retrieve initial Content
 	
         <tr>
             
-                <td class="name"><code>articleId</code></td>
+                <td class="name"><code>remoteOptions.articleId</code></td>
             
             
             <td class="type">
@@ -538,12 +733,6 @@ and retrieve initial Content
             
             
             <td class="description last">The Article ID of the remote Collection</td>
-        </tr>
-	
-	
-	</tbody>
-</table>
-            </td>
         </tr>
 	
 	
@@ -643,7 +832,7 @@ and retrieve initial Content
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source"><ul class="dummy"><li>Collection.js, line 155</li></ul></dd>
+	<dd class="tag-source"><ul class="dummy"><li>Collection.js, line 161</li></ul></dd>
 	
     
     
@@ -669,6 +858,157 @@ and retrieve initial Content
     
     
     
+        <h3 class="subsection-title">Events</h3>
+        
+        <dl>
+            
+<dt>
+    <h4 class="name" id="event:sdkData">sdkData</h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        A chunk of data has been emitted by the SDK.
+This is the 'lowest level' to the SDK access. Raw responses
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">{sdkData} states - The raw data from the SDK, with states and more</span>
+
+
+            </li>
+        </ul>
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source"><ul class="dummy"><li>Collection.js, line 184</li></ul></dd>
+	
+    
+    
+	
+	
+	
+	
+</dl>
+
+    
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="event:sdkState">sdkState</h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        A single state from sdkData is being processed
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">{sdkDataState} state - The individual state from the SDK</span>
+
+
+            </li>
+        </ul>
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source"><ul class="dummy"><li>Collection.js, line 126</li></ul></dd>
+	
+    
+    
+	
+	
+	
+	
+</dl>
+
+    
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        </dl>
+    
 </article>
 
 </section>  
@@ -679,13 +1019,13 @@ and retrieve initial Content
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="3d83674a76.html">Collection</a></li><li><a href="Content.html">Content</a></li><li><a href="ContentView.html">ContentView</a></li></ul><h3>Namespaces</h3><ul><li><a href="sources.html">sources</a></li><li><a href="transformers.html">transformers</a></li><li><a href="types.html">types</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="Collection.html">Collection</a></li><li><a href="Content.html">Content</a></li><li><a href="ContentView.html">ContentView</a></li><li><a href="FeedView.html">FeedView</a></li></ul><h3>Events</h3><ul><li><a href="Collection.html#event:sdkData">sdkData</a></li><li><a href="Collection.html#event:sdkState">sdkState</a></li></ul><h3>Namespaces</h3><ul><li><a href="sources.html">sources</a></li><li><a href="transformers.html">transformers</a></li><li><a href="types.html">types</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3</a> on Sun Jan 13 2013 22:53:45 GMT-0800 (PST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3</a> on Sun Jan 13 2013 23:40:38 GMT-0800 (PST)
 </footer>
 
 <script> prettyPrint(); </script>

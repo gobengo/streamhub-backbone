@@ -5,30 +5,29 @@ define([
 '../const/sources',
 '../const/types',
 '../const/transformers'],
-/** @lends Collection **/
 function (
 Backbone,
 _,
 Content,
 sources, types, transformers) {
 
-/**
-Collections are sets of Content. The Content may be sourced
-from another Collection that lives in StreamHub's Cloud
-
-@class Collection
-@constructor
-@augments Backbone.Collection
-
-@param {Object} opts - 'Normal' Backbone opts to construct the Collection
-
-@TODO Allow sourcing Content from more than one remote Collection
- */
+/** @lends Collection */
 var Collection = Backbone.Collection.extend(
 /** @lends Collection.prototype */
 {
 	model: Content,
-	/** The usual Backbone Collection initialize method */
+	/**
+	Collections are sets of Content. The Content may be sourced
+	from another Collection that lives in StreamHub's Cloud
+
+	@class Collection
+	@constructs
+	@augments Backbone.Collection
+	@param {Object} opts - 'Normal' Backbone opts to construct the Collection.
+	       This includes being an Array of JSON Objects that will get turned into Content (https://gist.github.com/4527966)
+
+	@TODO Allow sourcing Content from more than one remote Collection
+	*/
 	initialize: function (opts) {
 		this._opts = opts || {};
 		this._started = false;
@@ -40,6 +39,7 @@ var Collection = Backbone.Collection.extend(
 Bind the local Collection to a remote one in the Cloud,
 and retrieve initial Content
 @param {Object} remoteOptions - Information to resolve the remote Collection
+@param {livefyreSdk} sdk - An instance of the StreamHub JavaScript SDK
 @param {String} remoteOptions.siteId - The Site ID of the remote Collection
 @param {String} remoteOptions.articleId - The Article ID of the remote Collection
 
@@ -84,6 +84,7 @@ Collection.prototype.comparator = function (item) {
 Handle the response from fetching initial data from the remote Collection
 Then start streaming the remote Collection
 @private
+@fires Collection#sdkData
 */
 Collection.prototype._initialDataSuccess = function (data) {
 	this.trigger('sdkData', data);
@@ -98,6 +99,7 @@ Collection.prototype._initialDataError = function () {
 /**
 Handler for whenever sdkCollection tells us about data
 in its standard format (on initialData and stream)
+Emits states in order: Content first, then attachments, then Opines
 @private
 */
 Collection.prototype._onSdkData = function _onSdkData (sdkData) {
@@ -118,9 +120,14 @@ Collection.prototype._onSdkData = function _onSdkData (sdkData) {
 	}, this);
 }
 /** Processes each individual state returned from the JS SDK
-@private */
+@fires Collection#sdkState
+*/
 Collection.prototype._handleSdkState = function (state) {
 	var item = state;
+	/**
+	A single state from sdkData is being processed
+	@event Collection#sdkState
+	@type {sdkDataState} state - The individual state from the SDK */
 	this.trigger('sdkState', state);
 	if (item.type == types.OEMBED) {
 		this._processOembed(item);
@@ -140,8 +147,8 @@ Collection.prototype._handleSdkState = function (state) {
 
 	this.add(new Content.fromSdk(item));
 }
-/** Handle an oEmbed state that comes from the sdkData
-@private*/
+/** Handle an oEmbed state that comes from the sdkData 
+@private */
 Collection.prototype._processOembed = function (oeItem) {
 	var targetId = oeItem.content.targetId,
 		target = this.get(targetId);
@@ -163,17 +170,24 @@ Collection.prototype.start = function () {
 		this._streamError);
 	return this;
 }
-/** Handle a successful streaming response of sdkData
+/**
+Handle a successful streaming response of sdkData
 @param {Object} - StreamHub SDK data response
-@private */
+@fires Collection#sdkData */
 Collection.prototype._streamSuccess = function (sdkData) {
 	this.trigger('sdkData', sdkData);
 }
-/** Handle a failing streaming response
-@private */
+// Handle a failing streaming response
 Collection.prototype._streamError = function () {
 	console.log("Collection.prototype._streamError", arguments);	
 }
+
+/**
+A chunk of data has been emitted by the SDK.
+This is the 'lowest level' to the SDK access. Raw responses
+@event Collection#sdkData
+@type {sdkData} states - The raw data from the SDK, with states and more
+*/
 
 return Collection;
 });
