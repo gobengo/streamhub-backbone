@@ -27,6 +27,13 @@ var Collection = Backbone.Collection.extend(
 	       This includes being an Array of JSON Objects that will get turned into Content (https://gist.github.com/4527966)
 
 	@TODO Allow sourcing Content from more than one remote Collection
+
+@example
+var collection = Hub.Collection().setRemote({
+    sdk: livefyreSdk,
+    siteId: "303772",
+    articleId: "prod0"
+});
 	*/
 	initialize: function (opts) {
 		this._opts = opts || {};
