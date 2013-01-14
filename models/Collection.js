@@ -13,19 +13,22 @@ Content,
 sources, types, transformers) {
 
 /**
-# The Collection Model
-
 Collections are sets of Content. The Content may be sourced
 from another Collection that lives in StreamHub's Cloud
 
 @class Collection
 @constructor
+@augments Backbone.Collection
+
 @param {Object} opts - 'Normal' Backbone opts to construct the Collection
 
 @TODO Allow sourcing Content from more than one remote Collection
  */
-var Collection = Backbone.Collection.extend({
+var Collection = Backbone.Collection.extend(
+/** @lends Collection.prototype */
+{
 	model: Content,
+	/** The usual Backbone Collection initialize method */
 	initialize: function (opts) {
 		this._opts = opts || {};
 		this._started = false;
