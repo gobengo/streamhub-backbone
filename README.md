@@ -86,3 +86,9 @@ There are a decent number of tests written for StreamHub-Backbone's core models 
 
 You can always [run the tests online](http://gobengo.github.com/streamhub-backbone/test/).
 
+# Building
+
+Generate almond build:
+
+    node tools/r.js -o tools/build.js
+
