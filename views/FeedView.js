@@ -10,7 +10,7 @@ Mustache,
 ContentTemplate,
 ContentView,
 sources) {
-	var	DefaultView = Backbone.View.extend({
+	var	FeedView = Backbone.View.extend({
 		"tagName": "div",
 		"className": "hub-backbone",
 		events: {
@@ -31,14 +31,14 @@ sources) {
 		}
 	});
 
-	DefaultView.prototype._addItem = function(item, collection, opts) {
+	FeedView.prototype._addItem = function(item, collection, opts) {
 		var self = this,
 			newItem = $(document.createElement('div')),
 			data = item.toJSON();
 
 		if ( ! data.author) {
 			// TODO: These may be deletes... handle them.
-			console.log("DefaultView: No author for Content, skipping");
+			console.log("FeedView: No author for Content, skipping");
 			return;
 		}
 		newItem.addClass('hub-item')
@@ -66,5 +66,5 @@ sources) {
 			this.$el.append(newItem);
 		}
 	}
-	return DefaultView;
+	return FeedView;
 });

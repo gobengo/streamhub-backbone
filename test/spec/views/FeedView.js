@@ -1,11 +1,11 @@
 define([
-    'views/Default',
+    'views/FeedView',
     'models/Collection',
     'test/fixtures/sdkContentData',
     'test/fixtures/sdkCollectionData',
     'mustache'],
-function (DefaultView, Collection, sdkContentData, sdkCollectionData, Mustache) {
-    describe ("DefaultView", function () {
+function (FeedView, Collection, sdkContentData, sdkCollectionData, Mustache) {
+    describe ("FeedView", function () {
         // Set up HTML fixture
         beforeEach(function () {
             setFixtures('<div id="hub"></container>');
@@ -22,7 +22,7 @@ function (DefaultView, Collection, sdkContentData, sdkCollectionData, Mustache) 
         });
         function testBasics () {
             beforeEach(function () {
-                this.dv = new DefaultView({
+                this.dv = new FeedView({
                     collection: this.collection,
                     el: '#hub'
                 });
@@ -36,7 +36,7 @@ function (DefaultView, Collection, sdkContentData, sdkCollectionData, Mustache) 
         }
         function testCustomTemplates () {
             beforeEach(function () {
-                this.dv = new DefaultView({
+                this.dv = new FeedView({
                     collection: this.collection,
                     el: '#hub',
                     sources: {

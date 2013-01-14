@@ -19,6 +19,7 @@ var ContentView = Backbone.View.extend(
     @param {Function} opts.defaultAvatarUrl - An avatar to use if there is not one specified for the Author of Content
 
     @augments Backbone.View
+    @requires backbone
     @requires jquery
     @requires mustache
     */

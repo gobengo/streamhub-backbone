@@ -104,7 +104,7 @@ This represents a piece of Content
 
 # Views
 
-## Hub.views.DefaultView
+## views/FeedView
 
 It's just a really simple default feed. It will strive to be the most boring, stable View around. But it should probably be able to accept pluggable ContentViews and maybe even just templates without much sweat. I should be able to just pass an HTML template to Hub(..) constructor.
 

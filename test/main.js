@@ -23,7 +23,7 @@ define('streamhub-backbone-test', function(require) {
 	specs.push('test/spec/models/Collection');
 	specs.push('test/spec/models/Content');
     specs.push('test/spec/views/ContentView');
-    specs.push('test/spec/views/DefaultView');
+    specs.push('test/spec/views/FeedView');
 
 	$(function(){
 	require(specs, function(){
