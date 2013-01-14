@@ -10,6 +10,15 @@ StreamHub-Backbone was used to power Livefyre's [CES 2013 NewsHub](http://ces.li
 
 # Using it
 
+[Bower](http://twitter.github.com/bower/) is used for dependency management. You can install the dependencies with
+
+    bower install
+
+If you are unable to use bower, you can download the components dir as a tar
+
+    curl -L "http://d.pr/f/DC3b+" > components.tar.gz
+    tar -xvf components.tar.gz
+
 StreamHub-Backbone is written as a series of [AMD](http://requirejs.org/docs/whyamd.html) modules. You will need to use an AMD loader like [RequireJS]() to use it. Add it as a package in your RequireJS config:
 
     packages: [{
