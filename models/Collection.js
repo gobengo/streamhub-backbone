@@ -183,6 +183,12 @@ Collection.prototype._streamError = function () {
 }
 
 /**
+Content has been added to the Collection
+@event Collection#add
+@type {Content} content - A Content model representing the added Content
+*/
+
+/**
 A chunk of data has been emitted by the SDK.
 This is the 'lowest level' to the SDK access. Raw responses
 @event Collection#sdkData
