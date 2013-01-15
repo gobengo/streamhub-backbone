@@ -48,7 +48,7 @@ var ContentView = Backbone.View.extend(
                 data.author.avatar = this.defaultAvatarUrl;
             }
             return t(data);
-        }
+        };
     }()),
 
     // @todo add some cool events like `reply` and `like`
@@ -94,7 +94,7 @@ function _formatCreatedAt (date) {
             ret = ""+f12,
             minutes = d.getMinutes(),
             ampm='';
-        if (f12==0) f12 = '12';
+        if (f12===0) f12 = '12';
         if (minutes<=9) minutes = "0"+minutes;
         if (f24 >= 12) ampm = 'p';
         return "{hour}:{min}{ampm}"

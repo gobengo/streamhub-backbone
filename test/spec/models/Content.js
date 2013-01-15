@@ -14,19 +14,19 @@ function (ContentView, Content, sdkContentData) {
         });
         describe ("from raw html", function () {
           beforeEach(function () {
-            this.c = new Content("<p>Woo</p>")
+            this.c = new Content("<p>Woo</p>");
           });
           it ('should not have an id', function () {
               expect(this.c.get('id')).toBeFalsy();
-          })
+          });
         });
         describe ("constructed .fromSdk", function () {
           beforeEach(function () {
-            this.c = new Content.fromSdk(sdkContentData)
-          })
+            this.c = new Content.fromSdk(sdkContentData);
+          });
           it ("should have an id", function () {
               expect(this.c.get('id')).toBeTruthy();
-          })
+          });
         });
     });
 });

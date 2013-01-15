@@ -9,22 +9,22 @@ define(function() {
 	// SDK
 	SDK.getCollection = function () {
 		return new SDK.Collection();
-	}
+	};
 
 	// SDK.Collection
 	SDK.Collection = function () {
 		return this;
-	}
+	};
 	SDK.Collection.prototype.getInitialData = function(onSuccess, onError) {
 		onSuccess.call(this, SDK.dataFixture);
-	}
+	};
 	SDK.Collection.prototype.startStream = function(onSuccess, onError) {
 	};
 	SDK.Collection.prototype.getAuthor = function (authorId) {
 		if (authorId===null) return undefined;
 		var a = {"avatar":"http://a0.twimg.com/profile_images/1265228110/03-07-2011_normal.png","tags":[],"profileUrl":"http://twitter.com/#!/Livefyre","displayName":"Livefyre","id":"43765496@twitter.com"};
 		return a;
-	}
+	};
 
 	return SDK;
 });

@@ -12,4 +12,4 @@ TODO: These should be in the SDK or otherwise abstracted
 */
 {
 	INSTAGRAM_BY_TAG: "lfcore.v2.procurement.feed.transformer.instagram"
-})
+});

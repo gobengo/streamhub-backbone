@@ -17,4 +17,4 @@ TODO: These should be in the SDK
 STREAMHUB: '5',
 RSS: '13',
 TWITTER: '1'
-})
+});

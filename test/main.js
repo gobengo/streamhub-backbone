@@ -30,4 +30,4 @@ define('streamhub-backbone-test', function(require) {
 		jasmineEnv.execute();
 	});
 	});
-})
+});

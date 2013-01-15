@@ -89,7 +89,7 @@ own `reply` and `like` events and stuff
 */
 Content.prototype._handleSdkState = function (s) {
     if (s.type==types.OEMBED) this._handleSdkOembedState(s);
-}
+};
 /**
 Handle streaming attachments
 */
@@ -99,7 +99,7 @@ Content.prototype._handleSdkOembedState = function (s) {
     if (newAttachments) {
         this.set('attachments', oldAttachments.concat(newAttachments));
     }
-}
+};
 
 /**
 There may be information that could lead to an attachment representation

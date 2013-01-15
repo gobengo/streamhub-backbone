@@ -10,13 +10,13 @@ function (FeedView, Collection, sdkContentData, sdkCollectionData, Mustache) {
         beforeEach(function () {
             setFixtures('<div id="hub"></container>');
             this.$el = $('#hub');
-        })
+        });
         // Users should be able to create Content from
         // items returned from the StreamHub JavaScript SDK
         describe ("with model fromSdk", function () {
           beforeEach(function () {
             this.collection = new Collection(sdkCollectionData); 
-          })
+          });
           testBasics();
           testCustomTemplates();
         });
@@ -46,7 +46,7 @@ function (FeedView, Collection, sdkContentData, sdkCollectionData, Mustache) {
                         rss: {
                             template: Mustache.compile("<p class='test-rss'>RSS</p>")
                         }
-                    },
+                    }
                 });
             });
             it ("uses the tweet template", function () {
