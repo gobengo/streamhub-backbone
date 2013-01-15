@@ -7,15 +7,15 @@ TODO: These should be in the SDK
       That will be released in Jan/Feb 2013
 @enum types
 @namespace types
-@property {Number} types.CONTENT - The good stuff. Juicy Content like comments
-@property {Number} types.OPINE - A user's opinion or something
-@property {Number} types.SHARE - TODO: I don't know yet.
-@property {Number} types.OEMBED - A new attachment
+@property {string} types.CONTENT - The good stuff. Juicy Content like comments
+@property {string} types.OPINE - A user's opinion or something
+@property {string} types.SHARE - TODO: I don't know yet.
+@property {string} types.OEMBED - A new attachment
 @readonly
 */
 {
-CONTENT: 0,
-OPINE: 1,
-SHARE: 2,
-OEMBED: 3
+'CONTENT': '0',
+'OPINE': '1',
+'SHARE': '2',
+'OEMBED': '3'
 });
