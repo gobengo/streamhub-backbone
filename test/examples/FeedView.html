@@ -51,7 +51,7 @@
 </head>
 <body>
 <div id="container">
-  <h1>DefaultView</h1>
+  <h1>FeedView</h1>
   <div id="example" class="example">
         <div id="collection0"></div>
         <h2>Custom Template</h2>
@@ -60,10 +60,10 @@
 </div>
 <script type="text/javascript">
 // Now to load the example
-require(['models/Collection', 'test/fixtures/sdkCollectionData', 'views/Default', 'mustache'],
-function(Collection, sdkCollectionData, DefaultView, Mustache){
+require(['models/Collection', 'test/fixtures/sdkCollectionData', 'views/FeedView', 'mustache'],
+function(Collection, sdkCollectionData, FeedView, Mustache){
     var collection = new Collection(sdkCollectionData),
-        df = new DefaultView({
+        df = new FeedView({
             collection: collection,
             el: "#collection0"
         });

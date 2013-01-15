@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Index</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-jsdoc.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Index</h1>
+    
+    
+
+
+    
+
+
+    <h3> </h3>
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><p><a href="http://gobengo.github.com/streamhub-backbone/">StreamHub-Backbone</a> binds Livefyre StreamHub with Backbone.js so you can make amazing Content experiences like comment feeds, media walls, and slideshows. This is the core library, and there are other libraries for pluggable Views.</p>
+
+<p>StreamHub-Backbone was used to power Livefyre&#39;s <a href="http://ces.livefyre.com/">CES 2013 NewsHub</a></p>
+
+<p><img alt="CES 2013 NewsHub Screenshot" src="http://d.pr/i/71lK+"/></p>
+
+<p><a href="http://www.livefyre.com/streamhub/">StreamHub</a> is <a href="http://www.livefyre.com/">Livefyre</a>&#39;s Engagement Management System that collects, hosts, and streams social Content in real-time straight to your users&#39; browsers. The world&#39;s biggest publishers and brands use StreamHub to power their online Content Communities.</p>
+
+<p><a href="http://backbonejs.org/">Backbone.js</a> is an MVC framework for building JavaScript applications that was sent from the heavens to make JavaScript fun again. Big thanks to @documentcloud.</p>
+
+<h1>Using it</h1>
+
+<p><a href="http://twitter.github.com/bower/">Bower</a> is used for dependency management. You can install the dependencies with</p>
+
+<pre><code>bower install</code></pre>
+
+<p>If you are unable to use bower, you can download the components dir as a tar</p>
+
+<pre><code>curl -L &quot;http://d.pr/f/DC3b+&quot; &gt; components.tar.gz
+tar -xvf components.tar.gz</code></pre>
+
+<p>StreamHub-Backbone is written as a series of <a href="http://requirejs.org/docs/whyamd.html">AMD</a> modules. You will need to use an AMD loader like <a href="http://requirejs.org/">RequireJS</a> to use it. Add it as a package in your RequireJS config:</p>
+
+<pre><code>packages: [{
+    name: &#39;streamhub-backbone&#39;,
+    location: &#39;./path/to/streamhub-backbone&#39;
+}]</code></pre>
+
+<p>Then you can use it like:</p>
+
+<pre><code>require([&#39;streamhub-backbone&#39;], function (Hub) {
+    // Hub some Streams, yo
+})</code></pre>
+
+<p>If you refuse to use your own AMD loader, <code>streamhub-backbone.almond.js</code> has a pre-loaded AMD loader as <code>require</code>. You probably want to use that unless your project uses RequireJS. (TODO: Namespace this require)</p>
+
+<p>This is a new project. It will have bugs and is released under an MIT License. Please feel free to leave a GitHub issue to report a bug, submit a Pull Request, or just say Hi.</p>
+
+<p>If you are using this in production for important things, you should fork the repo.</p>
+
+<p><code>main.css</code> contains some good default styles for the default views.</p>
+
+<h1>Example</h1>
+
+<p>Most interesting things involve using the StreamHub JavaScript SDK, which you can find <a href="http://zor.fyre.co/wjs/v3.0/javascripts/livefyre.js">here</a></p>
+
+<p>Load an sdk for a given StreamHub Network, then create a Hub</p>
+
+<pre><code>require([&#39;streamhub-backbone&#39;], function (Hub) {
+    fyre.conv.load({
+        network: &#39;labs.fyre.co&#39;
+    }, [{
+        app: &#39;sdk&#39;
+    }], _loadApp);
+    function _loadApp (sdk) {
+        var app = new Hub({
+            el: document.getElementById(&quot;example-id&quot;),
+            sdk: sdk,
+            collection: {
+                siteId: &#39;320568&#39;,
+                articleId: &quot;brands_canonical&quot;
+            }
+        });
+    }
+});</code></pre>
+
+<p>You can also see some demos in <code>index.html</code>, <code>index-built.html</code> (with almond build), and <code>test/examples/*</code>.</p>
+
+<h1>Hub Constructor</h1>
+
+<p>The module can be used with <code>new</code> to construct a Hub for Streams to play in. It accepts these parameters:</p>
+
+<ul><li><code>sdk</code> - An instance of the Livefyre StreamHub JS SDK, loaded from <code>fyre.conv.load</code></li><li><code>collection</code> - An object with the siteid and articleId of the Collection you want to display. There will someday be support for many Collections bound to one Hub, or other sets of Content like results from the Most Liked API</li><li><code>el</code> - The HTML Element to display in</li><li><code>view</code> - (FeedView) - A Backbone View that should handle the visuals. Hub will create a Collection model and start it up, then proxy to your View for arbitrary forms of hubbing and streaming</li></ul>
+
+<h1>Documentation</h1>
+
+<p>StreamHub-Backbone uses <a href="http://usejsdoc.org/">jsdoc3</a> to generate HTML documentation from the source code.</p>
+
+<p>You can <a href="http://gobengo.github.com/streamhub-backbone/docs/">read the docs here</a>.</p>
+
+<h2>Building the Documentation</h2>
+
+<p>The code is documented using <a href="https://github.com/jsdoc3/jsdoc">jsdoc3</a>. From the project root:</p>
+
+<p>Install jsdoc3</p>
+
+<pre><code>npm install git://github.com/jsdoc3/jsdoc.git</code></pre>
+
+<p>Generate this project&#39;s docs into the &#39;docs&#39; directory</p>
+
+<pre><code>node_modules/jsdoc/jsdoc -c tools/jsdoc.conf.js models/* views/* main.js const/* README.md templates/* -d docs</code></pre>
+
+<h1>Tests</h1>
+
+<p>There are a decent number of tests written for StreamHub-Backbone&#39;s core models and views. There is a jasmine runner you can use in <code>test/index.html</code> and BDD specs in <code>test/spec</code>.</p>
+
+<p>You can always <a href="http://gobengo.github.com/streamhub-backbone/test/">run the tests online</a>.</p>
+
+<h1>Building</h1>
+
+<p>Generate almond build:</p>
+
+<pre><code>node tools/r.js -o tools/build.js</code></pre></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="Collection.html">Collection</a></li><li><a href="Content.html">Content</a></li><li><a href="ContentView.html">ContentView</a></li><li><a href="FeedView.html">FeedView</a></li></ul><h3>Events</h3><ul><li><a href="Collection.html#event:add">add</a></li><li><a href="Collection.html#event:initialDataLoaded">initialDataLoaded</a></li><li><a href="Collection.html#event:sdkData">sdkData</a></li><li><a href="Collection.html#event:sdkState">sdkState</a></li></ul><h3>Namespaces</h3><ul><li><a href="sources.html">sources</a></li><li><a href="transformers.html">transformers</a></li><li><a href="types.html">types</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3</a> on Mon Jan 14 2013 20:30:31 GMT-0800 (PST)
+</footer>
+
+<script> prettyPrint(); </script>
+</body>
+</html>

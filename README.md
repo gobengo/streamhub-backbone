@@ -1,109 +1,107 @@
-# Builds
+[StreamHub-Backbone](http://gobengo.github.com/streamhub-backbone/) binds Livefyre StreamHub with Backbone.js so you can make amazing Content experiences like comment feeds, media walls, and slideshows. This is the core library, and there are other libraries for pluggable Views.
 
-`streamhub-backbone.almond.js` has a pre-loaded AMD loader as `require`. You probably want to use that unless your project uses RequireJS.
+StreamHub-Backbone was used to power Livefyre's [CES 2013 NewsHub](http://ces.livefyre.com/)
 
-You can use this to put Streams and Hubs together.
+![CES 2013 NewsHub Screenshot](http://d.pr/i/71lK+)
 
-This is a new project. But please feel free to leave a GitHub issue to report a bug or just say Hi. Seeking advice.
+[StreamHub](http://www.livefyre.com/streamhub/) is [Livefyre](http://www.livefyre.com/)'s Engagement Management System that collects, hosts, and streams social Content in real-time straight to your users' browsers. The world's biggest publishers and brands use StreamHub to power their online Content Communities.
 
-# DANGER
+[Backbone.js](http://backbonejs.org/) is an MVC framework for building JavaScript applications that was sent from the heavens to make JavaScript fun again. Big thanks to @documentcloud.
 
-* Pretty much any usage will probably require reading the internals. I'll get better at that. Creating internal modules as they are necessary.
-* The 1.0 release will be the first 'stable' one. Until then, it's the wild west.
-* You can email me with questions at ben@livefyre.com, but may not have time to help right away
+# Using it
 
-# Example Usage
+[Bower](http://twitter.github.com/bower/) is used for dependency management. You can install the dependencies with
+
+    bower install
+
+If you are unable to use bower, you can download the components dir as a tar
+
+    curl -L "http://d.pr/f/DC3b+" > components.tar.gz
+    tar -xvf components.tar.gz
+
+StreamHub-Backbone is written as a series of [AMD](http://requirejs.org/docs/whyamd.html) modules. You will need to use an AMD loader like [RequireJS](http://requirejs.org/) to use it. Add it as a package in your RequireJS config:
+
+    packages: [{
+        name: 'streamhub-backbone',
+        location: './path/to/streamhub-backbone'
+    }]
+
+Then you can use it like:
 
     require(['streamhub-backbone'], function (Hub) {
-    var app = new Hub({
-        sdk: livefyreSdk,
-        collection: {
-            siteId: "303772",
-            articleId: "prod0"
-        },
-        el: document.getElementById("example")
-    })});
+        // Hub some Streams, yo
+    })
 
-# TODO
+If you refuse to use your own AMD loader, `streamhub-backbone.almond.js` has a pre-loaded AMD loader as `require`. You probably want to use that unless your project uses RequireJS. (TODO: Namespace this require)
 
-* Organize Activity and Content. Presumably there will eventually be distinct Backbone Collections for both. First priorities will probably be on Content display, likes, images, timestamps.
-* Enable interaction
-* Make sure tweets display according to the Twitter display requirements
-** An alternative view that uses Blackberry Pie, if you want to explode your browser with hundreds of iframe loads
-* Document
-* Tests and test data. I'll probably due this sooner rather than later.
+This is a new project. It will have bugs and is released under an MIT License. Please feel free to leave a GitHub issue to report a bug, submit a Pull Request, or just say Hi.
 
-# Constructor
+If you are using this in production for important things, you should fork the repo.
+
+`main.css` contains some good default styles for the default views.
+
+# Example
+
+Most interesting things involve using the StreamHub JavaScript SDK, which you can find [here](http://zor.fyre.co/wjs/v3.0/javascripts/livefyre.js)
+
+Load an sdk for a given StreamHub Network, then create a Hub
+
+    require(['streamhub-backbone'], function (Hub) {
+        fyre.conv.load({
+            network: 'labs.fyre.co'
+        }, [{
+            app: 'sdk'
+        }], _loadApp);
+        function _loadApp (sdk) {
+            var app = new Hub({
+                el: document.getElementById("example-id"),
+                sdk: sdk,
+                collection: {
+                    siteId: '320568',
+                    articleId: "brands_canonical"
+                }
+            });
+        }
+    });
+
+You can also see some demos in `index.html`, `index-built.html` (with almond build), and `test/examples/*`.
+
+# Hub Constructor
 
 The module can be used with `new` to construct a Hub for Streams to play in. It accepts these parameters:
 
 * `sdk` - An instance of the Livefyre StreamHub JS SDK, loaded from `fyre.conv.load`
-
-            fyre.conv.load({}, [{app: 'sdk'}], Hub); // TODO: make this work
-
 * `collection` - An object with the siteid and articleId of the Collection you want to display. There will someday be support for many Collections bound to one Hub, or other sets of Content like results from the Most Liked API
 * `el` - The HTML Element to display in
-* `view` - (DefaultView) - A Backbone View that should handle the visuals. Hub will create a Collection model and start it up, then proxy to your View for arbitrary forms of hubbing and streaming
+* `view` - (FeedView) - A Backbone View that should handle the visuals. Hub will create a Collection model and start it up, then proxy to your View for arbitrary forms of hubbing and streaming
 
-# Models
+# Documentation
 
-## Hub.models.Content
+StreamHub-Backbone uses [jsdoc3](http://usejsdoc.org/) to generate HTML documentation from the source code.
 
-The good stuff. Content has the following attributes:
+You can [read the docs here](http://gobengo.github.com/streamhub-backbone/docs/).
 
-    * id
-    * event
-    * html
-    * ancestorId
-    * annotations
-    * author
-    * authorId
-    * createdAt
-    * updatedAt
-    * replaces
-    * parentId
-    * source
-    * transport
-    * type
-    * vis
+## Building the Documentation
 
-Content can be instantiated from SDK Data
+The code is documented using [jsdoc3](https://github.com/jsdoc3/jsdoc). From the project root:
 
-    var c = new Content(sdkData);
+Install jsdoc3
 
-or locally with just HTML
+    npm install git://github.com/jsdoc3/jsdoc.git
+    
+Generate this project's docs into the 'docs' directory
 
-    var c = new Content("<p>Yep</p>");
+    node_modules/jsdoc/jsdoc -c tools/jsdoc.conf.js models/* views/* main.js const/* README.md templates/* -d docs
 
-## Hub.models.Collection
+# Tests
 
-This is a type of Backbone Collection that knows how to deal with Content. It wraps the collections returned from `sdk.getCollection`.
+There are a decent number of tests written for StreamHub-Backbone's core models and views. There is a jasmine runner you can use in `test/index.html` and BDD specs in `test/spec`.
 
-    var collection = Hub.Collection().setRemote({
-        sdk: livefyreSdk,
-        siteId: "303772",
-        articleId: "prod0"
-    });
+You can always [run the tests online](http://gobengo.github.com/streamhub-backbone/test/).
 
-### Events
+# Building
 
-`sdkData` - fired when data objects are passed from the internal sdkCollection on initial data and streamed data. Standard sdk response obj passed.
+Generate almond build:
 
-    collection.on('sdkData', function(sdkData) {
-        var publicData = sdkData.public;
-        // Do stuff
-    });
+    node tools/r.js -o tools/build.js
 
-### Methods
-
-`.getAuthor(authorId)` - Convenience proxy for internal sdkCollection.getAuthor
-
-## Hub.models.Content
-
-This represents a piece of Content 
-
-# Views
-
-## Hub.views.DefaultView
-
-It's just a really simple default feed. It will strive to be the most boring, stable View around. But it should probably be able to accept pluggable ContentViews and maybe even just templates without much sweat. I should be able to just pass an HTML template to Hub(..) constructor.

@@ -5,12 +5,12 @@ function (ContentView, Content, sdkContentData, Mustache) {
         beforeEach(function () {
             setFixtures('<div id="hub"></container>');
             this.$el = $('#hub');
-        })
+        });
         // Users should be able to pass any HTML to display
         // custom (non-hosted) Content
         describe ("with model from raw html", function () {
           beforeEach(function () {
-            this.c = new Content("<p>Woo</p>")
+            this.c = new Content("<p>Woo</p>");
           });
           testContentView();
         });
@@ -18,8 +18,8 @@ function (ContentView, Content, sdkContentData, Mustache) {
         // items returned from the StreamHub JavaScript SDK
         describe ("with model .fromSdk", function () {
           beforeEach(function () {
-            this.c = new Content.fromSdk(sdkContentData)
-          })
+            this.c = new Content.fromSdk(sdkContentData);
+          });
           testContentView();
         });
         function testContentView () {
@@ -28,15 +28,15 @@ function (ContentView, Content, sdkContentData, Mustache) {
                     model: this.c,
                     el: '#hub'
                 });
-            })
+            });
             it ("can be constructed", function () {
-               expect(this.cv).toBeDefined;
+               expect(this.cv).toBeDefined();
                expect(this.cv instanceof ContentView).toBe(true);
             });
             it ("can be constructed without an element", function () {
                 var cv = new ContentView({
                     model: this.c
-                })
+                });
                 expect(cv instanceof ContentView).toBe(true);
             });
             it ("el has class of .hub-content", function () {
