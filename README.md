@@ -4,7 +4,9 @@ StreamHub-Backbone was used to power Livefyre's [CES 2013 NewsHub](http://ces.li
 
 ![CES 2013 NewsHub Screenshot](http://d.pr/i/71lK+)
 
-[StreamHub](http://www.livefyre.com/streamhub/) is [Livefyre](http://www.livefyre.com/)'s Engagement Management System that collects, hosts, and streams social Content in real-time straight to your users' browsers. The world's biggest publishers and brands use StreamHub to power their online Content Communities.
+[Livefyre StreamHub](http://www.livefyre.com/streamhub/) is the web's first Engagement Management System. StreamHub turns your site into a real-time social experience. Curate images, videos, and Tweets from across the social web, right into live blogs, chats, widgets, and dashboards. The world's biggest publishers and brands use StreamHub to power their online Content Communities.
+
+StreamHub-Backbone displays Collections of Content in StreamHub Networks. To get your own Network so you can create your own Collections, engage your own community of SSO Users, and curate Content that appeals to your users, [contact Livefyre](http://www.livefyre.com/streamhub/) about subscribing to StreamHub.
 
 [Backbone.js](http://backbonejs.org/) is an MVC framework for building JavaScript applications that was sent from the heavens to make JavaScript fun again. Big thanks to @documentcloud.
 
