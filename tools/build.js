@@ -22,5 +22,5 @@
     },
     name: "tools/almond",
     out: "../streamhub-backbone.almond.js",
-    include: ['streamhub-backbone'],
+    include: ['streamhub-backbone']
 })

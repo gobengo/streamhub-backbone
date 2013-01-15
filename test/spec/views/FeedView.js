@@ -1,28 +1,28 @@
 define([
-    'views/Default',
+    'views/FeedView',
     'models/Collection',
     'test/fixtures/sdkContentData',
     'test/fixtures/sdkCollectionData',
     'mustache'],
-function (DefaultView, Collection, sdkContentData, sdkCollectionData, Mustache) {
-    describe ("DefaultView", function () {
+function (FeedView, Collection, sdkContentData, sdkCollectionData, Mustache) {
+    describe ("FeedView", function () {
         // Set up HTML fixture
         beforeEach(function () {
             setFixtures('<div id="hub"></container>');
             this.$el = $('#hub');
-        })
+        });
         // Users should be able to create Content from
         // items returned from the StreamHub JavaScript SDK
         describe ("with model fromSdk", function () {
           beforeEach(function () {
             this.collection = new Collection(sdkCollectionData); 
-          })
+          });
           testBasics();
           testCustomTemplates();
         });
         function testBasics () {
             beforeEach(function () {
-                this.dv = new DefaultView({
+                this.dv = new FeedView({
                     collection: this.collection,
                     el: '#hub'
                 });
@@ -36,7 +36,7 @@ function (DefaultView, Collection, sdkContentData, sdkCollectionData, Mustache) 
         }
         function testCustomTemplates () {
             beforeEach(function () {
-                this.dv = new DefaultView({
+                this.dv = new FeedView({
                     collection: this.collection,
                     el: '#hub',
                     sources: {
@@ -46,7 +46,7 @@ function (DefaultView, Collection, sdkContentData, sdkCollectionData, Mustache) 
                         rss: {
                             template: Mustache.compile("<p class='test-rss'>RSS</p>")
                         }
-                    },
+                    }
                 });
             });
             it ("uses the tweet template", function () {
