@@ -19,16 +19,16 @@ var Content = Backbone.Model.extend(
     @constructs
     @augments Backbone.Model
     @param {Object} props - Properties that should be .set on the Content Model. Backbone style.
-    @param {String} props.id - The ID of the Content in StreamHub
+    @param {string} props.id - The ID of the Content in StreamHub
     @param {Number} props.event - The ID of the event in StreamHub spacetime
-    @param {String} props.bodyHtml - An HTML snippet for the main textual part of the Content
-    @param {String} props.authorId - The ID of the Author in StreamHub
+    @param {string} props.bodyHtml - An HTML snippet for the main textual part of the Content
+    @param {string} props.authorId - The ID of the Author in StreamHub
     @param {Object} props.author - Hydrated author data, if you have it handy
     @param {oEmbed[]} props.attachments - Attached media to display with the Content
     @param {Number} props.createdAt - Unix timestamp of when the Content was originally created
     @param {Number} props.updatedAt - Unix timestamp of when the Content was updated (perhaps edited)
-    @param {String} props.replaces - ID of the Content that this Content should replace in displays (perhaps because of an edit)
-    @param {String} props.parentId - ID of the parent Content
+    @param {string} props.replaces - ID of the Content that this Content should replace in displays (perhaps because of an edit)
+    @param {string} props.parentId - ID of the parent Content
     @param {Number} props.source - Enum of the Content source. See `const/sources`
     @param {Number} props.type - Enum of the sdkData state type. See `const/types`
     */

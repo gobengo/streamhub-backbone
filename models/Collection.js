@@ -49,8 +49,8 @@ Bind the local Collection to a remote one in the Cloud,
 and retrieve initial Content
 @param {Object} remoteOptions - Information to resolve the remote Collection
 @param {livefyreSdk} sdk - An instance of the StreamHub JavaScript SDK
-@param {String} remoteOptions.siteId - The Site ID of the remote Collection
-@param {String} remoteOptions.articleId - The Article ID of the remote Collection
+@param {string} remoteOptions.siteId - The Site ID of the remote Collection
+@param {string} remoteOptions.articleId - The Article ID of the remote Collection
 
 @TODO Separate configuring the remote source from loading its data
 */
@@ -69,7 +69,7 @@ Collection.prototype.setRemote = function (remoteOptions) {
 /**
 Get information about an author of Content in the Collection
 This proxies into the StreamHub SDK's `collection.getAuthor` method
-@param {String} authorId - The ID of an author in the Collection
+@param {string} authorId - The ID of an author in the Collection
 
 @throws Exception if Collection is not bound to a remote Collection
 */
