@@ -139,7 +139,7 @@ Collection.prototype._onSdkData = function _onSdkData (sdkData) {
 
             this._handleSdkState(state);
 
-            if (!this._initialized && stateCount == states.length) {
+            if (!this._initialized && stateCount === states.length) {
                 console.log('SHCollection: Processed initial data. Ready to start stream');
                 this.trigger('initialDataLoaded');
             }
