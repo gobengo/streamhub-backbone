@@ -1,10 +1,10 @@
 define(function (require) {
+    "use strict";
 var Backbone = require("backbone"),
     Mustache = require('mustache'),
     Content = require('streamhub-backbone/models/Content'),
-    ContentTemplate = require('text!streamhub-backbone/templates/Content.html');
-
-var ContentView = Backbone.View.extend(
+    ContentTemplate = require('text!streamhub-backbone/templates/Content.html'),
+    ContentView = Backbone.View.extend(
 /** @lends ContentView.prototype */
 {
     /**
@@ -57,9 +57,11 @@ var ContentView = Backbone.View.extend(
     
     /** Render the initial display of the Content */
     render: function() {
-        var data = this.model.toJSON();
-        data.formattedCreatedAt = _formatCreatedAt(data.createdAt);
-        var rendered = this.template(data);
+        var data = this.model.toJSON(),
+            rendered;
+        data.formattedCreatedAt = formatCreatedAt(data.createdAt);
+        
+        rendered = this.template(data);
         this.$el.html(rendered);
     }
 });    
@@ -73,22 +75,23 @@ If not today: 5 Mar
 @todo Add a year if reasonable
 @todo Add a nice way of users specifying their own formatter
 */
-function _formatCreatedAt (date) {
+function formatCreatedAt (date) {
     var d = new Date(date*1000),
         monthN = d.getMonth(),
         months;
     months = ['Jan','Feb','Mar','Apr','May',
               'Jun','Jul','Aug','Sept','Oct','Nov','Dec'];
     // If today, use time
-    if (_dateIsToday(d)) {
-        return _12hourTime(d);
+    
+    if (dateIsToday(d)) {
+        return f12hourTime(d);
     } else {
         // TODO: Show year when appropriate
         return "{day} {month}"
         .replace("{day}", d.getDate())
         .replace("{month}", months[monthN]);
     }
-    function _12hourTime (date) {
+    function f12hourTime (date) {
         var f24 = d.getHours(),
             f12 = f24 % 12,
             ret = ""+f12,
@@ -102,7 +105,7 @@ function _formatCreatedAt (date) {
             .replace("{min}", minutes)
             .replace("{ampm}", ampm);
     }
-    function _dateIsToday (date) {
+    function dateIsToday (date) {
         var today = new Date();
         return (date.getDate()==today.getDate() &&
                 date.getMonth()==today.getMonth() &&

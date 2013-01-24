@@ -1,15 +1,12 @@
 define([
-'backbone',
-'underscore',
-'../models/Content',
-'../const/sources',
-'../const/types',
-'../const/transformers'],
-function (
-Backbone,
-_,
-Content,
-sources, types, transformers) {
+    'backbone',
+    'underscore',
+    '../models/Content',
+    '../const/sources',
+    '../const/types',
+    '../const/transformers'],
+function (Backbone, _, Content, sources, types, transformers) {
+"use strict";
 
 /** @lends Collection */
 var Collection = Backbone.Collection.extend(
@@ -208,6 +205,18 @@ Collection.prototype._streamSuccess = function (sdkData) {
 // Handle a failing streaming response
 Collection.prototype._streamError = function () {
     console.log("Collection.prototype._streamError", arguments);    
+};
+
+/**
+Post Content into the Collection
+*/
+Collection.prototype.postContent = function (content, opts) {
+    var sdkCollection = this._sdkCollection;
+    if ( ! sdkCollection ) {
+        return console.log("No sdkCollections, not posting");
+    }
+
+    sdkCollection.postContent(content, opts.success, opts.error);
 };
 
 /**

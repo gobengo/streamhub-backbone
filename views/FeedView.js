@@ -1,9 +1,9 @@
 define([
-'backbone',
-'mustache',
-'text!streamhub-backbone/templates/Content.html',
-'streamhub-backbone/views/ContentView',
-'streamhub-backbone/const/sources'
+    'backbone',
+    'mustache',
+    'text!streamhub-backbone/templates/Content.html',
+    'streamhub-backbone/views/ContentView',
+    'streamhub-backbone/const/sources'
 ], function (
 Backbone,
 Mustache,

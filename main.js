@@ -1,8 +1,9 @@
 define(function(require) {
-    var 
-    Backbone = require('backbone'),
-    SHCollection = require('streamhub-backbone/models/Collection'),
-    FeedView = require('streamhub-backbone/views/FeedView');
+    "use strict";
+    var Backbone = require('backbone'),
+        SHCollection = require('streamhub-backbone/models/Collection'),
+        FeedView = require('streamhub-backbone/views/FeedView'),
+        _ = require('underscore');
 
     var Hub = function (opts) {
         this._opts = opts;
@@ -18,9 +19,9 @@ define(function(require) {
         });
     };
     Hub.prototype._createViewFromOpts = function (opts) {
-        var viewClass = opts.view || FeedView,
+        var ViewClass = opts.view || FeedView,
             viewOpts = opts.viewOptions || {};
-        var view = new viewClass(_({
+        var view = new ViewClass(_({
             el: opts.el,
             collection: this._collection,
             contentView: opts.contentView,
