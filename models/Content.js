@@ -1,11 +1,13 @@
 define([
     'require',
     'backbone',
+    'underscore',
     'streamhub-backbone/models/Collection',
     'streamhub-backbone/const/sources',
     'streamhub-backbone/const/types',
     'streamhub-backbone/const/transformers'],
-function (require, Backbone, Collection, sources, types, transformers) {
+function (require, Backbone, _, Collection, sources, types, transformers) {
+"use strict";
 
 /** @lends Content */
 var Content = Backbone.Model.extend(
@@ -60,14 +62,14 @@ var Content = Backbone.Model.extend(
     // Basically it allows for computed properties
     get: function(attr) {
         var value = Backbone.Model.prototype.get.call(this, attr);
-        return _.isFunction(value) ? value.call(this) : value;
+        return ( _.isFunction(value) ? value.call(this) : value );
     },
     // When serializing to JSON, make sure to use the result of .get() since now
     // that may be a computed property
     toJSON: function() {
         var data = {};
         var json = Backbone.Model.prototype.toJSON.call(this);
-        _.each(json, function(value, key) {
+        _.each(json, function (value, key) {
           data[key] = this.get(key);
         }, this);
         return data;

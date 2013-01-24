@@ -186,7 +186,7 @@ Collection.prototype.handleSdkState = function (state) {
     // Send replies to their parent,
     // unless of course the Content's parent is the same as the Collection's parent
     if (parentId && ! (this.parent && this.parent.get('id')===parentId) ) {
-        var parentId = state.content.parentId,
+        parentId = state.content.parentId,
             parent = this.get(parentId);
         if (! parent) return console.log("Cannot find parent for reply sdkState", state);
         parent.handleSdkState(state);
@@ -246,7 +246,7 @@ Collection.prototype.postContent = function (content, onSuccess, onError) {
     }
 
     sdkCollection.postContent(content, onSuccess, onError);
-}
+};
 
 /**
 Content has been added to the Collection

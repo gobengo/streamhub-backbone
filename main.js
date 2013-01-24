@@ -1,4 +1,5 @@
 define(function(require) {
+
     var 
     Backbone = require('backbone'),
     SHCollection = require('streamhub-backbone/models/Collection'),

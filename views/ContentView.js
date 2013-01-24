@@ -66,7 +66,7 @@ var ContentView = Backbone.View.extend(
 
     renderReply: function (content, collection) {
         var $replies = this.$el.find('.hub-replies');
-        $replies.append(this.template(content.toJSON()))
+        $replies.append(this.template(content.toJSON()));
     }
 });    
 
