@@ -1,9 +1,11 @@
-define(
-function (require) {
-	var Backbone = require('backbone'),
-        sources = require('streamhub-backbone/const/sources'),
-        types = require('streamhub-backbone/const/types'),
-        transformers = require('streamhub-backbone/const/transformers');
+define([
+    'require',
+    'backbone',
+    'streamhub-backbone/models/Collection',
+    'streamhub-backbone/const/sources',
+    'streamhub-backbone/const/types',
+    'streamhub-backbone/const/transformers'],
+function (require, Backbone, Collection, sources, types, transformers) {
 
 /** @lends Content */
 var Content = Backbone.Model.extend(
@@ -45,7 +47,31 @@ var Content = Backbone.Model.extend(
     /** Runs when constructing too.
     This is the usual initialize method most Backbone Models should use **/
 	initialize: function (attrs) {
-	}
+        // We have to re-require Collection here because there
+        // is a circular dependency - see http://bit.ly/JQ8rJj
+        var Collection = require('streamhub-backbone/models/Collection');
+        // Each piece of Content has a Collection of reply Content
+        this.replies = nestCollection(this, 'replies', new Collection([],{
+            parent: this
+        }));
+	},
+    // Override .get so that if the attribute is a function, it returns the result
+    // of invocation. This is useful for the author attr - http://bit.ly/xCr07d
+    // Basically it allows for computed properties
+    get: function(attr) {
+        var value = Backbone.Model.prototype.get.call(this, attr);
+        return _.isFunction(value) ? value.call(this) : value;
+    },
+    // When serializing to JSON, make sure to use the result of .get() since now
+    // that may be a computed property
+    toJSON: function() {
+        var data = {};
+        var json = Backbone.Model.prototype.toJSON.call(this);
+        _.each(json, function(value, key) {
+          data[key] = this.get(key);
+        }, this);
+        return data;
+    }
 });
 
 /**
@@ -87,14 +113,20 @@ that is relevant to them. That way the Content can emit it's
 own `reply` and `like` events and stuff
 @TODO make actual `reply` events 'and stuff'
 */
-Content.prototype._handleSdkState = function (s) {
-    if (s.type==types.OEMBED) this._handleSdkOembedState(s);
+Content.prototype.handleSdkState = function (state) {
+    // _handleSdkOembedState will attach oEmbeds
+    if (state.type==types.OEMBED) return this._handleSdkOembedState(state);
+
+    // add any replies to the .replies Collection
+    if (state.type==types.CONTENT && state.content.parentId===this.get('id')) {
+        this.replies.handleSdkState(state);
+    }
 };
 /**
 Handle streaming attachments
 */
-Content.prototype._handleSdkOembedState = function (s) {
-    var newAttachments = _getAttachmentsFromState(s),
+Content.prototype._handleSdkOembedState = function (state) {
+    var newAttachments = _getAttachmentsFromState(state),
         oldAttachments = this.get('attachments') || [];
     if (newAttachments) {
         this.set('attachments', oldAttachments.concat(newAttachments));
@@ -131,6 +163,33 @@ function _getAttachmentsFromState (s) {
     function _getAttachmentFromOembedState (s) {
         return [s.content.oembed];
     }
+}
+
+/**
+A helper to nicely nest a Backbone Collection as a property of a Model - http://bit.ly/PBa61J
+*/
+function nestCollection (model, attributeName, nestedCollection) {
+    //setup nested references
+    for (var i = 0; i < nestedCollection.length; i++) {
+      model.attributes[attributeName][i] = nestedCollection.at(i).attributes;
+    }
+    //create empty arrays if none
+
+    nestedCollection.on('add', function (initiative) {
+        if (!model.get(attributeName)) {
+            model.attributes[attributeName] = [];
+        }
+        model.get(attributeName).push(initiative.attributes);
+    });
+
+    nestedCollection.on('remove', function (initiative) {
+        var updateObj = {};
+        updateObj[attributeName] = _.filter(model.get(attributeName), function(attrs) {
+            return attrs._id !== initiative.attributes._id;
+        });
+        model.set(updateObj);
+    });
+    return nestedCollection;
 }
 
 return Content;

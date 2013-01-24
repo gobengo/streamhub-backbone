@@ -76,25 +76,22 @@ function(Hub, Mustache){
         var app = window.app = new Hub({
             sdk: sdk,
             collection: {
-                siteId: "303772",
-                articleId: "prod0"
-            },
-            contentViewOptions: {
-                defaultAvatarUrl: 'http://placehold.it/48&text=avatar',
+                siteId: "303613",
+                articleId: "132"
             },
             el: document.getElementById("example")
         });
         var app1 = window.app1 = new Hub({
             sdk: sdk,
             collection: {
-                siteId: "303772",
-                articleId: "tutorial0"
+                siteId: "303613",
+                articleId: "142"
             },
             el: document.getElementById("example1")
         });
     }
     fyre.conv.load({
-        network: "largetail-0.fyre.co"
+        network: "livefyre.com"
     }, [{app: 'sdk'}], loadApp);
 });
 </script>

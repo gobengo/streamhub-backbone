@@ -1,15 +1,11 @@
 define([
-'backbone',
-'underscore',
-'../models/Content',
-'../const/sources',
-'../const/types',
-'../const/transformers'],
-function (
-Backbone,
-_,
-Content,
-sources, types, transformers) {
+    'backbone',
+    'underscore',
+    '../models/Content',
+    '../const/sources',
+    '../const/types',
+    '../const/transformers'],
+function (Backbone, _, Content, sources, types, transformers) {
 
 /** @lends Collection */
 var Collection = Backbone.Collection.extend(
@@ -23,8 +19,9 @@ var Collection = Backbone.Collection.extend(
     @class Collection
     @constructs
     @augments Backbone.Collection
-    @param {Object} opts - 'Normal' Backbone opts to construct the Collection.
-           This includes being an Array of JSON Objects that will get turned into Content (https://gist.github.com/4527966)
+    @param {Array} models - An Array of JSON Objects that will get turned into Content (https://gist.github.com/4527966)
+    @param {Object} opts - Configuration options
+    @param {Content} opts.parent - Optional. The parent of all items in the Collection
 
     @TODO Allow sourcing Content from more than one remote Collection
 
@@ -35,8 +32,9 @@ var collection = Hub.Collection().setRemote({
     articleId: "prod0"
 });
     */
-    initialize: function (opts) {
-        this._opts = opts || {};
+    initialize: function (models, opts) {
+        // Collections can have parents
+        this.parent = opts && opts.parent;
         this._initialized = false; // initial content loaded
         this._started = false; // stream started
         this.on('sdkData', this._onSdkData);
@@ -51,7 +49,7 @@ and retrieve initial Content
 @param {livefyreSdk} sdk - An instance of the StreamHub JavaScript SDK
 @param {string} remoteOptions.siteId - The Site ID of the remote Collection
 @param {string} remoteOptions.articleId - The Article ID of the remote Collection
-
+@param {string} authToken - A Livefyre auth token for interacting with the Collection
 @TODO Separate configuring the remote source from loading its data
 */
 Collection.prototype.setRemote = function (remoteOptions) {
@@ -60,6 +58,9 @@ Collection.prototype.setRemote = function (remoteOptions) {
         siteId: remoteOptions.siteId,
         articleId: remoteOptions.articleId
     });
+    if (remoteOptions.authToken) {
+        this._sdkCollection.setUserToken(remoteOptions.authToken);
+    }
     this._sdkCollection.getInitialData(
         _.bind(this._initialDataSuccess, this),
         this._initialDataError);
@@ -75,7 +76,7 @@ This proxies into the StreamHub SDK's `collection.getAuthor` method
 */
 Collection.prototype.getAuthor = function (authorId) {
     if (! this._sdkCollection) {
-        throw new Exception ("Called getAuthor, but there is no sdkCollection");
+        throw new Error("Called getAuthor, but there is no sdkCollection");
     }
     return this._sdkCollection.getAuthor(authorId);
 };
@@ -127,6 +128,10 @@ Collection.prototype._onSdkData = function _onSdkData (sdkData) {
         stateTypes = _(statesByType).keys(),
         unknownStateTypes = _(stateTypes).difference(_(knownStateTypes).map(String));
 
+    if (_.isEmpty(publicData)) {
+        return console.log("sdk emitted empty public data", arguments);
+    }
+
     if (unknownStateTypes.length > 0) {
         console.log("Unknown state types", unknownStateTypes, sdkData);
     }
@@ -137,7 +142,7 @@ Collection.prototype._onSdkData = function _onSdkData (sdkData) {
         _(statesByType[type]).forEach(function(state) {
             stateCount++;
 
-            this._handleSdkState(state);
+            this.handleSdkState(state);
 
             if (!this._initialized && stateCount === states.length) {
                 console.log('SHCollection: Processed initial data. Ready to start stream');
@@ -150,30 +155,44 @@ Collection.prototype._onSdkData = function _onSdkData (sdkData) {
 /** Processes each individual state returned from the JS SDK
 @fires Collection#sdkState
 */
-Collection.prototype._handleSdkState = function (state) {
-    var item = state;
+Collection.prototype.handleSdkState = function (state) {
+    var content,
+        parentId,
+        self = this;
+
     /**
     A single state from sdkData is being processed
     @event Collection#sdkState
     @type {sdkDataState} state - The individual state from the SDK */
     this.trigger('sdkState', state);
-    if (item.type == types.OEMBED) {
-        this._processOembed(item);
+    if (state.type == types.OEMBED) {
+        this._processOembed(state);
         return;
     }
     // Can only handle Content past here
-    if (item.type != types.CONTENT) {
-        console.log("Donno how to process this item, skipping.", item);
+    if (state.type != types.CONTENT) {
+        console.log("Donno how to process this state, skipping.", state);
         return;
     }
-    // Add author data
-    // TODO: Bind author data later... at view time?
-    var authorId = item.content.authorId;
-    if (authorId) {
-        item.content.author = this.getAuthor(authorId);
+
+    parentId = state.content.parentId;
+    // Send replies to their parent,
+    // unless of course the Content's parent is the same as the Collection's parent
+    if (parentId && ! (this.parent && this.parent.get('id')===parentId) ) {
+        var parentId = state.content.parentId,
+            parent = this.get(parentId);
+        if (! parent) return console.log("Cannot find parent for reply sdkState", state);
+        parent.handleSdkState(state);
+    } else {
     }
 
-    this.add(new Content.fromSdk(item));
+    content = new Content.fromSdk(state);
+    // Give the new Content a computed property that will get the latest author info
+    content.set('author', function () {
+        return self.getAuthor(content.get('authorId'));
+    });
+
+    this.add(content);
 };
 /** Handle an oEmbed state that comes from the sdkData 
 @private */
@@ -181,7 +200,7 @@ Collection.prototype._processOembed = function (oeItem) {
     var targetId = oeItem.content.targetId,
         target = this.get(targetId);
     if (! target) return console.log("Cannot find target for oEmbed", oeItem);
-    target._handleSdkState(oeItem);
+    target.handleSdkState(oeItem);
 };
 
 /**
@@ -209,6 +228,18 @@ Collection.prototype._streamSuccess = function (sdkData) {
 Collection.prototype._streamError = function () {
     console.log("Collection.prototype._streamError", arguments);    
 };
+
+/**
+Post Content into the Collection
+*/
+Collection.prototype.postContent = function (content, onSuccess, onError) {
+    var sdkCollection = this._sdkCollection;
+    if ( ! sdkCollection ) {
+        return console.log("No sdkCollections, not posting");
+    }
+
+    sdkCollection.postContent(content, onSuccess, onError);
+}
 
 /**
 Content has been added to the Collection

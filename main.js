@@ -14,7 +14,8 @@ define(function(require) {
         return new SHCollection(opts.data).setRemote({
             sdk: opts.sdk,
             siteId: opts.collection.siteId,
-            articleId: opts.collection.articleId
+            articleId: opts.collection.articleId,
+            authToken: opts.collection.authToken
         });
     };
     Hub.prototype._createViewFromOpts = function (opts) {
