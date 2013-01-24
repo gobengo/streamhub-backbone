@@ -75,8 +75,15 @@ This proxies into the StreamHub SDK's `collection.getAuthor` method
 @throws Exception if Collection is not bound to a remote Collection
 */
 Collection.prototype.getAuthor = function (authorId) {
+    var parent = this.parent,
+        parentCollection = parent && parent.collection,
+        author;
     if (! this._sdkCollection) {
-        throw new Error("Called getAuthor, but there is no sdkCollection");
+        if (parentCollection) {
+            return parentCollection.getAuthor(authorId);
+        } else {
+            throw new Error("Called getAuthor, but there is no ._sdkCollection and no parent Collection");
+        }
     }
     return this._sdkCollection.getAuthor(authorId);
 };
