@@ -30,6 +30,7 @@ var ContentView = Backbone.View.extend(
         }
         this.render();
         this.listenTo(this.model, "change", this.render);
+        this.listenTo(this.model.replies, "add", this.renderReply);
     },
     // Use models/Content models
     model: Content,
@@ -61,6 +62,11 @@ var ContentView = Backbone.View.extend(
         data.formattedCreatedAt = _formatCreatedAt(data.createdAt);
         var rendered = this.template(data);
         this.$el.html(rendered);
+    },
+
+    renderReply: function (content, collection) {
+        var $replies = this.$el.find('.hub-replies');
+        $replies.append(this.template(content.toJSON()))
     }
 });    
 

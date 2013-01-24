@@ -59,3 +59,7 @@ TODO
 .hub-group {
     zoom: 1; /* For IE 6/7 (trigger hasLayout) */
 }
+
+.hub-replies {
+	clear: both;
+}
