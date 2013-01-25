@@ -57,7 +57,7 @@ Content.fromSdk = function (d) {
         attachments = _getAttachmentsFromState(d);
     // pluck information from sdkData in just the right way
     attrs = {
-        id: d.id ,
+        id: c.id ,
         event: d.event,
         bodyHtml: c.bodyHtml,
         ancestorId: c.ancestorId,
