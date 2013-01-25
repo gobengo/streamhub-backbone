@@ -48,14 +48,83 @@
     }
     .example {
         width: 430px;
+        margin-right: .5em;
         display: inline-block;
         vertical-align: top;
     }
     .hub-item {
-        background-color: white;
         cursor: pointer;
-        padding: .5em;
+        overflow: hidden;
+    }
+    .hub-item {
+        border-bottom: 1px solid #eee;
+    }
+    .hub-item .hub-item,
+    .hub-item.hub-focused {
+        border-bottom: none;
+    }
+    .hub-content {
+        background-color: white;
+    }
+    
+    .hub-item.hub-focused>article>.hub-content {
         margin-bottom: 0.25em;
+    }
+    .hub-item .hub-avatar img {
+        height: 48px;
+    }
+    .hub-item .hub-nest-index-1 {
+        max-height: 0;
+        visibility: hidden;
+        -webkit-transition: all .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        -moz-transition: all .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        -o-transition: all .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transition: all .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        
+    }
+    .hub-item .hub-nest-index-1 * {
+        visibility: visible;
+    }
+    .hub-item {
+        margin-top: 0;
+        margin-bottom: 0;
+        -webkit-transition: all .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        -moz-transition: all .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        -o-transition: all .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transition: all .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .hub-item.hub-focused {
+        margin-top: 1em;
+        margin-bottom: 1em;
+        -webkit-transition: all .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        -moz-transition: all .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        -o-transition: all .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transition: all .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .hub-item.hub-focused .hub-nest-index-1 {
+        max-height: 400px;
+        overflow: auto;
+        visibility: visible;
+        -webkit-transition: all .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        -moz-transition: all .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        -o-transition: all .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transition: all .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        
+    }
+    .hub-nest-index-1 {
+    }
+    .hub-nest-index-1 .hub-content {
+        margin: 0.25em 0;
+    }
+    .hub-nest-index-1 .hub-avatar img {
+        height: 24px;
+    }
+    .hub-nest-index-1 .hub-item {
+        margin-left: 24px;
+    }
+    .hub-nest-index-1 .hub-replies {
+        margin-left: .5em;
     }
     </style>
     <link rel="stylesheet" type="text/css" href="main.css">
