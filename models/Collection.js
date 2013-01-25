@@ -152,7 +152,6 @@ Collection.prototype._onSdkData = function _onSdkData (sdkData) {
             this.handleSdkState(state);
 
             if (!this._initialized && stateCount === states.length) {
-                console.log('SHCollection: Processed initial data. Ready to start stream');
                 this.trigger('initialDataLoaded');
             }
         }, this);
@@ -163,8 +162,10 @@ Collection.prototype._onSdkData = function _onSdkData (sdkData) {
 @fires Collection#sdkState
 */
 Collection.prototype.handleSdkState = function (state) {
-    var content,
-        parentId,
+    var collectionParent = this.parent,
+        collectionParentId = collectionParent && collectionParent.get('id'),
+        contentId,
+        contentParentId,
         self = this;
 
     /**
@@ -182,25 +183,61 @@ Collection.prototype.handleSdkState = function (state) {
         return;
     }
 
-    parentId = state.content.parentId;
-    // Send replies to their parent,
-    // unless of course the Content's parent is the same as the Collection's parent
-    if (parentId && ! (this.parent && this.parent.get('id')===parentId) ) {
-        parentId = state.content.parentId,
-            parent = this.get(parentId);
-        if (! parent) return console.log("Cannot find parent for reply sdkState", state);
-        parent.handleSdkState(state);
-    } else {
-    }
+    contentId = state.content.id;
+    contentParentId = state.content.parentId;
 
-    content = new Content.fromSdk(state);
-    // Give the new Content a computed property that will get the latest author info
+    var content = new Content.fromSdk(state);
+        content.set('author', function () {
+            return self.getAuthor(content.get('authorId'));
+        });
+
+    // Add content to the Collection if:
+    // * the Collection has no parent. Thus contains everything.
+    if ( ! collectionParentId
+    // * the Collection'sparent is the Content's parent
+    || ( contentParentId == collectionParentId) ) {
+        this.add(content);
+    }
+    
+    // If the parent of content is in the Collection,
+    // add content to the parent's .replies
+    var parentOfContent = this.get(contentParentId);
+    if (parentOfContent) {
+        parentOfContent.replies.add(content);
+    }
+};
+
+/**
+Handle types.CONTENT states from the SDK
+*/
+Collection.prototype._handleSdkContent = function (state) {
+    var self = this,
+        collectionParent = this.parent,
+        collectionParentId = collectionParent && collectionParent.get('id'),
+        contentId = state.content.id,
+        contentParentId = state.content.parentId,
+        content = new Content.fromSdk(state);
+    
     content.set('author', function () {
         return self.getAuthor(content.get('authorId'));
     });
 
-    this.add(content);
+    // Add content to the Collection if:
+    // * the Collection has no parent. Thus contains everything.
+    if ( ! collectionParentId
+    // * the Collection'sparent is the Content's parent
+    || ( contentParentId == collectionParentId) ) {
+        this.add(content);
+    }
+    
+    // If the parent of content is in the Collection,
+    // add content to the parent's .replies
+    var parentOfContent = this.get(contentParentId);
+    if (parentOfContent) {
+        parentOfContent.replies.add(content);
+    }
 };
+
 /** Handle an oEmbed state that comes from the sdkData 
 @private */
 Collection.prototype._processOembed = function (oeItem) {

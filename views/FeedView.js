@@ -88,22 +88,31 @@ FeedView.prototype._addItem = function(item, collection, opts) {
         return configuredOpts;
     }
 
-    // Create the ContentView so we can look at it and stuff!
-    // render it in this newItem element
-    var cv = new ContentView(_.extend({
-        model: item,
-        el: newItem
-    }, _getContentViewOpts(item)));
 
-    /**
-    Put the newItem element in the DOM so we're done
-    @todo do this in a more clever way to take into account
-          the Collection's .comparator */
-    if (collection.length - collection.indexOf(item)-1===0) {
-        this.$el.prepend(newItem);
-    } else {
-        // I think this means we're on initial load
-        this.$el.append(newItem);
+    var collectionParent = this.collection.parent,
+        collectionParentId = collectionParent && collectionParent.get('id');
+    if (item.get('parentId')==collectionParentId) {
+        var content = item,
+            viewParent = this.parent,
+            viewParentId = viewParent && viewParent.get('id');
+
+        // Create the ContentView so we can look at it and stuff!
+        // render it in this newItem element
+        var cv = new ContentView(_.extend({
+            model: content,
+            el: newItem
+        }, _getContentViewOpts(content)));
+
+        /**
+        Put the newItem element in the DOM so we're done
+        @todo do this in a more clever way to take into account
+              the Collection's .comparator */
+        if (collection.length - collection.indexOf(item)-1===0) {
+            this.$el.prepend(newItem);
+        } else {
+            // I think this means we're on initial load
+            this.$el.append(newItem);
+        }
     }
 };
 

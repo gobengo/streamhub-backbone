@@ -1,8 +1,11 @@
-define(function (require) {
-var Backbone = require("backbone"),
-    Mustache = require('mustache'),
-    Content = require('streamhub-backbone/models/Content'),
-    ContentTemplate = require('text!streamhub-backbone/templates/Content.html');
+define([
+    'require',
+    'backbone',
+    'mustache',
+    'streamhub-backbone/models/Content',
+    'streamhub-backbone/views/FeedView',
+    'text!streamhub-backbone/templates/Content.html'],
+function (require, Backbone, Mustache, Content, FeedView, ContentTemplate) {
 
 var ContentView = Backbone.View.extend(
 /** @lends ContentView.prototype */
@@ -23,14 +26,19 @@ var ContentView = Backbone.View.extend(
     @requires mustache
     */
     initialize: function(opts) {
+        var FeedView = require('streamhub-backbone/views/FeedView');
         this.defaultAvatarUrl = opts.defaultAvatarUrl;
         this.$el.addClass(this.className);
         if (opts.template) {
             this.template = opts.template;
         }
         this.render();
+        // @todo make this view pluggable
+        this.repliesView = new FeedView({
+            collection: this.model.replies,
+            el: this.$el.find('.hub-replies')
+        });
         this.listenTo(this.model, "change", this.render);
-        this.listenTo(this.model.replies, "add", this.renderReply);
     },
     // Use models/Content models
     model: Content,
@@ -58,15 +66,10 @@ var ContentView = Backbone.View.extend(
     
     /** Render the initial display of the Content */
     render: function() {
-        var data = this.model.toJSON();
+        data = this.model.toJSON();
         data.formattedCreatedAt = _formatCreatedAt(data.createdAt);
         var rendered = this.template(data);
         this.$el.html(rendered);
-    },
-
-    renderReply: function (content, collection) {
-        var $replies = this.$el.find('.hub-replies');
-        $replies.append(this.template(content.toJSON()));
     }
 });    
 

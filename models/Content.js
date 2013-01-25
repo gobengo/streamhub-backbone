@@ -3,10 +3,11 @@ define([
     'backbone',
     'underscore',
     'streamhub-backbone/models/Collection',
+    'streamhub-backbone/views/FeedView',
     'streamhub-backbone/const/sources',
     'streamhub-backbone/const/types',
     'streamhub-backbone/const/transformers'],
-function (require, Backbone, _, Collection, sources, types, transformers) {
+function (require, Backbone, _, Collection, FeedView, sources, types, transformers) {
 "use strict";
 
 /** @lends Content */
