@@ -33,10 +33,12 @@ var ContentView = Backbone.View.extend(
             this.template = opts.template;
         }
         this.render();
+        this._nestIndex = opts.nestIndex || 0;
         // @todo make this view pluggable
         this.repliesView = new FeedView({
             collection: this.model.replies,
-            el: this.$el.find('.hub-replies')
+            el: this.$el.find('.hub-replies'),
+            nestIndex: this._nestIndex + 1
         });
         this.listenTo(this.model, "change", this.render);
     },
@@ -45,7 +47,7 @@ var ContentView = Backbone.View.extend(
     // Most displays are lists of Content
     tagName: "li",
     /** @todo provide standard way for users to specify their use-specifc class - `customClassName` */
-    className: "hub-content",
+    className: "hub-ContentView",
     /** Default to the ContentTemplate HTML
     Templates are functions that take data and return Strings
     http://bit.ly/W22ry6 */
@@ -62,6 +64,9 @@ var ContentView = Backbone.View.extend(
 
     // @todo add some cool events like `reply` and `like`
     events: {
+        'click': function (e) {
+            this.$el.toggleClass('hub-focused');
+        }
     },
     
     /** Render the initial display of the Content */

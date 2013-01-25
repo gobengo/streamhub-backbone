@@ -33,6 +33,7 @@ var FeedView = Backbone.View.extend(
     @todo allow passing custom contentView
     */
     initialize: function (opts) {
+        this._nestIndex = opts.nestIndex || 0;
         this._sourceOpts = opts.sources || {};
         this._contentViewOpts = opts.contentViewOptions || {};
         this.render();
@@ -51,6 +52,7 @@ var FeedView = Backbone.View.extend(
         var self = this;
         this.$el.html('');
         this.$el.addClass(this.className);
+        this.$el.addClass('hub-nest-index-'+this._nestIndex)
         this.collection.forEach(function(item, index, collection) {
             self._addItem(item, collection, {});
         });
@@ -100,7 +102,8 @@ FeedView.prototype._addItem = function(item, collection, opts) {
         // render it in this newItem element
         var cv = new ContentView(_.extend({
             model: content,
-            el: newItem
+            el: newItem,
+            nestIndex: this._nestIndex
         }, _getContentViewOpts(content)));
 
         /**
