@@ -56,8 +56,9 @@ Content.fromSdk = function (d) {
         attrs,
         attachments = _getAttachmentsFromState(d);
     // pluck information from sdkData in just the right way
+    // @todo see if content id is in different place in stream and bootstrap data
     attrs = {
-        id: d.id ,
+        id: c.id ,
         event: d.event,
         bodyHtml: c.bodyHtml,
         ancestorId: c.ancestorId,
