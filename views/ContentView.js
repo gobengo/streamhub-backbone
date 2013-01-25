@@ -64,8 +64,20 @@ var ContentView = Backbone.View.extend(
 
     // @todo add some cool events like `reply` and `like`
     events: {
-        'click': function (e) {
-            this.$el.toggleClass('hub-focused');
+        'click .hub-content': function (e) {
+            var closestView = this.$(e.target).closest('.hub-ContentView'),
+                closestForm = this.$(e.target).closest('form');
+            if (closestForm.length > 0) return false;
+            if (closestView[0] == this.el) {
+                this.$el.toggleClass('hub-focused');
+                if (this.$el.is('.hub-focused')) {
+                    this.$el.find('> article > .hub-content input').focus();
+                }
+            }
+        },
+        'submit article > .hub-content form': function (e) {
+            e.preventDefault();
+            return false;
         }
     },
     
