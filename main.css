@@ -47,6 +47,13 @@ TODO
 	width: 100%;
 }
 
+.hub-form {
+	display: none;
+}
+.hub-form input {
+	box-sizing: border-box;
+	width: 100%;
+}
 .hub-replies {
 	clear: both;
 }
