@@ -80,6 +80,11 @@ FeedView.prototype._addItem = function(item, collection, opts) {
             configuredOpts = _(opts).extend(self._contentViewOpts),
             perSourceOpts;
         if (content.get('source')==sources.TWITTER) {
+            // Attempt to set the tweet_id for the template
+            var content_id = content.get('id');
+            if (content_id) {
+                content.set('tweet_id', content_id.split('@twitter.com')[0].substring('tweet-'.length));
+            }
             return _(configuredOpts).extend(self._sourceOpts.twitter||{});
         }
         if (content.get('source')==sources.RSS) {
