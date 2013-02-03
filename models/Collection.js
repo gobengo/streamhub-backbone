@@ -39,6 +39,11 @@ var collection = Hub.Collection().setRemote({
         this._opts = opts || {};
         this._initialized = false; // initial content loaded
         this._started = false; // stream started
+
+        if (opts && opts.userToken) {
+            this.setUserToken(opts.userToken);
+        }
+
         this.on('sdkData', this._onSdkData);
         this.on('initialDataLoaded',  this._onInitialDataLoaded);
     }
@@ -175,6 +180,7 @@ Collection.prototype._handleSdkState = function (state) {
 
     this.add(new Content.fromSdk(item));
 };
+
 /** Handle an oEmbed state that comes from the sdkData 
 @private */
 Collection.prototype._processOembed = function (oeItem) {
@@ -198,6 +204,7 @@ Collection.prototype.start = function () {
         this._streamError);
     return this;
 };
+
 /**
 Handle a successful streaming response of sdkData
 @param {Object} - StreamHub SDK data response
@@ -208,6 +215,31 @@ Collection.prototype._streamSuccess = function (sdkData) {
 // Handle a failing streaming response
 Collection.prototype._streamError = function () {
     console.log("Collection.prototype._streamError", arguments);    
+};
+
+Collection.prototype.setUserToken = function (token) {
+    var sdkCollection = this._sdkCollection;
+    if (sdkCollection) {
+        sdkCollection.setUserToken(token);
+    }
+    this._userToken = token;
+};
+
+Collection.prototype.getUserToken = function () {
+    return this._userToken;
+};
+
+Collection.prototype.post = function (json) {
+    if ( ! this.getUserToken() ) {
+        return console.log("Called .post without calling .setUserToken");
+    }
+
+    var sdkCollection = this._sdkCollection;
+    if ( ! sdkCollection && (typeof console !== 'undefined')) {
+        return console.log("Called postContent, but there is no sdkCollection", arguments);
+    }
+
+    sdkCollection.postContent(json, json.success, json.error);
 };
 
 /**
