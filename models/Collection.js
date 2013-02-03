@@ -36,7 +36,6 @@ var collection = Hub.Collection().setRemote({
 });
     */
     initialize: function (opts) {
-        this._opts = opts || {};
         this._initialized = false; // initial content loaded
         this._started = false; // stream started
 

@@ -94,15 +94,16 @@ FeedView.prototype._addItem = function(item, collection, opts) {
         model: item,
         el: newItem
     }, _getContentViewOpts(item)));
-
     /**
     Put the newItem element in the DOM so we're done
     @todo do this in a more clever way to take into account
           the Collection's .comparator */
-    if (collection.length - collection.indexOf(item)-1===0) {
-        this.$el.prepend(newItem);
+    var index = this.collection.indexOf(item);
+    var prev = this.collection.at(index-1);
+    var prevEl = prev ? this.$el.find('[data-hub-content-id="'+prev.get('id')+'"]').closest('.hub-item') : null;
+    if (prevEl && prevEl.length > 0) {
+        newItem.insertBefore(prevEl);
     } else {
-        // I think this means we're on initial load
         this.$el.append(newItem);
     }
 };
