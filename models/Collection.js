@@ -156,30 +156,47 @@ Collection.prototype._onSdkData = function _onSdkData (sdkData) {
 @fires Collection#sdkState
 */
 Collection.prototype._handleSdkState = function (state) {
-    var item = state;
     /**
     A single state from sdkData is being processed
     @event Collection#sdkState
     @type {sdkDataState} state - The individual state from the SDK */
     this.trigger('sdkState', state);
-    if (item.type == types.OEMBED) {
-        this._processOembed(item);
+    if (state.type == types.OEMBED) {
+        this._processOembed(state);
         return;
     }
     // Can only handle Content past here
-    if (item.type != types.CONTENT) {
-        console.log("Donno how to process this item, skipping.", item);
+    if (state.type != types.CONTENT) {
+        console.log("Donno how to process this item, skipping.", state);
+        return;
+    }
+    // Handle deletes
+    if (state.vis != this._sdk.CONTENT_VISIBILITY.EVERYONE) {
+        this._handleDeleteState(state);
         return;
     }
     // Add author data
     // TODO: Bind author data later... at view time?
-    var authorId = item.content.authorId;
+    var authorId = state.content.authorId;
     if (authorId) {
-        item.content.author = this.getAuthor(authorId);
+        state.content.author = this.getAuthor(authorId);
     }
 
-    this.add(new Content.fromSdk(item));
+    this.add(new Content.fromSdk(state));
 };
+
+
+/** Handle a new state whose visibility is not EVERYONE. Remove it
+@private */
+Collection.prototype._handleDeleteState = function _handleDeleteState (state) {
+    var id = state.content.id,
+        model = this.get(id);
+    // Remove this Content from the Collection
+    if (model) {
+        this.remove(model);
+    }
+}
+
 
 /** Handle an oEmbed state that comes from the sdkData 
 @private */

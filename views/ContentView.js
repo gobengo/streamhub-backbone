@@ -30,6 +30,7 @@ var ContentView = Backbone.View.extend(
         }
         this.render();
         this.listenTo(this.model, "change", this.render);
+        this.listenTo(this.model, "remove", this._onRemoved);
     },
     // Use models/Content models
     model: Content,
@@ -63,6 +64,11 @@ var ContentView = Backbone.View.extend(
         this.$el.html(rendered);
     }
 });    
+
+ContentView.prototype._onRemoved = function _onRemove (model, collection, opts) {
+    // Remove the view from the DOM, and stop listening to things it had .listenTo'd
+    this.remove();
+}
 
 /**
 Convert `createdAt` time to a pleasantly human-readable String
