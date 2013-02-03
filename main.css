@@ -3,6 +3,10 @@ TODO
 * Unify behind hub- namespace
 */
 
+.hub-content {
+	min-height: 48px;
+	padding: .5em;
+}
 .hub-heading {
 }
 .hub-heading .hub-avatar {
@@ -30,9 +34,7 @@ TODO
 	display: block;
 }
 .hub-item {
-	border-bottom: 1px solid #E8E8E8;
 	clear: both;
-	min-height: 48px;
 }
 
 .hub-body-html {
@@ -43,6 +45,17 @@ TODO
 
 .hub-attachment-photo img {
 	width: 100%;
+}
+
+.hub-form {
+	display: none;
+}
+.hub-form input {
+	box-sizing: border-box;
+	width: 100%;
+}
+.hub-replies {
+	clear: both;
 }
 
 /*

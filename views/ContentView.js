@@ -1,8 +1,11 @@
-define(function (require) {
-var Backbone = require("backbone"),
-    Mustache = require('mustache'),
-    Content = require('streamhub-backbone/models/Content'),
-    ContentTemplate = require('text!streamhub-backbone/templates/Content.html');
+define([
+    'require',
+    'backbone',
+    'mustache',
+    'streamhub-backbone/models/Content',
+    'streamhub-backbone/views/FeedView',
+    'text!streamhub-backbone/templates/Content.html'],
+function (require, Backbone, Mustache, Content, FeedView, ContentTemplate) {
 
 var ContentView = Backbone.View.extend(
 /** @lends ContentView.prototype */
@@ -23,12 +26,20 @@ var ContentView = Backbone.View.extend(
     @requires mustache
     */
     initialize: function(opts) {
+        var FeedView = require('streamhub-backbone/views/FeedView');
         this.defaultAvatarUrl = opts.defaultAvatarUrl;
         this.$el.addClass(this.className);
         if (opts.template) {
             this.template = opts.template;
         }
         this.render();
+        this._nestIndex = opts.nestIndex || 0;
+        // @todo make this view pluggable
+        this.repliesView = new FeedView({
+            collection: this.model.replies,
+            el: this.$el.find('.hub-replies'),
+            nestIndex: this._nestIndex + 1
+        });
         this.listenTo(this.model, "change", this.render);
     },
     // Use models/Content models
@@ -36,7 +47,7 @@ var ContentView = Backbone.View.extend(
     // Most displays are lists of Content
     tagName: "li",
     /** @todo provide standard way for users to specify their use-specifc class - `customClassName` */
-    className: "hub-content",
+    className: "hub-ContentView",
     /** Default to the ContentTemplate HTML
     Templates are functions that take data and return Strings
     http://bit.ly/W22ry6 */
@@ -53,11 +64,26 @@ var ContentView = Backbone.View.extend(
 
     // @todo add some cool events like `reply` and `like`
     events: {
+        'click .hub-content': function (e) {
+            var closestView = this.$(e.target).closest('.hub-ContentView'),
+                closestForm = this.$(e.target).closest('form');
+            if (closestForm.length > 0) return false;
+            if (closestView[0] == this.el) {
+                this.$el.toggleClass('hub-focused');
+                if (this.$el.is('.hub-focused')) {
+                    this.$el.find('> article > .hub-content input').focus();
+                }
+            }
+        },
+        'submit article > .hub-content form': function (e) {
+            e.preventDefault();
+            return false;
+        }
     },
     
     /** Render the initial display of the Content */
     render: function() {
-        var data = this.model.toJSON();
+        data = this.model.toJSON();
         data.formattedCreatedAt = _formatCreatedAt(data.createdAt);
         var rendered = this.template(data);
         this.$el.html(rendered);

@@ -33,6 +33,7 @@ var FeedView = Backbone.View.extend(
     @todo allow passing custom contentView
     */
     initialize: function (opts) {
+        this._nestIndex = opts.nestIndex || 0;
         this._sourceOpts = opts.sources || {};
         this._contentViewOpts = opts.contentViewOptions || {};
         this.render();
@@ -51,6 +52,7 @@ var FeedView = Backbone.View.extend(
         var self = this;
         this.$el.html('');
         this.$el.addClass(this.className);
+        this.$el.addClass('hub-nest-index-'+this._nestIndex)
         this.collection.forEach(function(item, index, collection) {
             self._addItem(item, collection, {});
         });
@@ -88,22 +90,32 @@ FeedView.prototype._addItem = function(item, collection, opts) {
         return configuredOpts;
     }
 
-    // Create the ContentView so we can look at it and stuff!
-    // render it in this newItem element
-    var cv = new ContentView(_.extend({
-        model: item,
-        el: newItem
-    }, _getContentViewOpts(item)));
 
-    /**
-    Put the newItem element in the DOM so we're done
-    @todo do this in a more clever way to take into account
-          the Collection's .comparator */
-    if (collection.length - collection.indexOf(item)-1===0) {
-        this.$el.prepend(newItem);
-    } else {
-        // I think this means we're on initial load
-        this.$el.append(newItem);
+    var collectionParent = this.collection.parent,
+        collectionParentId = collectionParent && collectionParent.get('id');
+    if (item.get('parentId')==collectionParentId) {
+        var content = item,
+            viewParent = this.parent,
+            viewParentId = viewParent && viewParent.get('id');
+
+        // Create the ContentView so we can look at it and stuff!
+        // render it in this newItem element
+        var cv = new ContentView(_.extend({
+            model: content,
+            el: newItem,
+            nestIndex: this._nestIndex
+        }, _getContentViewOpts(content)));
+
+        /**
+        Put the newItem element in the DOM so we're done
+        @todo do this in a more clever way to take into account
+              the Collection's .comparator */
+        if (collection.length - collection.indexOf(item)-1===0) {
+            this.$el.prepend(newItem);
+        } else {
+            // I think this means we're on initial load
+            this.$el.append(newItem);
+        }
     }
 };
 
