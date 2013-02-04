@@ -99,7 +99,6 @@ Loads additional old data from StreamHub's SDK, and populates this collection
 object with the result.
 **/
 Collection.prototype.loadMore = function () {
-	debugger;
 	var context = this._sdkCollection.appContext;
 	var archiveInfo = context.collectionService.collection().get('archiveInfo');
 	
