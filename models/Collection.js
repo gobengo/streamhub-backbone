@@ -39,6 +39,8 @@ var collection = Hub.Collection().setRemote({
         this._opts = opts || {};
         this._initialized = false; // initial content loaded
         this._started = false; // stream started
+        this._contentPage = -1;
+        
         this.on('sdkData', this._onSdkData);
         this.on('initialDataLoaded',  this._onInitialDataLoaded);
     }
@@ -90,6 +92,36 @@ Collection.prototype.comparator = function (item) {
 };
 
 /**
+Loads additional old data from StreamHub's SDK, and populates this collection
+object with the result.
+**/
+Collection.prototype.loadMore = function () {
+	debugger;
+	var context = this._sdkCollection.appContext;
+	var archiveInfo = context.collectionService.collection().get('archiveInfo');
+	
+	if (this._contentPage < 0) {
+		this._contentPage = archiveInfo.nPages - 1;
+	}	else if (this._contentPage == 0) {
+		return;
+	}
+	this._contentPage--;
+	
+	var promise = context.contentService.getCommentData(this._contentPage);
+	
+	if (promise.get('hasData')) {
+        var data = fyre.conv.sdk.SDKAdapter.exposeContent(promise);
+        this.trigger('sdkData', data);
+    } else {
+        promise.on('contentUpdated', function() {
+            promise.off();
+            var data = fyre.conv.sdk.SDKAdapter.exposeContent(promise);
+            this.trigger('sdkData', data);
+        }, this);
+    }
+};
+
+/**
 Handle the response from fetching initial data from the remote Collection
 @private
 @fires Collection#sdkData
@@ -133,6 +165,7 @@ Collection.prototype._onSdkData = function _onSdkData (sdkData) {
 
     // Handle states in this order
     var stateCount = 0;
+    
     return _(knownStateTypes).forEach(function(type) {
         _(statesByType[type]).forEach(function(state) {
             stateCount++;
@@ -150,7 +183,7 @@ Collection.prototype._onSdkData = function _onSdkData (sdkData) {
 /** Processes each individual state returned from the JS SDK
 @fires Collection#sdkState
 */
-Collection.prototype._handleSdkState = function (state) {
+Collection.prototype._handleSdkState = function (state) {    
     var item = state;
     /**
     A single state from sdkData is being processed
