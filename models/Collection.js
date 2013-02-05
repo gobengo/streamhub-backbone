@@ -1,6 +1,7 @@
 define([
 'backbone',
 'underscore',
+'fyre',
 '../models/Content',
 '../const/sources',
 '../const/types',
@@ -8,6 +9,7 @@ define([
 function (
 Backbone,
 _,
+fyre,
 Content,
 sources, types, transformers) {
 
@@ -38,7 +40,8 @@ var collection = Hub.Collection().setRemote({
     initialize: function (opts) {
         this._initialized = false; // initial content loaded
         this._started = false; // stream started
-
+        this._contentPage = null;
+        
         if (opts && opts.userToken) {
             this.setUserToken(opts.userToken);
         }
@@ -94,6 +97,39 @@ Collection.prototype.comparator = function (item) {
 };
 
 /**
+Loads additional old data from StreamHub's SDK, and populates this collection
+object with the result.
+**/
+Collection.prototype.loadMore = function () {
+	if (!this._sdkCollection) {
+		return;
+	}
+	var context = this._sdkCollection.appContext;
+	var archiveInfo = context.collectionService.collection().get('archiveInfo');
+	
+	if (this._contentPage == null) {
+		this._contentPage = archiveInfo.nPages - 1;
+	}
+	if (this._contentPage == 0) {
+		return;
+	}
+	this._contentPage--;
+	
+	var promise = context.contentService.getCommentData(this._contentPage);
+	
+	if (promise.get('hasData')) {
+        var data = fyre.conv.sdk.SDKAdapter.exposeContent(promise);
+        this.trigger('sdkData', data);
+    } else {
+        promise.on('contentUpdated', function() {
+            promise.off();
+            var data = fyre.conv.sdk.SDKAdapter.exposeContent(promise);
+            this.trigger('sdkData', data);
+        }, this);
+    }
+};
+
+/**
 Handle the response from fetching initial data from the remote Collection
 @private
 @fires Collection#sdkData
@@ -137,6 +173,7 @@ Collection.prototype._onSdkData = function _onSdkData (sdkData) {
 
     // Handle states in this order
     var stateCount = 0;
+    
     return _(knownStateTypes).forEach(function(type) {
         _(statesByType[type]).forEach(function(state) {
             stateCount++;
@@ -154,7 +191,7 @@ Collection.prototype._onSdkData = function _onSdkData (sdkData) {
 /** Processes each individual state returned from the JS SDK
 @fires Collection#sdkState
 */
-Collection.prototype._handleSdkState = function (state) {
+Collection.prototype._handleSdkState = function (state) {    
     var item = state;
     /**
     A single state from sdkData is being processed
