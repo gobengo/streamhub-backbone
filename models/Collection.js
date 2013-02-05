@@ -1,6 +1,7 @@
 define([
 'backbone',
 'underscore',
+'fyre',
 '../models/Content',
 '../const/sources',
 '../const/types',
@@ -8,6 +9,7 @@ define([
 function (
 Backbone,
 _,
+fyre,
 Content,
 sources, types, transformers) {
 
@@ -38,7 +40,7 @@ var collection = Hub.Collection().setRemote({
     initialize: function (opts) {
         this._initialized = false; // initial content loaded
         this._started = false; // stream started
-        this._contentPage = -1;
+        this._contentPage = null;
         
         if (opts && opts.userToken) {
             this.setUserToken(opts.userToken);
@@ -99,12 +101,16 @@ Loads additional old data from StreamHub's SDK, and populates this collection
 object with the result.
 **/
 Collection.prototype.loadMore = function () {
+	if (!this._sdkCollection) {
+		return;
+	}
 	var context = this._sdkCollection.appContext;
 	var archiveInfo = context.collectionService.collection().get('archiveInfo');
 	
-	if (this._contentPage < 0) {
+	if (this._contentPage == null) {
 		this._contentPage = archiveInfo.nPages - 1;
-	}	else if (this._contentPage == 0) {
+	}
+	if (this._contentPage == 0) {
 		return;
 	}
 	this._contentPage--;
