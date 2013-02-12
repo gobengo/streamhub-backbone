@@ -2,7 +2,9 @@ define(function (require) {
 var Backbone = require("backbone"),
     Mustache = require('mustache'),
     Content = require('streamhub-backbone/models/Content'),
-    ContentTemplate = require('text!streamhub-backbone/templates/Content.html');
+    sources = require('streamhub-backbone/const/sources'),
+    ContentTemplate = require('text!streamhub-backbone/templates/Content.html'),
+    TweetTemplate = require('streamhub-backbone/templates/Tweet');
 
 var ContentView = Backbone.View.extend(
 /** @lends ContentView.prototype */
@@ -41,13 +43,15 @@ var ContentView = Backbone.View.extend(
     Templates are functions that take data and return Strings
     http://bit.ly/W22ry6 */
     template: (function () {
-        var t = Mustache.compile(ContentTemplate);
-        return function (data) {
+        var mainTemplate = Mustache.compile(ContentTemplate);
+        return function (json) {
+            if (json.source == sources.TWITTER) return TweetTemplate(json);
+
             // Include default avatar for those who need it
-            if ( data.author && ! data.author.avatar) {
-                data.author.avatar = this.defaultAvatarUrl;
+            if ( json.author && ! json.author.avatar) {
+                json.author.avatar = this.defaultAvatarUrl;
             }
-            return t(data);
+            return mainTemplate(json);
         };
     }()),
 
