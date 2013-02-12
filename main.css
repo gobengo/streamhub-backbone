@@ -64,71 +64,76 @@ TODO
   height: 1em;
   margin-left: 10px;
 }
-.hub-item .twt-actions {
+.hub-actions {
+  height: 16px;
+}
+.hub-actions .twt-actions {
   display: block;
+  height: 100%;
   text-align: right;
   list-style: none;
   margin-bottom: 0px;
   font-weight: 500;
   font-size: 10px;
 }
-.hub-item .twt-actions li b {
-  display: inline-block;
-  margin-top: 5px;
-}
-.hub-item .twt-actions li {
+.hub-actions .twt-actions li b {
   display: inline-block;
 }
-.hub-item .twt-actions li a {
+.hub-actions .twt-actions li {
+  display: inline-block;
+  height: 100%;
+}
+.hub-actions .twt-actions li a {
+  height: 100%;
   text-decoration: none;
   color: #999;
 }
-.hub-item .twt-actions li a:hover {
+.hub-actions .twt-actions li a:hover {
   text-decoration: underline;
   color: #777;
 }
-.hub-item .twt-actions li a i {
+.hub-actions .twt-actions li a i {
+  vertical-align: middle;
+  height: 100%;
   display: inline-block;
   background: transparent url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADEAAACJCAYAAACFBdAEAAAEPklEQVR42u3cMY7jNhSAYR+BFwjgPg3bdO621RFU5ABGmml1A9dTqU+jI6gPJiACJFWAVfoURIp0C7y8B9CgQ9qkSMr28+4z8Gc2kgfLD7REDrS7OwDYzfOs6GsYHceO2ID1/ph7P5POg52w/grCYHARvRas54igF2AjptwxjcGVLKY5IvpgkIQ53UB0jADxTKyJFSBAaMyuQBi2CAcZVkB67ogDZnKzwBlx+bGargEwxRbhFq8x8VEaOQOocBaGi3psfz7PHZFMEIIQhCCeh3h/f9eYdWl3bMQgjCPiEgBUAsIa4QE+G76RM+LmIAXBDJH4uDFFBI0AkLjwuSLyEErLYicIQQjiIduOVBozifPVv/Hb25vGzL0RR78+NCJiwBGzGNwLobAJA6oJEQ9eYRMG1L0QB2zBoBkRAw7YgsE9EQMGiQg3ErQQQYABg0SEGwlai9hjBoOCZkxjucHvMYNBQTOmSxELBpX1GcSCQWV900y0Q+KZaIe0XxND0BjMoG64JoagMZhBXXN3siEisxjO2LTy7mRDRGYxnLHpIesELYz160R+YWS/YsveSbbighDEt/WTXX/eTvhj+W1J5R2qx8B93VErtym7cx4RAyCAqBykAQABRBGkEuEBCcjShogBCchSiPCAJCQOzrUBYkhYDtFhsKKuGuEBHQYr6koRQYmNXxMiLh6YTxAJRNFHrxFR9NErQay+CWw3E/mbQHom4gymPKQaECPiDKaw7O04g8hD6gEeUQ7xgCqEh8RblOoLOw/ZYbe2KLKLFYQgBPHCz+w6KnG+5rbaUY9CKMy61IaPu6xLPQIxYOAaMoiaJ0bDfRF+FoBKzEbNLAC15WxkZyEzG1WzsPVs+AHXdUoNuLJTDUJVPu4ymEp8dEwFwGCqBkHtMVsAsO57ck9ObQHAYvvWa0J7SBag3feseQZhVwL0Vhf2cQXiWHBhE+SYRbhHWoK46LQCcSpEnMruSO2IORjwQgXH5kLEHAx4oYJj82aI4OI93niSCiWI4OI9XnuCSm2NGDF1YysyViJGTN1YT0YM5OcJQQhCEF8f4urru1+gxywG7mt/5W3sEDTwAza5IMhenDvwQ3gAFHTgiJgKERNHxJwa9I9/Anz/6/+OzZwQBNCYvQX46TMAvf7410Pc+zUnxILBuU+/xwB6/fPFn3MtnBBw7ue/abg0+BTAxxoBkAAwRUwRJA+gRk4IhZkAkgMYTLFfJ374Lb1OyIp9573T6LLR3smf0+5b2O9iu2AX2115m/w8sSni4+PjlfOIF08Q1GeKNyIP+It6NqQN4P7/2ZBmAAdIE4ALhP4DBXlAGgKPTBY7QQhCth1f4bbDGGOpZ0OaAOBez4Y0AzhAGgExhP224xKQgsi24xtc7OQ5tiDugbj1963NSyHCf8qFfo3ByyHCEy+FyPyBXvsqCEglCEFsiJAL+0H9BwJTXP0IMf8fAAAAAElFTkSuQmCC") repeat-x 0 0;
   margin: 1px 5px 0 5px;
   float: left;
 }
-.hub-item .twt-actions .reply-action {
+.hub-actions .twt-actions .reply-action {
   width: 60px;
 }
-.hub-item .twt-actions .reply-action i {
+.hub-actions .twt-actions .reply-action i {
   width: 18px;
-  height: 13px;
+  height: 100%;
   background-position: 0 -30px;
-  margin-top: 5px;
 }
-.hub-item .twt-actions .reply-action:hover i {
+.hub-actions .twt-actions .reply-action:hover i {
   background-position: -23px -30px;
 }
-.hub-item .twt-actions .retweet-action {
+.hub-actions .twt-actions .retweet-action {
   width: 74px;
 }
-.hub-item .twt-actions .retweet-action i {
+.hub-actions .twt-actions .retweet-action i {
   width: 22px;
-  height: 12px;
+  height: 100%;
   background-position: 0 -48px;
-  margin-top: 6px;
 }
-.hub-item .twt-actions .retweet-action:hover i {
+.hub-actions .twt-actions .retweet-action:hover i {
   background-position: -27px -48px;
 }
-.hub-item .twt-actions .favorite-action {
+.hub-actions .twt-actions .favorite-action {
   width: 65px;
 }
-.hub-item .twt-actions .favorite-action i {
+.hub-actions .twt-actions .favorite-action i {
   width: 16px;
-  height: 15px;
+  height: 100%;
+  margin-top: -2px;
   background-position: 0 -66px;
-  margin-top: 3px;
 }
-.hub-item .twt-actions .favorite-action:hover i {
+.hub-actions .twt-actions .favorite-action:hover i {
   background-position: -21px -66px;
 }
-.hub-item .twt-intent {
+.hub-actions .twt-intent {
   color: #A5A6A8;
 }

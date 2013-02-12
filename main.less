@@ -69,8 +69,13 @@ TODO
 		height: 1em;
 		margin-left: 10px;
 	}
+}
+.hub-actions {
+	height: 16px;
+
 	.twt-actions {
 	    display: block;
+	    height: 100%;
 	    text-align: right;
 	    list-style: none;
 	    margin-bottom: 0px;
@@ -79,13 +84,14 @@ TODO
 
 	    li b {
 	        display: inline-block;
-	        margin-top: 5px;
 	    }
 
 	    li {
 	    	display: inline-block;
+	    	height: 100%;
 
 	        a {
+	        	height: 100%;
 	            text-decoration: none;
 	            color: #999;
 
@@ -95,6 +101,8 @@ TODO
 	            }
 
 	            i {
+	            	vertical-align: middle;
+	            	height: 100%;
 	                display: inline-block;
 	                background: transparent url(@twitterSpriteUrl) repeat-x 0 0;
 	                margin: 1px 5px 0 5px;
@@ -106,9 +114,8 @@ TODO
 	        width: 60px;
 	        i {
 	            width: 18px;
-	            height: 13px;
+	            height: 100%;
 	            background-position: 0 -30px;
-	            margin-top: 5px;
 	        }
 	        &:hover i {
 	            background-position: -23px -30px;
@@ -118,9 +125,8 @@ TODO
 	        width: 74px;
 	        i {
 	            width: 22px;
-	            height: 12px;
+	            height: 100%;
 	            background-position: 0 -48px;
-	            margin-top: 6px;
 	        }
 	        &:hover i {
 	            background-position: -27px -48px;
@@ -130,9 +136,9 @@ TODO
 	        width: 65px;
 	        i {
 	            width: 16px;
-	            height: 15px;
+	            height: 100%;
+	            margin-top: -2px;
 	            background-position: 0 -66px;
-	            margin-top: 3px;
 	        }
 	        &:hover i {
 	            background-position: -21px -66px
