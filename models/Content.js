@@ -60,7 +60,7 @@ Content.fromSdk = function (d) {
     attrs = {
         id: c.id ,
         event: d.event,
-        bodyHtml: c.bodyHtml,
+        bodyHtml: formatBodyHtml(c.bodyHtml),
         ancestorId: c.ancestorId,
         annotations: c.annotations,
         authorId: c.authorId,
@@ -80,6 +80,14 @@ Content.fromSdk = function (d) {
         attrs.attachments = attachments;
     }
     return new Content(attrs);
+
+    function formatBodyHtml (bodyHtml) {
+        // wrap in <p> if not already
+        if (bodyHtml.substr(0,1)!=='<') {
+            return '<p>'+bodyHtml+'</p>';
+        }
+        return bodyHtml
+    }
 };
 
 /**
