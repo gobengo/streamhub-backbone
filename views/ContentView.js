@@ -25,6 +25,7 @@ var ContentView = Backbone.View.extend(
     @requires mustache
     */
     initialize: function(opts) {
+        var opts = opts || {};
         this.defaultAvatarUrl = opts.defaultAvatarUrl;
         this.$el.addClass(this.className);
         if (opts.template) {
