@@ -55,6 +55,14 @@ Content.fromSdk = function (d) {
     var c = d.content,
         attrs,
         attachments = _getAttachmentsFromState(d);
+
+    // Don't create Content for nonvisible items
+    // @todo Create one still, but with no vis. There may be children that still need to
+    // be anchored to the right thing.
+    if (d.vis !== 1) {
+        return null;
+    }
+
     // pluck information from sdkData in just the right way
     // @todo see if content id is in different place in stream and bootstrap data
     attrs = {

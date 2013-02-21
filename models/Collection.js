@@ -214,7 +214,10 @@ Collection.prototype._handleSdkState = function (state) {
         item.content.author = this.getAuthor(authorId);
     }
 
-    this.add(new Content.fromSdk(item));
+    var newContent = new Content.fromSdk(item);
+    if (newContent) {
+        this.add(newContent);
+    }
 };
 
 /** Handle an oEmbed state that comes from the sdkData 
