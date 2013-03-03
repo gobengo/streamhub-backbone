@@ -11,7 +11,7 @@
                 <span class="hub-author">{{ author.displayName }}</span>
             {{/author.profileUrl}}
             <img class="hub-twitter-logo" src="{{ .tweetIconUrl }}" />
-            <a class="hub-timestamp">{{formattedCreatedAt}}</a>
+            <a href="https://twitter.com/statuses/{{ tweetId }}/" target="_blank" class="hub-timestamp">{{formattedCreatedAt}}</a>
         </p>
 	</div>
 	<div class="hub-body">
@@ -19,14 +19,19 @@
 		{{{ bodyHtml }}}
 		</div>
 		<div class="hub-attachments">
-		{{ #image_url }}
-			<div class="hub-attachment hub-attachment-photo">
-				<!--<img onerror="console.log('BROKEN IMAGE rss', this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode); this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode.parentNode.parentNode.parentNode);" src="{{ url }}" />-->
-                <div class="hub-tweet-photo" style="background-image: url('{{ image_url }}')">
-                </div>
-			</div>
-		{{ /image_url }}
-		</div>
+        {{ #attachments }}
+            {{ # url }}
+            <div class="hub-attachment hub-attachment-photo">
+                <img src="{{ url }}" />
+            </div>
+            {{ / url }}
+            {{ # html }}
+            <div class="hub-attachment hub-attachment-rich">
+                {{{ html }}}
+            </div>
+            {{ / html }}
+        {{ /attachments }}
+        </div>
 	</div>
     <div class="hub-actions">
         <ul class="twt-actions">
