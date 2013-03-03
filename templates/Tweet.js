@@ -9,9 +9,6 @@ function (Mustache, TweetHtml) {
 		data.author = data.author || {};
 		data.author.twitterUserId = twitterUserIdFromAuthor(data.author);
 		data['.tweetIconUrl'] = tweetIconUrl;
-		if (data.attachments && data.attachments.length > 0 ) {
-			debugger;
-		}
 		return twitterHtml(data);
 	};
 
