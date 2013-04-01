@@ -79,7 +79,8 @@ Content.fromSdk = function (d) {
         source: d.source,
         transport: d.transport,
         type: d.type,
-        vis: d.vis
+        vis: d.vis,
+        feedEntry: c.feedEntry || null
     };
     if (c.author) {
         attrs.author = c.author;
