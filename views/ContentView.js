@@ -4,7 +4,8 @@ var Backbone = require("backbone"),
     Content = require('streamhub-backbone/models/Content'),
     sources = require('streamhub-backbone/const/sources'),
     ContentTemplate = require('text!streamhub-backbone/templates/Content.html'),
-    TweetTemplate = require('streamhub-backbone/templates/Tweet');
+    TweetTemplate = require('streamhub-backbone/templates/Tweet'),
+    RssTemplate = require('streamhub-backbone/templates/RSS');
 
 var ContentView = Backbone.View.extend(
 /** @lends ContentView.prototype */
@@ -46,12 +47,19 @@ var ContentView = Backbone.View.extend(
     template: (function () {
         var mainTemplate = Mustache.compile(ContentTemplate);
         return function (json) {
-            if (json.source == sources.TWITTER) return TweetTemplate(json);
+            if (json.source == sources.TWITTER) {
+            	return TweetTemplate(json);
+            }
+            
+            if (json.source == sources.RSS) {
+            	return RssTemplate(json);
+            }
 
             // Include default avatar for those who need it
             if ( json.author && ! json.author.avatar) {
                 json.author.avatar = this.defaultAvatarUrl;
             }
+
             return mainTemplate(json);
         };
     }()),

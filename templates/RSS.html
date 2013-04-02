@@ -1,0 +1,24 @@
+<!-- StreamHub RSS Template -->
+<article data-hub-content-id="{{ id }}">
+    <div class="hub-heading">
+        <p class="hub-byline">
+            {{#feedEntry}}
+                <a class="hub-src-link" href="{{ feedEntry.link }}" target="_blank" title="{{{ feedEntry.title }}}">{{{ feedEntry.title }}}</a>
+            {{/feedEntry}}
+            <a class="hub-timestamp">{{formattedCreatedAt}}</a>
+        </p>
+    </div>
+    <div class="hub-body">
+        <div class="hub-body-html">
+        {{{ bodyHtml }}}
+        </div>
+        <div class="hub-attachments">
+        {{ #attachments }}
+            <div class="hub-attachment hub-attachment-photo">
+                <img src="{{ url }}" />
+            </div>
+        {{ /attachments }}
+        </div>
+    </div>
+</article>
+<!-- /StreamHub RSS Template -->
