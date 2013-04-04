@@ -22,7 +22,7 @@
         {{ #attachments }}
             {{ # url }}
             <div class="hub-attachment hub-attachment-photo">
-                <img src="{{ url }}" />
+                <img src="{{ url }}" onerror="(function(img) { var attachment = img.parentNode; attachment.parentNode.removeChild(attachment); }(this));" />
             </div>
             {{ / url }}
             {{ # html }}
