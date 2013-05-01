@@ -12,6 +12,9 @@
         text: 'components/requirejs-text/text'
     },
     shim: {
+        'fyre': {
+            exports: 'fyre'
+        },
         'backbone': {
             deps: ['underscore', 'jquery'],
             exports: 'Backbone'
