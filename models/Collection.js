@@ -45,7 +45,7 @@ var collection = Hub.Collection().setRemote({
         if (opts && opts.userToken) {
             this.setUserToken(opts.userToken);
         }
-
+        
         this.on('sdkData', this._onSdkData);
         this.on('initialDataLoaded',  this._onInitialDataLoaded);
     }
@@ -149,6 +149,7 @@ Start the stream once the initial data is loaded
 Collection.prototype._onInitialDataLoaded = function () {
     // Once we have the intial data, we can start the stream.
     this._initialized = true;
+    
     console.log('Collection: Starting stream');
     this.start();
 };
@@ -242,6 +243,24 @@ Collection.prototype.start = function () {
         _.bind(this._streamSuccess, this),
         this._streamError);
     return this;
+};
+
+/**
+ * Stop the collection from looking and listening for any more updates.
+ **/
+Collection.prototype.stop = function () {
+	if (!this._sdkCollection) {
+		return
+	}
+	
+	if (!this._started) {
+		console.log("Collection.stop() called, but already stopped");
+		return;
+	}
+	
+	this._started = false;
+	this._sdkCollection.appContext.streamService.stop();
+	return this;
 };
 
 /**
