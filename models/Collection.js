@@ -247,19 +247,19 @@ Collection.prototype.start = function () {
 
 /**
  * Stop the collection from looking and listening for any more updates.
+ * 
+ * @returns {Collection} "this", useful for chaining
  **/
 Collection.prototype.stop = function () {
-	if (!this._sdkCollection) {
-		return
+	if (this._started
+		&& this._sdkCollection
+		&& this._sdkCollection.appContext
+		&& this._sdkCollection.appContext.streamService
+		&& typeof this._sdkCollection.appContext.streamService.stop == "function") {
+
+		this._started = false;
+		this._sdkCollection.appContext.streamService.stop();
 	}
-	
-	if (!this._started) {
-		console.log("Collection.stop() called, but already stopped");
-		return;
-	}
-	
-	this._started = false;
-	this._sdkCollection.appContext.streamService.stop();
 	return this;
 };
 
