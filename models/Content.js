@@ -114,6 +114,11 @@ Handle streaming attachments
 Content.prototype._handleSdkOembedState = function (s) {
     var newAttachments = _getAttachmentsFromState(s),
         oldAttachments = this.get('attachments') || [];
+    for (var i = 0; i < oldAttachments.length; i++) {
+        if (newAttachments && oldAttachments[i].url === newAttachments[0].url) {
+            newAttachments = null;
+        }
+    }
     if (newAttachments) {
         this.set('attachments', oldAttachments.concat(newAttachments));
     }
