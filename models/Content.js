@@ -115,6 +115,9 @@ Content.prototype._handleSdkOembedState = function (s) {
     var newAttachments = _getAttachmentsFromState(s),
         oldAttachments = this.get('attachments') || [];
     for (var i = 0; i < oldAttachments.length; i++) {
+        // This assumes that newAttachments.length always === 1
+        // TODO: Audit this logic, make sure it works when
+        // newAttachments.length > 1
         if (newAttachments && oldAttachments[i].url === newAttachments[0].url) {
             newAttachments = null;
         }
