@@ -1,6 +1,7 @@
 Build
 TODO.md
 components
+/lib
 node_modules
 .project
 .settings
