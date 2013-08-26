@@ -215,7 +215,7 @@ Collection.prototype._handleSdkState = function (state) {
         item.content.author = this.getAuthor(authorId);
     }
 
-    var newContent = new Content.fromSdk(item);
+    var newContent = Content.fromSdk(item);
     if (newContent) {
         this.add(newContent);
     }
