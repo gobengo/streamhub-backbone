@@ -67,7 +67,7 @@ Collection.prototype.setRemote = function (remoteOptions) {
         siteId: remoteOptions.siteId,
         articleId: remoteOptions.articleId
     });
-    this._sdkCollection.getInitialData(
+    this._sdkCollection.getMoreData(
         _.bind(this._initialDataSuccess, this),
         this._initialDataError);
     return this;
@@ -97,36 +97,20 @@ Collection.prototype.comparator = function (item) {
 };
 
 /**
-Loads additional old data from StreamHub's SDK, and populates this collection
-object with the result.
-**/
+ * Loads additional old data from StreamHub's SDK, and populates this collection
+ * object with the result.
+ */
 Collection.prototype.loadMore = function () {
 	if (!this._sdkCollection) {
 		return;
 	}
-	var context = this._sdkCollection.appContext;
-	var archiveInfo = context.collectionService.collection().get('archiveInfo');
-	
-	if (this._contentPage == null) {
-		this._contentPage = archiveInfo.nPages - 1;
-	}
-	if (this._contentPage == 0) {
-		return;
-	}
-	this._contentPage--;
-	
-	var promise = context.contentService.getCommentData(this._contentPage);
-	
-	if (promise.get('hasData')) {
-        var data = fyre.conv.sdk.SDKAdapter.exposeContent(promise);
+
+    var success = _.bind(function(data) {
         this.trigger('sdkData', data);
-    } else {
-        promise.on('contentUpdated', function() {
-            promise.off();
-            var data = fyre.conv.sdk.SDKAdapter.exposeContent(promise);
-            this.trigger('sdkData', data);
-        }, this);
-    }
+    }, this);
+    this._sdkCollection.getMoreData(success, function() {
+        console.log('Error loading data', arguments);
+    });
 };
 
 /**
@@ -249,16 +233,11 @@ Collection.prototype.start = function () {
  * Stop the collection from looking and listening for any more updates.
  * 
  * @returns {Collection} "this", useful for chaining
- **/
+ */
 Collection.prototype.stop = function () {
-	if (this._started
-		&& this._sdkCollection
-		&& this._sdkCollection.appContext
-		&& this._sdkCollection.appContext.streamService
-		&& typeof this._sdkCollection.appContext.streamService.stop == "function") {
-
+	if (this._started && this._sdkCollection) {
 		this._started = false;
-		this._sdkCollection.appContext.streamService.stop();
+		this._sdkCollection.stopStream();
 	}
 	return this;
 };
