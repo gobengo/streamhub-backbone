@@ -25,6 +25,9 @@ define(function() {
 		var a = {"avatar":"http://a0.twimg.com/profile_images/1265228110/03-07-2011_normal.png","tags":[],"profileUrl":"http://twitter.com/#!/Livefyre","displayName":"Livefyre","id":"43765496@twitter.com"};
 		return a;
 	};
+	SDK.Collection.prototype.getMoreData = function (onSuccess) {
+		onSuccess({});
+	};
 
 	return SDK;
 });

@@ -67,7 +67,7 @@ Collection.prototype.setRemote = function (remoteOptions) {
         siteId: remoteOptions.siteId,
         articleId: remoteOptions.articleId
     });
-    this._sdkCollection.getMoreData(
+    this._sdkCollection.getInitialData(
         _.bind(this._initialDataSuccess, this),
         this._initialDataError);
     return this;
