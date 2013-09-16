@@ -2,53 +2,14 @@
 <html>
 <head>
     <title>StreamHub Backbone Example</title>
-    <link rel="stylesheet" type="text/css" href="../components/jasmine/lib/jasmine-core/jasmine.css">
-    <script src="../components/requirejs/require.js"
+    <link rel="stylesheet" type="text/css" href="../lib/jasmine/lib/jasmine-core/jasmine.css">
+    <script src="../lib/requirejs/require.js"
             type="text/javascript"></script>
-    <!-- <script src="http://zor.t402.livefyre.com/wjs/v3.0.sdk/javascripts/livefyre.js"></script> -->
+    <script src="../requirejs.conf.js"></script>
     <script type="text/javascript">
     // Require.js Config
     require.config({
-      baseUrl: '..',
-      urlArgs: 'cb=' + Math.random(),
-      packages: [{
-        name: 'streamhub-backbone',
-        location: '..'
-      },{
-        name: 'streamhub-backbone-test',
-        location: '.'
-      }],
-      paths: {
-        jquery: 'components/jquery/jquery',
-        underscore: 'components/underscore/underscore',
-        backbone: 'components/backbone/backbone',
-        mustache: 'components/mustache/mustache',
-        text: 'components/requirejs-text/text',
-        jasmine: 'components/jasmine/lib/jasmine-core/jasmine',
-        'jasmine-html': 'components/jasmine/lib/jasmine-core/jasmine-html',
-        'jasmine-jquery': 'components/jasmine-jquery/lib/jasmine-jquery',
-        'streamhub-backbone-test': 'test/main',
-        fyre: 'http://zor.t402.fyre.co/wjs/v3.0/javascripts/livefyre'
-      },
-      shim: {
-        'backbone': {
-            deps: ['underscore', 'jquery'],
-            exports: 'Backbone'
-        },
-        'underscore': {
-            exports: '_'
-        },
-        jasmine: {
-          exports: 'jasmine'
-        },
-        'jasmine-html': {
-          deps: ['jasmine'],
-          exports: 'jasmine'
-        },
-        'jasmine-jquery': {
-          deps: ['jquery', 'jasmine']
-        }
-      }
+      baseUrl: '..'
     });
     </script>
 </head>
