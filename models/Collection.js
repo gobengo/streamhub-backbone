@@ -67,7 +67,7 @@ Collection.prototype.setRemote = function (remoteOptions) {
         siteId: remoteOptions.siteId,
         articleId: remoteOptions.articleId
     });
-    this._sdkCollection.getInitialData(
+    this._sdkCollection.getMoreData(
         _.bind(this._initialDataSuccess, this),
         this._initialDataError);
     return this;
@@ -101,17 +101,36 @@ Collection.prototype.comparator = function (item) {
  * object with the result.
  */
 Collection.prototype.loadMore = function () {
+    var self = this;
+
 	if (!this._sdkCollection) {
 		return;
 	}
 
     var success = _.bind(function(data) {
+        var collectionLengthBefore = self.length;
         this.trigger('sdkData', data);
+        if (self.length === collectionLengthBefore && self.hasMore()) {
+            self.loadMore();
+        }
     }, this);
     this._sdkCollection.getMoreData(success, function() {
         console.log('Error loading data', arguments);
     });
 };
+
+
+/**
+ * Get whether this is more data in the remote StreamHub Collection
+ * @return {boolean} Whether this is more data behind .loadMore();
+ */
+Collection.prototype.hasMore = function () {
+    if ( ! this._sdkCollection) {
+        return false;
+    }
+    return this._sdkCollection.hasMoreData();
+};
+
 
 /**
 Handle the response from fetching initial data from the remote Collection
