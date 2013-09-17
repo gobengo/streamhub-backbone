@@ -110,7 +110,10 @@ Collection.prototype.loadMore = function () {
     var success = _.bind(function(data) {
         var collectionLengthBefore = self.length;
         this.trigger('sdkData', data);
-        if (self.length === collectionLengthBefore && self.hasMore()) {
+        if ( ! self.hasMore()) {
+            return this.trigger('noMoreData');
+        }
+        if (self.length === collectionLengthBefore) {
             self.loadMore();
         }
     }, this);
