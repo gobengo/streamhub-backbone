@@ -135,25 +135,7 @@ But I think those might now come down as types.OEMBED states
 @todo Grab more attachments, or test to see if this is necessary now
 */
 function _getAttachmentsFromState (s) {
-    // Only do this for RSS for now
-    if (s.source==sources.RSS) return _getAttachmentFromRssState(s);
     if (s.type==types.OEMBED) return _getAttachmentFromOembedState(s);
-    function _getAttachmentFromRssState (s) {
-        var feedEntry = s.content.feedEntry;
-        if ( ! feedEntry ) return;
-
-        if (feedEntry.transformer == transformers.INSTAGRAM_BY_TAG) {
-            // Add oEmbed photo attachment for Instagram photo
-            return [{
-                version: '1.0',
-                type: 'photo',
-                provider: 'instagram',
-                width: '612',
-                height: '612',
-                url: feedEntry.link
-            }];
-        } 
-    }
     function _getAttachmentFromOembedState (s) {
         return [s.content.oembed];
     }
